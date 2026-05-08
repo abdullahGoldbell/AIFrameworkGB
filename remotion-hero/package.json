@@ -1,0 +1,23 @@
+{
+  "name": "remotion-hero",
+  "version": "1.0.0",
+  "description": "Ambient backdrop loop for the AI newsletter hero section",
+  "private": true,
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render HeroAmbient out/hero-ambient.mp4 --codec h264 --crf 20",
+    "build:webm": "remotion render HeroAmbient out/hero-ambient.webm --codec vp9 --crf 28",
+    "build:both": "npm run build && npm run build:webm",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.190",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.190"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.3"
+  }
+}

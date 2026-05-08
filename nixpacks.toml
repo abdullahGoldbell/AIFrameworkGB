@@ -1,0 +1,19 @@
+# Nixpacks config for Railway. Adds Chromium + ffmpeg deps that Remotion's
+# headless renderer needs at build time. Without this, `npm run render`
+# can fail on Railway's default Node image.
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "ffmpeg-full", "chromium"]
+
+[phases.install]
+cmds = ["npm install --no-audit --no-fund"]
+
+[phases.build]
+cmds = ["npm run render"]
+
+[start]
+cmd = "npm run start:railway"
+
+[variables]
+PUPPETEER_SKIP_DOWNLOAD = "false"
+PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium"

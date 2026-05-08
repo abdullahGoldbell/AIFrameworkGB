@@ -1,0 +1,24 @@
+{
+  "name": "ai-framework-gb",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI newsletter site + Remotion ambient hero loop. One-command runner, deploy-safe for Railway and GitHub Pages.",
+  "scripts": {
+    "postinstall": "cd remotion-hero && npm install --no-audit --no-fund",
+    "render": "cd remotion-hero && npm run build",
+    "render:if-missing": "node -e \"process.exit(require('fs').existsSync('remotion-hero/out/hero-ambient.mp4')?0:1)\" || npm run render",
+    "build": "npm run render",
+    "serve": "npx --yes serve -l ${PORT:-5173} -n -s .",
+    "studio": "cd remotion-hero && npm start",
+    "start": "node scripts/start.js",
+    "start:railway": "npm run serve",
+    "dev": "concurrently -k -n web,studio -c green,blue \"npm run serve\" \"npm run studio\"",
+    "force-render": "npm run render && npm run serve"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

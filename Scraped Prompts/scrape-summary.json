@@ -1,0 +1,51 @@
+[
+  {
+    "category": "IT",
+    "course": "Prompt Book 2: IT, Software, Data and AI",
+    "courseId": "689acf47f525efe91318ce7f",
+    "prompts": 125,
+    "failures": 0
+  },
+  {
+    "category": "Marketing",
+    "course": "Prompt Book 7: Digital Marketing & Sales",
+    "courseId": "689cc832dba9bad6d8335bb4",
+    "prompts": 125,
+    "failures": 0
+  },
+  {
+    "category": "Finance",
+    "course": "Prompt Book 10: Finance, Accounting, Investing & Fintech",
+    "courseId": "689db470ea60103f76d86097",
+    "prompts": 125,
+    "failures": 0
+  },
+  {
+    "category": "Personal",
+    "course": "Prompt Book 16: Spirituality, Mindfulness & Personal Growth",
+    "courseId": "68a1a05077d110ea6c2a066c",
+    "prompts": 125,
+    "failures": 0
+  },
+  {
+    "category": "Admin",
+    "course": "Prompt Book 11: Customer Support & Service Ops",
+    "courseId": "689de19e222bf237dcb6e10b",
+    "prompts": 125,
+    "failures": 0
+  },
+  {
+    "category": "Admin",
+    "course": "Prompt Book 12: Logistics, Supply Chain & Procurement",
+    "courseId": "689eef3436556d50fbbe6839",
+    "prompts": 125,
+    "failures": 0
+  },
+  {
+    "category": "Admin",
+    "course": "Prompt Book 18: Leadership & People Management",
+    "courseId": "68a1a09cd46247fd394a8d79",
+    "prompts": 125,
+    "failures": 0
+  }
+]

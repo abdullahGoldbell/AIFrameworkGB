@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Remotion's headless renderer needs Chromium dependencies. The
+      # node_modules install of @remotion/cli pulls a Chromium build
+      # automatically, but make sure ffmpeg + standard deps are present.
+      - name: Install system deps for Remotion
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2t64 || \
+          sudo apt-get install -y ffmpeg libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Render Remotion hero video
+        run: npm run render
+
+      - name: Stage deploy artefacts
+        run: |
+          mkdir -p _site
+          # Copy what the static site needs. Skip dev-only files.
+          rsync -a --exclude=node_modules \
+                   --exclude=remotion-hero/node_modules \
+                   --exclude=remotion-hero/src \
+                   --exclude=remotion-hero/package.json \
+                   --exclude=remotion-hero/package-lock.json \
+                   --exclude=remotion-hero/tsconfig.json \
+                   --exclude=remotion-hero/remotion.config.ts \
+                   --exclude=remotion-hero/README.md \
+                   --exclude=Scraped\ Prompts \
+                   --exclude=.git \
+                   --exclude=.github \
+                   --exclude=_site \
+                   --exclude=*.bak \
+                   --exclude=build-ai-newsletter-v2.mjs \
+                   ./ _site/
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
