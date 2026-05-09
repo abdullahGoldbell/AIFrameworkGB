@@ -101,7 +101,8 @@
             <li><a href="#newsletter">This Month</a></li>
             <li><a href="#learning-path">Learn</a></li>
             <li><a href="#prompt-master">Prompts</a></li>
-            <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
+            <li><a href="#framework-showcase">Framework</a></li>
+            <li><a href="#subscribe">Subscribe</a></li>
             <li><a href="#stories">Stories</a></li>
           </ul>
           <div class="nav-actions">
@@ -147,7 +148,8 @@
       <a href="#newsletter" class="mobile-link">This Month</a>
       <a href="#learning-path" class="mobile-link">Learn</a>
       <a href="#prompt-master" class="mobile-link">Prompts</a>
-      <a href="#dos-donts" class="mobile-link">Dos &amp; Don'ts</a>
+      <a href="#framework-showcase" class="mobile-link">Framework</a>
+      <a href="#subscribe" class="mobile-link">Subscribe</a>
       <a href="#stories" class="mobile-link">Stories</a>
     </div>
 
@@ -528,6 +530,106 @@
         </div>
       </section>
 
+      <!-- ── Framework Showcase ── -->
+      <section
+        class="section framework-showcase"
+        id="framework-showcase"
+        aria-labelledby="framework-showcase-title"
+      >
+        <div class="container">
+          <div class="section-header reveal">
+            <div class="section-label">🧪 Framework Showcase</div>
+            <h2 class="section-title" id="framework-showcase-title">
+              Turn the newsletter into reusable AI habits
+            </h2>
+            <p class="section-subtitle">
+              Three lightweight demos show how teams can move from reading about AI to reusing a
+              practical framework: build a prompt, copy a snippet, then standardize the pattern.
+            </p>
+          </div>
+          <div class="showcase-grid">
+            <article class="showcase-card showcase-playground reveal reveal-delay-1">
+              <div class="showcase-card-kicker">Live builder</div>
+              <h3>Prompt playground</h3>
+              <p>
+                Pick a task and tone, add context, and the starter prompt updates instantly without
+                calling any external AI service.
+              </p>
+              <div class="playground-controls">
+                <label>
+                  Task
+                  <select id="playground-task" class="showcase-input">
+                    <option value="email">Client follow-up email</option>
+                    <option value="summary">Meeting summary</option>
+                    <option value="sop">Simple SOP draft</option>
+                  </select>
+                </label>
+                <label>
+                  Tone
+                  <select id="playground-tone" class="showcase-input">
+                    <option value="warm and professional">Warm and professional</option>
+                    <option value="concise and executive-ready">Concise and executive-ready</option>
+                    <option value="friendly and beginner-first">Friendly and beginner-first</option>
+                  </select>
+                </label>
+              </div>
+              <label class="playground-context-label" for="playground-context">Context</label>
+              <textarea
+                id="playground-context"
+                class="showcase-input playground-context"
+                rows="4"
+                placeholder="Paste notes, audience, constraints, or desired output format…"
+              ></textarea>
+              <div class="showcase-output" id="playground-output" aria-live="polite"></div>
+              <button class="btn btn-teal btn-sm" type="button" data-action="copy-playground">
+                📋 Copy starter prompt
+              </button>
+            </article>
+
+            <article class="showcase-card reveal reveal-delay-2">
+              <div class="showcase-card-kicker">Reusable snippet</div>
+              <h3>Copy the 4-part prompt recipe</h3>
+              <p>
+                A small pattern employees can paste into docs, onboarding material, or internal
+                playbooks.
+              </p>
+              <pre class="snippet-card"><code id="framework-snippet">Role: You are a [job expert].
+Task: Create [specific deliverable].
+Context: Use [audience, constraints, source notes].
+Format: Return [bullets, table, email, checklist].</code></pre>
+              <button
+                class="btn btn-secondary btn-sm"
+                type="button"
+                data-action="copy-framework-snippet"
+              >
+                Copy recipe
+              </button>
+            </article>
+
+            <article class="showcase-card reveal reveal-delay-3">
+              <div class="showcase-card-kicker">Component example</div>
+              <h3>Pastel framework card</h3>
+              <p>
+                A reusable content block for future AI examples, keeping the same soft palette and
+                friendly interaction style.
+              </p>
+              <div class="component-demo-card" aria-label="Example framework card preview">
+                <div class="component-demo-icon">✨</div>
+                <div>
+                  <strong>1 task → 1 prompt → 1 review</strong>
+                  <span>Small enough for beginners, structured enough for teams.</span>
+                </div>
+              </div>
+              <ul class="component-token-list" aria-label="Design tokens used in this card">
+                <li><span></span> Surface</li>
+                <li><span></span> Coral</li>
+                <li><span></span> Teal</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <!-- ── Dos & Don'ts ── -->
       <section
         class="section"
@@ -784,6 +886,41 @@
           </div>
         </div>
       </section>
+
+      <!-- ── Subscribe ── -->
+      <section class="section subscribe-section" id="subscribe" aria-labelledby="subscribe-title">
+        <div class="container">
+          <div class="subscribe-card reveal">
+            <div>
+              <div class="section-label">📬 Monthly Spark</div>
+              <h2 class="section-title" id="subscribe-title">Get the next AI Spark issue</h2>
+              <p class="section-subtitle">
+                A front-end-only subscription demo with validation, success state, and privacy-first
+                messaging. It is ready to connect to a real email service later.
+              </p>
+            </div>
+            <form class="subscribe-form" id="subscribe-form" novalidate>
+              <label for="subscribe-email">Work email</label>
+              <div class="subscribe-row">
+                <input
+                  id="subscribe-email"
+                  name="email"
+                  type="email"
+                  placeholder="name@company.com"
+                  autocomplete="email"
+                  required
+                  aria-describedby="subscribe-help subscribe-message"
+                />
+                <button class="btn btn-primary" type="submit">Subscribe</button>
+              </div>
+              <p id="subscribe-help" class="subscribe-help">
+                Demo only: no email is sent or stored. Connect your service in production.
+              </p>
+              <p id="subscribe-message" class="subscribe-message" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- ── Footer ── -->
@@ -809,7 +946,7 @@
             <ul class="footer-links">
               <li><a href="#why-ai">Why AI?</a></li>
               <li><a href="#learning-path">Beginner Path</a></li>
-              <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
+              <li><a href="#framework-showcase">Framework Showcase</a></li>
               <li><a href="#stories">Success Stories</a></li>
             </ul>
           </div>
@@ -834,8 +971,8 @@
             <h4>This Month</h4>
             <ul class="footer-links">
               <li><a href="#newsletter">May 2026 Issue</a></li>
-              <li><a href="#newsletter">AI Tip</a></li>
-              <li><a href="#newsletter">Tool Spotlight</a></li>
+              <li><a href="#framework-showcase">Prompt Playground</a></li>
+              <li><a href="#subscribe">Subscribe Demo</a></li>
               <li><a href="#newsletter">Try This Today</a></li>
             </ul>
           </div>

@@ -160,17 +160,19 @@ const themeToggle = document.getElementById("theme-toggle");
 const themeIcon = document.getElementById("theme-icon");
 const html = document.documentElement;
 
-function setTheme(dark) {
+function setTheme(dark, persist = false) {
   html.setAttribute("data-theme", dark ? "dark" : "light");
   themeIcon.textContent = dark ? "☀️" : "🌙";
   themeToggle.setAttribute("aria-pressed", dark ? "true" : "false");
+  if (persist) localStorage.setItem("ai-spark-theme", dark ? "dark" : "light");
 }
 
+const themePreference = localStorage.getItem("ai-spark-theme");
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-setTheme(prefersDark);
+setTheme(themePreference ? themePreference === "dark" : prefersDark);
 
 themeToggle.addEventListener("click", () => {
-  setTheme(html.getAttribute("data-theme") !== "dark");
+  setTheme(html.getAttribute("data-theme") !== "dark", true);
 });
 
 // ── Mobile menu ──
@@ -669,6 +671,99 @@ function setupPromptLibraryLazyLoad() {
 
 setupPromptLibraryLazyLoad();
 
+const PLAYGROUND_TASKS = {
+  email: {
+    role: "senior customer success partner",
+    task: "write a concise client follow-up email",
+    format: "subject line plus three short paragraphs",
+  },
+  summary: {
+    role: "project coordinator",
+    task: "summarize meeting notes into decisions, risks, and next steps",
+    format: "three labeled bullet sections",
+  },
+  sop: {
+    role: "operations lead",
+    task: "draft a simple standard operating procedure",
+    format: "numbered checklist with owner and quality check columns",
+  },
+};
+
+function buildPlaygroundPrompt() {
+  const taskSelect = document.getElementById("playground-task");
+  const toneSelect = document.getElementById("playground-tone");
+  const contextInput = document.getElementById("playground-context");
+  const output = document.getElementById("playground-output");
+  if (!taskSelect || !toneSelect || !contextInput || !output) return "";
+
+  const task = PLAYGROUND_TASKS[taskSelect.value] || PLAYGROUND_TASKS.email;
+  const context = contextInput.value.trim() || "[paste your notes or context here]";
+  const prompt = `You are a ${task.role}.\nYour task is to ${task.task}.\nUse a ${toneSelect.value} tone.\nReturn the answer as ${task.format}.\nContext:\n${context}`;
+  output.textContent = prompt;
+  return prompt;
+}
+
+function copyText(text, successMessage) {
+  if (!text) return;
+  navigator.clipboard
+    .writeText(text)
+    .then(() => showToast(successMessage))
+    .catch(() => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      showToast(successMessage);
+    });
+}
+
+function setupFrameworkShowcase() {
+  const controls = [
+    document.getElementById("playground-task"),
+    document.getElementById("playground-tone"),
+    document.getElementById("playground-context"),
+  ];
+  controls.forEach((control) => {
+    control?.addEventListener("input", buildPlaygroundPrompt);
+    control?.addEventListener("change", buildPlaygroundPrompt);
+  });
+  buildPlaygroundPrompt();
+}
+
+function setupSubscribeForm() {
+  const form = document.getElementById("subscribe-form");
+  const email = document.getElementById("subscribe-email");
+  const message = document.getElementById("subscribe-message");
+  if (!form || !email || !message) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const value = email.value.trim();
+    message.classList.remove("success", "error");
+    email.removeAttribute("aria-invalid");
+
+    if (!email.checkValidity() || !value.includes(".")) {
+      message.textContent = "Enter a valid work email to preview the subscription flow.";
+      message.classList.add("error");
+      email.setAttribute("aria-invalid", "true");
+      email.focus();
+      return;
+    }
+
+    message.textContent = "You're on the preview list. Connect an email service to store signups.";
+    message.classList.add("success");
+    form.reset();
+    showToast("Subscription preview complete.");
+  });
+}
+
+setupFrameworkShowcase();
+setupSubscribeForm();
+
 // ── Toast ──
 function showToast(msg) {
   const toast = document.getElementById("toast");
@@ -750,6 +845,18 @@ function handleActionClick(event) {
   if (stepAction?.dataset.stepAction === "prev") prevStep();
   else if (stepAction?.dataset.stepAction === "next") nextStep();
   else if (stepAction?.dataset.stepAction === "complete") completeAll();
+
+  const copyPlayground = target.closest('[data-action="copy-playground"]');
+  if (copyPlayground) {
+    copyText(buildPlaygroundPrompt(), "Starter prompt copied.");
+    return;
+  }
+
+  const copyFrameworkSnippet = target.closest('[data-action="copy-framework-snippet"]');
+  if (copyFrameworkSnippet) {
+    copyText(document.getElementById("framework-snippet")?.textContent, "Prompt recipe copied.");
+    return;
+  }
 
   const promptAction = target.closest("[data-prompt-action]");
   if (promptAction?.dataset.promptAction === "toggle") togglePromptCard(promptAction);

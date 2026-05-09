@@ -7,6 +7,7 @@ The current app keeps the original visual language and micro-interactions while 
 - **Vite static build** for fast local development and deployable `dist/` output
 - **Modular source** in `src/` for HTML, CSS, and browser interactivity
 - **Generated prompt data** from `Scraped Prompts/` into `public/data/prompts.json`
+- **Interactive framework demos** for prompt building, reusable snippets, and subscription validation
 - **Remotion ambient video** preserved as a static asset under `remotion-hero/out/`
 - **Railway + GitHub Pages workflows** still serve a static production build
 
@@ -141,11 +142,13 @@ The Remotion ambient hero remains a static deploy artifact, not an inline/base64
 - Browser micro-interactions and reduced-motion behavior: `src/js/main.js` plus the `prefers-reduced-motion` block in `src/styles/main.css`.
 - Keep the Remotion video as a static asset; do not embed it as base64.
 
-### Prompt library content
+### Prompt library and framework demos
 
 - Add or edit markdown prompt packs in `Scraped Prompts/`.
 - Run `npm run build:prompts` to regenerate `public/data/prompts.json`.
 - Keep prompt titles action-oriented so the filters remain easy to scan.
+- Edit the prompt playground templates in `PLAYGROUND_TASKS` inside `src/js/main.js`.
+- Connect the subscription form to a real email service by replacing the front-end success state in `setupSubscribeForm()`.
 
 ## Contribution guidelines
 
@@ -170,4 +173,5 @@ The Remotion ambient hero remains a static deploy artifact, not an inline/base64
 - Build output is minified with stable hashed asset names, the prompt library loads only near interaction, celebratory confetti is split into an on-demand chunk, Railway uses npm cache-aware installs, and GitHub Pages runs Lighthouse CI budgets.
 - Accessibility now includes skip navigation, semantic sections, ARIA state management, keyboard-friendly starter steps, reduced-motion support, and mobile layout refinements.
 - SEO now includes canonical metadata, Open Graph/Twitter cards, JSON-LD structured data, sitemap/robots files, and matching social preview artwork.
+- Feature polish now includes a searchable/copyable prompt library, live prompt playground, reusable prompt recipe card, pastel framework card, persistent dark mode, and validated subscription demo.
 - ESLint, Prettier, Stylelint, TypeScript checks, lint-staged, and Husky are configured for maintainable changes.
