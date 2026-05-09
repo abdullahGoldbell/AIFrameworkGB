@@ -38,3 +38,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `e02e3fc` (`feat: add beginner progress checklist`).
 - Next suggested slice: Add keyboard-accessible scenario tabs that show beginner sample workflows for email, meetings, spreadsheets, and policy-safe reviews.
+
+## 2026-05-09 12:49:49 SGT
+- Chosen slice: Add keyboard-accessible beginner workflow scenario tabs for email polish, meeting recaps, spreadsheet help, and policy-safe reviews.
+- Files changed:
+  - `index.html`
+  - `tests/scenario-tabs.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/scenario-tabs.test.js` failed before implementation because `#beginner-scenarios` did not exist.
+  - GREEN targeted: `node --test tests/scenario-tabs.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `843d87f` (`feat: add beginner workflow scenario tabs`).
+- Next suggested slice: Add copy-to-clipboard buttons for the scenario starter prompts with a fallback textarea copy path and beginner-safe success messaging.
