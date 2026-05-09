@@ -42,6 +42,19 @@ jobs:
       - name: Install
         run: npm ci --prefer-offline --no-audit --no-fund
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run quality gates
+        run: |
+          npm run lint
+          npm run lint:styles
+          npm run format:check
+          npm run typecheck
+          npm run test:remotion
+          npm run scan:secrets
+          npm run test:e2e
+
       - name: Build static site
         run: npm run build
 

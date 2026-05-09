@@ -47,11 +47,16 @@ npm run lint
 npm run lint:styles
 npm run format:check
 npm run typecheck
+npm run test:remotion
+npm run scan:secrets
 npm run build
 npx --yes @lhci/cli@0.14.0 autorun
+
+# Browser tests start the Vite dev server via Playwright
+npm run test:e2e
 ```
 
-A Husky pre-commit hook runs `npm run lint:staged` for JS/TS, CSS, and formatted content. Lighthouse CI reads `lighthouserc.cjs` and fails GitHub Pages builds below the configured performance, accessibility, best-practices, and SEO budgets.
+A Husky pre-commit hook runs `npm run lint:staged` for JS/TS, CSS, and formatted content. Lighthouse CI reads `lighthouserc.cjs` and fails GitHub Pages builds below the configured performance, accessibility, best-practices, and SEO budgets. Playwright covers hero navigation, prompt library interaction, the framework demo, subscription validation, and dark-mode persistence.
 
 ## Deploy
 
@@ -70,7 +75,7 @@ The same repo deploys to **Railway** and **GitHub Pages**. Both targets build th
 
 1. In repo settings: Pages → Build and deployment → Source: **GitHub Actions**.
 2. Push to `main` or `master`.
-3. `.github/workflows/deploy-pages.yml` restores npm caches for both lockfiles, installs dependencies with `npm ci --prefer-offline`, runs `npm run build`, checks the Lighthouse CI budget, uploads `dist/`, and publishes the site.
+3. `.github/workflows/deploy-pages.yml` restores npm caches for both lockfiles, installs dependencies with `npm ci --prefer-offline`, installs Chromium for Playwright, runs lint/style/format/typecheck/remotion/secret/e2e quality gates, runs `npm run build`, checks the Lighthouse CI budget, uploads `dist/`, and publishes the site.
 
 The published URL is typically `https://<username>.github.io/<repo>/`.
 
@@ -174,4 +179,5 @@ The Remotion ambient hero remains a static deploy artifact, not an inline/base64
 - Accessibility now includes skip navigation, semantic sections, ARIA state management, keyboard-friendly starter steps, reduced-motion support, and mobile layout refinements.
 - SEO now includes canonical metadata, Open Graph/Twitter cards, JSON-LD structured data, sitemap/robots files, and matching social preview artwork.
 - Feature polish now includes a searchable/copyable prompt library, live prompt playground, reusable prompt recipe card, pastel framework card, persistent dark mode, and validated subscription demo.
+- Tooling now includes Playwright browser coverage, a Remotion render asset test, secret scanning, Dependabot npm updates, newer Remotion packages, and clearer `npm start` diagnostics.
 - ESLint, Prettier, Stylelint, TypeScript checks, lint-staged, and Husky are configured for maintainable changes.

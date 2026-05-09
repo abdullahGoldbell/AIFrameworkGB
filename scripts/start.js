@@ -22,8 +22,12 @@ const log = (message = "") => console.log(message);
 const heading = (message) => log(`${color.green}${color.bold}▶ ${message}${color.reset}`);
 const warn = (message) =>
   log(`${color.yellow}${color.bold}!${color.reset} ${color.yellow}${message}${color.reset}`);
+const fail = (message) => console.error(`${color.red}${color.bold}error:${color.reset} ${message}`);
 
 function run(command, args, options = {}) {
+  const label = `${command} ${args.join(" ")}`;
+  log(`${color.dim}$ ${label}${color.reset}`);
+
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
       stdio: "inherit",
@@ -32,10 +36,16 @@ function run(command, args, options = {}) {
       ...options,
     });
 
+    const forwardSignal = (signal) => child.kill(signal);
+    process.once("SIGINT", forwardSignal);
+    process.once("SIGTERM", forwardSignal);
+
     child.on("error", reject);
-    child.on("close", (code) => {
+    child.on("close", (code, signal) => {
+      process.off("SIGINT", forwardSignal);
+      process.off("SIGTERM", forwardSignal);
       if (code === 0) resolve();
-      else reject(new Error(`${command} ${args.join(" ")} exited with ${code}`));
+      else reject(new Error(`${label} exited with ${signal || code}`));
     });
   });
 }
@@ -50,11 +60,12 @@ async function ensureBuild() {
   if (!fs.existsSync(VIDEO)) {
     warn("Hero video not found. The first build may render Remotion output.");
     log(
-      `${color.dim}Skip rendering with NO_RENDER=1 npm start; the page keeps its CSS fallback.${color.reset}`,
+      `${color.dim}Skip rendering with SKIP_REMOTION_RENDER=1 npm start; the page keeps its CSS fallback.${color.reset}`,
     );
   }
 
-  const buildScript = process.env.NO_RENDER ? "build:site" : "build";
+  const skipRender = process.env.SKIP_REMOTION_RENDER === "1" || process.env.NO_RENDER === "1";
+  const buildScript = skipRender ? "build:site" : "build";
   heading(`Building site via npm run ${buildScript}`);
   await run("npm", ["run", buildScript]);
 }
@@ -88,6 +99,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(`${color.red}error:${color.reset}`, error.message);
+  fail(error.message);
   process.exit(1);
 });

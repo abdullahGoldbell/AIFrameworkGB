@@ -19,6 +19,8 @@ dist/
 build/
 .cache/
 remotion-hero/.cache/
+playwright-report/
+test-results/
 *.bak
 *.log
 

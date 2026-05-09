@@ -25,7 +25,11 @@
     "lint:staged": "lint-staged",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:remotion && npm run test:e2e",
+    "test:e2e": "playwright test",
+    "test:remotion": "node --test tests/remotion-render.test.mjs",
+    "scan:secrets": "node scripts/secret-scan.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -37,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.57.1",
+    "@playwright/test": "^1.59.1",
     "@types/node": "^22.19.18",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.1",
