@@ -1195,6 +1195,31 @@
       white-space: pre-wrap;
       margin-top: 16px;
     }
+    .scenario-prompt-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .scenario-copy-btn {
+      border: 1.5px solid var(--violet);
+      background: var(--violet-bg);
+      color: var(--violet);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-weight: 900;
+      transition: transform var(--transition-spring), box-shadow var(--transition), background var(--transition);
+    }
+    .scenario-copy-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .scenario-copy-btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+    .scenario-copy-status {
+      color: var(--muted);
+      font-size: .88rem;
+      min-height: 1.4em;
+    }
     .scenario-safe-note {
       display: flex;
       gap: 10px;
@@ -3247,7 +3272,11 @@ function renderScenarioPanel() {
       ${scenario.steps.map(step => `<div class="scenario-step"><span>${step}</span></div>`).join('')}
     </div>
     <strong>Starter prompt shape</strong>
-    <div class="scenario-prompt">${scenario.prompt}</div>
+    <div class="scenario-prompt" id="scenario-prompt-text">${scenario.prompt}</div>
+    <div class="scenario-prompt-actions">
+      <button class="scenario-copy-btn" type="button" data-scenario-copy="${scenario.id}" onclick="copyScenarioPrompt(this)" aria-describedby="scenario-copy-status">📋 Copy starter prompt</button>
+      <span class="scenario-copy-status" id="scenario-copy-status" aria-live="polite">Paste into your approved AI tool, then review before sending.</span>
+    </div>
     <p class="scenario-safe-note"><span aria-hidden="true">🛡️</span><span><strong>Safe habit:</strong> ${scenario.safeTip}</span></p>
   `;
 }
@@ -3273,6 +3302,44 @@ function handleScenarioKeydown(event, scenarioId) {
   else return;
   event.preventDefault();
   selectScenario(BEGINNER_SCENARIOS[nextIndex].id, true);
+}
+
+function writeClipboardText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+function copyScenarioPrompt(btn) {
+  const scenario = BEGINNER_SCENARIOS[getScenarioIndex(activeScenario)];
+  const status = document.getElementById('scenario-copy-status');
+  if (!scenario) return;
+  writeClipboardText(scenario.prompt).then(() => {
+    btn.textContent = '✅ Copied!';
+    if (status) status.textContent = 'Starter prompt copied — paste it into your approved AI tool, then review the answer.';
+    showToast('✅ Scenario starter prompt copied. Keep it anonymized and review before using.');
+    setTimeout(() => { btn.textContent = '📋 Copy starter prompt'; }, 2200);
+  }).catch(() => {
+    if (status) status.textContent = 'Copy failed. Select the prompt text and copy it manually.';
+    showToast('Copy did not work — select the prompt text and copy manually.');
+  });
 }
 
 selectScenario(activeScenario);
