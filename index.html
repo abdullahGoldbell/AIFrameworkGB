@@ -1755,9 +1755,62 @@
     .prompt-favorites-header p { color: var(--muted); font-size: .9rem; }
     .prompt-favorites-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 10px;
     }
+    .prompt-practice-mode {
+      margin: 0 0 28px;
+      background: linear-gradient(135deg, var(--emerald-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .prompt-practice-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .prompt-practice-header h3 { font-size: 1.18rem; margin-bottom: 4px; }
+    .prompt-practice-header p { color: var(--muted); font-size: .92rem; max-width: 720px; }
+    .practice-prompt-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+    .practice-prompt-title { font-weight: 800; color: var(--ink); }
+    .practice-prompt-text {
+      background: var(--surface2);
+      border-left: 4px solid var(--emerald);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px;
+      color: var(--ink2);
+      white-space: pre-wrap;
+      max-height: 180px;
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+    }
+    .practice-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .practice-step {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      color: var(--ink2);
+      font-size: .88rem;
+    }
+    .practice-step strong { display: block; color: var(--ink); margin-bottom: 3px; }
+    .practice-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .practice-safe-note { color: var(--muted); font-size: .9rem; }
     .prompt-favorite-card {
       padding: 12px;
       border: 1px solid var(--border);
@@ -1793,6 +1846,8 @@
       .prompt-master-bg { padding: 24px 16px; }
       .pm-grid { grid-template-columns: 1fr; }
       .prompt-favorites-header { flex-direction: column; }
+      .prompt-practice-header { flex-direction: column; }
+      .practice-steps { grid-template-columns: 1fr; }
     }
 
     /* ── Dos & Don'ts ── */
@@ -2966,6 +3021,29 @@
         <span>Showing <strong class="pm-count" id="pm-count">0</strong> prompts</span>
         <span id="pm-active-filter"></span>
       </div>
+      <aside class="prompt-practice-mode" id="prompt-practice-mode" aria-live="polite" aria-label="Beginner prompt practice mode">
+        <div class="prompt-practice-header">
+          <div>
+            <h3>🎯 Practice mode: one safe prompt at a time</h3>
+            <p>Not sure where to begin? Try a single beginner prompt, copy it into your approved AI tool, then use the review step before sharing anything.</p>
+          </div>
+          <button class="btn btn-teal btn-sm" type="button" onclick="startBeginnerPracticeMode()">Start with beginner prompts</button>
+        </div>
+        <div class="practice-prompt-card" id="practice-prompt-card">
+          <div class="practice-prompt-title" id="practice-prompt-title">Loading a beginner prompt…</div>
+          <div class="practice-prompt-text" id="practice-prompt-text">Pick Start with beginner prompts to focus the library on easy practice cards.</div>
+          <div class="practice-steps" aria-label="Practice walkthrough steps">
+            <div class="practice-step" data-practice-step="try"><strong>1. Try</strong><span>Read the card and replace placeholders with anonymized details.</span></div>
+            <div class="practice-step" data-practice-step="copy"><strong>2. Copy</strong><span>Paste only into an approved tool and keep sensitive data out.</span></div>
+            <div class="practice-step" data-practice-step="review"><strong>3. Review</strong><span>Review before sending: check facts, tone, assumptions, and confidentiality.</span></div>
+          </div>
+          <div class="practice-actions">
+            <button class="btn btn-secondary btn-sm" type="button" onclick="nextPracticePrompt()">Show another beginner prompt</button>
+            <button class="btn btn-primary btn-sm" type="button" onclick="copyPracticePrompt(this)">📋 Copy practice prompt</button>
+            <span class="practice-safe-note" id="practice-copy-status" aria-live="polite">Practice prompts are never saved by this page.</span>
+          </div>
+        </div>
+      </aside>
       <aside class="prompt-favorites-tray" id="prompt-favorites-tray" aria-live="polite" aria-label="Saved prompt favorites">
         <div class="prompt-favorites-header">
           <div>
@@ -3432,6 +3510,7 @@ let pmSearch = '';
 let pmSort = 'default';
 let pmPage = 1;
 let favoritePromptIds = new Set();
+let practicePromptIndex = 0;
 const PM_PAGE_SIZE = 24;
 
 // ── Theme ──
@@ -4001,6 +4080,59 @@ function escHtml(v) {
     .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
 
+function getBeginnerPracticePrompts() {
+  return PROMPTS.filter(prompt => prompt.difficulty === 'Beginner').slice(0, 20);
+}
+
+function renderPracticePrompt() {
+  const prompts = getBeginnerPracticePrompts();
+  const prompt = prompts[practicePromptIndex % prompts.length];
+  const title = document.getElementById('practice-prompt-title');
+  const text = document.getElementById('practice-prompt-text');
+  const status = document.getElementById('practice-copy-status');
+  if (!prompt || !title || !text) return;
+  title.textContent = `${prompt.title} · ${prompt.category}`;
+  text.textContent = prompt.prompt;
+  if (status) status.textContent = 'Review before sending: check facts, tone, assumptions, and confidentiality.';
+}
+
+function startBeginnerPracticeMode() {
+  pmDifficulty = 'Beginner';
+  pmSort = 'beginner';
+  pmPage = 1;
+  const sort = document.getElementById('pm-sort');
+  if (sort) sort.value = 'beginner';
+  document.querySelectorAll('.pm-diff-chip').forEach(chip => {
+    chip.classList.toggle('active-beginner', chip.dataset.diff === 'Beginner');
+    chip.setAttribute('aria-pressed', String(chip.dataset.diff === 'Beginner'));
+  });
+  renderPracticePrompt();
+  renderPmGrid();
+  showToast('🎯 Practice mode is showing beginner prompts only.');
+}
+
+function nextPracticePrompt() {
+  const prompts = getBeginnerPracticePrompts();
+  practicePromptIndex = prompts.length ? (practicePromptIndex + 1) % prompts.length : 0;
+  renderPracticePrompt();
+}
+
+function copyPracticePrompt(btn) {
+  const prompts = getBeginnerPracticePrompts();
+  const prompt = prompts[practicePromptIndex % prompts.length];
+  const status = document.getElementById('practice-copy-status');
+  if (!prompt) return;
+  writeClipboardText(prompt.prompt).then(() => {
+    btn.textContent = '✅ Copied!';
+    if (status) status.textContent = 'Practice prompt copied. Review before sending: check facts, tone, assumptions, and confidentiality.';
+    showToast('✅ Practice prompt copied. Keep placeholders anonymized.');
+    setTimeout(() => { btn.textContent = '📋 Copy practice prompt'; }, 2200);
+  }).catch(() => {
+    if (status) status.textContent = 'Copy failed. Select the practice prompt text and copy manually.';
+    showToast('Copy did not work — select the practice prompt text and copy manually.');
+  });
+}
+
 function renderPmGrid() {
   const filtered = getFilteredPrompts();
   const total = filtered.length;
@@ -4206,6 +4338,7 @@ document.querySelectorAll('.pm-diff-chip').forEach(chip => {
 
 loadFavoritePrompts();
 buildCategoryChips();
+renderPracticePrompt();
 renderFavoritePrompts();
 renderPmGrid();
 
