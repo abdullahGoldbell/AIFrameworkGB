@@ -221,3 +221,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `85afe7c` (`feat: add beginner AI terms flashcards`).
 - Next suggested slice: Add a beginner-friendly “AI safety myth buster” interaction that lets users choose common misconceptions and see safer workplace guidance.
+
+## 2026-05-09 20:33:56 SGT
+- Chosen slice: Add a beginner-friendly AI safety myth buster interaction that lets users choose common misconceptions and see safer workplace guidance.
+- Files changed:
+  - `index.html`
+  - `tests/safety-myth-buster.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/safety-myth-buster.test.js` failed before implementation because `#ai-safety-myth-buster` did not exist.
+  - GREEN targeted: `node --test tests/safety-myth-buster.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `f1671f6` (`feat: add AI safety myth buster`).
+- Next suggested slice: Add a beginner-friendly “first-session recap” panel that summarizes which tools to try next based on quiz, checklist, myth buster, and saved prompt progress.
