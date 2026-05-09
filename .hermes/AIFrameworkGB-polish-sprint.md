@@ -120,5 +120,5 @@
   - RED: `node --test tests/task-decision-helper.test.js` failed before implementation because `#task-decision-helper` did not exist.
   - GREEN targeted: `node --test tests/task-decision-helper.test.js` passed.
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
-- Commit hash: pending at log-write time; see immediate implementation commit followed by this log correction if needed.
+- Commit hash: `6c303a4` (`feat: add beginner task decision helper`).
 - Next suggested slice: Add a beginner-friendly saved prompt favorites tray using localStorage so users can save useful prompt cards for repeat practice.
