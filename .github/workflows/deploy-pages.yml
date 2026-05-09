@@ -40,33 +40,15 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
-      - name: Render Remotion hero video
-        run: npm run render
+      - name: Build static site
+        run: npm run build
 
-      - name: Stage deploy artefacts
-        run: |
-          mkdir -p _site
-          # Copy what the static site needs. Skip dev-only files.
-          rsync -a --exclude=node_modules \
-                   --exclude=remotion-hero/node_modules \
-                   --exclude=remotion-hero/src \
-                   --exclude=remotion-hero/package.json \
-                   --exclude=remotion-hero/package-lock.json \
-                   --exclude=remotion-hero/tsconfig.json \
-                   --exclude=remotion-hero/remotion.config.ts \
-                   --exclude=remotion-hero/README.md \
-                   --exclude=Scraped\ Prompts \
-                   --exclude=.git \
-                   --exclude=.github \
-                   --exclude=_site \
-                   --exclude=*.bak \
-                   --exclude=build-ai-newsletter-v2.mjs \
-                   ./ _site/
-          touch _site/.nojekyll
+      - name: Preserve GitHub Pages nojekyll marker
+        run: touch dist/.nojekyll
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: dist
 
       - id: deploy
         uses: actions/deploy-pages@v4

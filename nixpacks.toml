@@ -9,7 +9,7 @@ nixPkgs = ["nodejs_20", "ffmpeg-full", "chromium"]
 cmds = ["npm install --no-audit --no-fund"]
 
 [phases.build]
-cmds = ["npm run render"]
+cmds = ["npm run build"]
 
 [start]
 cmd = "npm run start:railway"
