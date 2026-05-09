@@ -1732,6 +1732,40 @@
     .pm-empty-icon { font-size: 3rem; margin-bottom: 16px; }
     .pm-empty h3 { font-size: 1.25rem; margin-bottom: 8px; }
     .pm-empty p { color: var(--muted); font-size: .9375rem; }
+    .pm-empty-coaching {
+      max-width: 640px;
+      margin: 20px auto 0;
+      display: grid;
+      gap: 16px;
+      text-align: left;
+    }
+    .pm-empty-tip {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--teal-bg);
+      color: var(--teal-dark);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .pm-empty-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .pm-empty-suggestion {
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink2);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-weight: 700;
+      padding: 8px 14px;
+      transition: background var(--transition), border-color var(--transition), transform var(--transition-spring);
+    }
+    .pm-empty-suggestion:hover { background: var(--surface3); border-color: var(--border2); transform: translateY(-1px); }
+    .pm-empty-suggestion:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
     .pm-load-more {
       text-align: center;
       margin-top: 32px;
@@ -3057,10 +3091,21 @@
         </div>
       </aside>
       <div class="pm-grid" id="pm-grid" role="list" aria-live="polite" aria-label="Prompt cards">
-        <div class="pm-empty" id="pm-empty">
+        <div class="pm-empty" id="pm-empty" aria-live="polite">
           <div class="pm-empty-icon">🔍</div>
-          <h3>No prompts found</h3>
-          <p>Try a different search term or clear your filters.</p>
+          <h3>No prompts found yet — let’s get you unstuck</h3>
+          <p>Try a beginner-safe search below, widen your filters, or clear everything to restart the prompt library.</p>
+          <div class="pm-empty-coaching" aria-label="Beginner search coaching">
+            <div class="pm-empty-tip">Use anonymized words like “client update” instead of real names, account details, or confidential project titles.</div>
+            <div>
+              <strong>Try beginner-safe searches</strong>
+              <div class="pm-empty-suggestions" aria-label="Suggested prompt searches">
+                <button class="pm-empty-suggestion" type="button" data-empty-search="email" onclick="applyEmptySearchSuggestion('email')">Email rewrite</button>
+                <button class="pm-empty-suggestion" type="button" data-empty-search="meeting" onclick="applyEmptySearchSuggestion('meeting')">Meeting recap</button>
+                <button class="pm-empty-suggestion" type="button" data-empty-search="summary" onclick="applyEmptySearchSuggestion('summary')">Summary</button>
+              </div>
+            </div>
+          </div>
           <button class="btn btn-secondary mt-4" onclick="clearPmFilters()">Clear all filters</button>
         </div>
       </div>
@@ -4153,6 +4198,23 @@ function renderPmGrid() {
 function loadMorePrompts() {
   pmPage++;
   renderPmGrid();
+}
+
+function applyEmptySearchSuggestion(term) {
+  pmCategory = 'all';
+  pmDifficulty = 'all';
+  pmSearch = term;
+  pmSort = 'beginner';
+  pmPage = 1;
+  document.getElementById('pm-search').value = term;
+  document.getElementById('pm-sort').value = 'beginner';
+  document.querySelectorAll('.pm-diff-chip').forEach(chip => {
+    chip.classList.remove('active-beginner', 'active-intermediate', 'active-advanced');
+    chip.setAttribute('aria-pressed', String(chip.dataset.diff === 'all'));
+  });
+  buildCategoryChips();
+  renderPmGrid();
+  showToast(`Showing beginner-friendly results for “${term}”.`);
 }
 
 function togglePromptCard(btn) {
