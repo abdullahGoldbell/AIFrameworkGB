@@ -1048,6 +1048,68 @@
       .glossary-bg { grid-template-columns: 1fr; padding: 28px 20px; }
     }
 
+    /* ── AI Terms Flashcards ── */
+    .flashcards-bg {
+      background: linear-gradient(135deg, var(--violet-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 42px;
+      display: grid;
+      grid-template-columns: minmax(260px, .85fr) minmax(0, 1.15fr);
+      gap: 26px;
+      align-items: stretch;
+    }
+    .flashcards-guide {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+    .flashcards-guide h3 { font-size: 1.4rem; margin-bottom: 12px; }
+    .flashcards-guide ol { margin-left: 20px; color: var(--ink2); display: grid; gap: 10px; }
+    .flashcard-practice {
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 30px;
+      min-height: 360px;
+      box-shadow: 8px 8px 0 color-mix(in srgb, var(--ink) 82%, transparent);
+      display: grid;
+      gap: 18px;
+    }
+    .flashcard-progress {
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--violet);
+    }
+    .flashcard-face {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      min-height: 190px;
+      display: grid;
+      align-content: center;
+      gap: 12px;
+    }
+    .flashcard-face h3 { font-size: 2rem; }
+    .flashcard-face p { color: var(--ink2); }
+    .flashcard-safe-reminder {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .flashcard-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 820px) {
+      .flashcards-bg { grid-template-columns: 1fr; padding: 28px 20px; }
+      .flashcard-practice { box-shadow: 4px 4px 0 var(--ink); }
+    }
+
     /* ── First Prompt Builder ── */
     .builder-bg {
       background: linear-gradient(135deg, var(--amber-bg), var(--surface));
@@ -2605,6 +2667,7 @@
         <li><a href="#learning-path">Learn</a></li>
         <li><a href="#task-decision-helper">Start</a></li>
         <li><a href="#beginner-glossary">Glossary</a></li>
+        <li><a href="#ai-terms-flashcards">Flashcards</a></li>
         <li><a href="#first-prompt-builder">Builder</a></li>
         <li><a href="#prompt-comparison-tool">Compare</a></li>
         <li><a href="#safe-prompt-templates">Templates</a></li>
@@ -2640,6 +2703,7 @@
   <a href="#learning-path" class="mobile-link">Learn</a>
   <a href="#task-decision-helper" class="mobile-link">Start</a>
   <a href="#beginner-glossary" class="mobile-link">Glossary</a>
+  <a href="#ai-terms-flashcards" class="mobile-link">Flashcards</a>
   <a href="#first-prompt-builder" class="mobile-link">Builder</a>
   <a href="#prompt-comparison-tool" class="mobile-link">Compare</a>
   <a href="#safe-prompt-templates" class="mobile-link">Templates</a>
@@ -2948,6 +3012,38 @@
       </div>
       <article class="glossary-panel" id="glossary-term-panel" aria-live="polite">
         <!-- Glossary detail injected by JS -->
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI Terms Flashcards ── -->
+<section class="section" id="ai-terms-flashcards">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">🃏 AI Terms Flashcards</div>
+      <h2 class="section-title">Practice the words until they feel familiar</h2>
+      <p class="section-subtitle">Flip one beginner term at a time, then move to the next card with a simple reminder for safe workplace use.</p>
+    </div>
+    <div class="flashcards-bg reveal">
+      <aside class="flashcards-guide" aria-label="How to use AI terms flashcards">
+        <h3>Three-minute practice</h3>
+        <ol>
+          <li>Read the front of the card and say the meaning in your own words.</li>
+          <li>Flip to check the plain-English definition and example.</li>
+          <li>Notice the safe habit before using the term in a real prompt.</li>
+        </ol>
+      </aside>
+      <article class="flashcard-practice" id="flashcard-practice-card" aria-live="polite" aria-labelledby="flashcard-progress">
+        <div class="flashcard-progress" id="flashcard-progress">Card 1 of 4</div>
+        <div class="flashcard-face" id="flashcard-face">
+          <!-- Flashcard content injected by JS -->
+        </div>
+        <p class="flashcard-safe-reminder"><span aria-hidden="true">🛡️</span><span>Use placeholders before sharing context, and fact-check important AI output before sending.</span></p>
+        <div class="flashcard-actions">
+          <button class="btn btn-primary" type="button" data-flashcard-action="flip" onclick="flipFlashcard()">Flip card</button>
+          <button class="btn btn-teal" type="button" data-flashcard-action="next" onclick="nextFlashcard()">Next term</button>
+        </div>
       </article>
     </div>
   </div>
@@ -3820,6 +3916,8 @@ const DECISION_RECOMMENDATIONS = {
 let activeStep = 0;
 let completedSteps = new Set();
 let activeGlossaryTerm = 'prompt';
+let activeFlashcardIndex = 0;
+let isFlashcardFlipped = false;
 let completedChecklistItems = new Set();
 let activeScenario = 'email';
 let selectedQuizAnswer = '';
@@ -4078,6 +4176,39 @@ function selectGlossaryTerm(termId) {
 
 renderGlossaryTerms();
 renderGlossaryPanel();
+
+// ── AI terms flashcards ──
+function renderFlashcard() {
+  const card = GLOSSARY_TERMS[activeFlashcardIndex % GLOSSARY_TERMS.length];
+  const face = document.getElementById('flashcard-face');
+  const progress = document.getElementById('flashcard-progress');
+  if (!card || !face) return;
+  if (progress) progress.textContent = `Card ${activeFlashcardIndex + 1} of ${GLOSSARY_TERMS.length}`;
+  face.innerHTML = isFlashcardFlipped ? `
+    <div class="glossary-panel-kicker">${card.level}</div>
+    <h3>${card.term}</h3>
+    <p>${card.plain}</p>
+    <p><strong>Example:</strong> ${card.example}</p>
+    <p><strong>Safe habit:</strong> ${card.safeTip}</p>
+  ` : `
+    <div class="glossary-panel-kicker">Term to remember</div>
+    <h3>${card.term}</h3>
+    <p>What does this mean in everyday workplace AI use?</p>
+  `;
+}
+
+function flipFlashcard() {
+  isFlashcardFlipped = !isFlashcardFlipped;
+  renderFlashcard();
+}
+
+function nextFlashcard() {
+  activeFlashcardIndex = (activeFlashcardIndex + 1) % GLOSSARY_TERMS.length;
+  isFlashcardFlipped = false;
+  renderFlashcard();
+}
+
+renderFlashcard();
 
 // ── First prompt builder ──
 function getBuilderValue(field) {
