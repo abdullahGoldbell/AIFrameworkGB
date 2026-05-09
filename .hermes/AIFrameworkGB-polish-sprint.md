@@ -136,3 +136,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `c722048` (`feat: add prompt favorites tray`).
 - Next suggested slice: Add a beginner-friendly prompt library “practice mode” that surfaces one easy prompt at a time with a simple try/copy/review walkthrough.
+
+## 2026-05-09 17:00:39 SGT
+- Chosen slice: Add a beginner-friendly prompt library practice mode that surfaces one safe beginner prompt at a time with try/copy/review walkthrough steps.
+- Files changed:
+  - `index.html`
+  - `tests/prompt-practice-mode.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/prompt-practice-mode.test.js` failed before implementation because `#prompt-practice-mode` did not exist.
+  - GREEN targeted: `node --test tests/prompt-practice-mode.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `e5def07` (`feat: add beginner prompt practice mode`).
+- Next suggested slice: Add beginner-friendly empty-state coaching for searches/filters so zero-result prompt searches suggest safe beginner queries and reset paths.
