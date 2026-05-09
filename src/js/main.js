@@ -1,29 +1,60 @@
 import "../styles/main.css";
 
-// Prompt data is fetched lazily from a static JSON asset so the initial HTML
-// stays small and deployments keep serving a plain static site.
+// Prompt data is fetched from a static JSON asset only when the library is near use.
 let PROMPTS = [];
+let promptLibraryPromise;
+let promptLibraryStatus = "idle";
 
 const PROMPT_DATA_URL = `${import.meta.env.BASE_URL}data/prompts.json`;
 
-async function loadPromptLibrary() {
-  try {
-    const response = await fetch(PROMPT_DATA_URL, { cache: "force-cache" });
-    if (!response.ok) throw new Error(`Prompt library failed: ${response.status}`);
-    PROMPTS = await response.json();
-    buildCategoryChips();
-    renderPmGrid();
-  } catch (error) {
-    console.error(error);
-    const empty = document.getElementById("pm-empty");
-    const count = document.getElementById("pm-count");
+function updatePromptLibraryState(status) {
+  promptLibraryStatus = status;
+  const empty = document.getElementById("pm-empty");
+  const count = document.getElementById("pm-count");
+  const grid = document.getElementById("pm-grid");
+
+  grid?.setAttribute("aria-busy", status === "loading" ? "true" : "false");
+  if (count && status === "loading") count.textContent = "…";
+
+  if (!empty || status === "loaded") return;
+  empty.classList.add("visible");
+  const title = empty.querySelector("h3");
+  const body = empty.querySelector("p");
+  if (status === "loading") {
+    if (title) title.textContent = "Loading prompt library…";
+    if (body) body.textContent = "Fetching paste-ready prompts only when you need them.";
+  } else if (status === "error") {
     if (count) count.textContent = "0";
-    if (empty) {
-      empty.classList.add("visible");
-      empty.querySelector("h3").textContent = "Prompt library unavailable";
-      empty.querySelector("p").textContent = "Refresh the page or check the deployed data asset.";
-    }
+    if (title) title.textContent = "Prompt library unavailable";
+    if (body) body.textContent = "Refresh the page or check the deployed data asset.";
   }
+}
+
+async function loadPromptLibrary() {
+  if (promptLibraryPromise) return promptLibraryPromise;
+
+  updatePromptLibraryState("loading");
+  promptLibraryPromise = fetch(PROMPT_DATA_URL, { cache: "force-cache" })
+    .then(async (response) => {
+      if (!response.ok) throw new Error(`Prompt library failed: ${response.status}`);
+      PROMPTS = await response.json();
+      updatePromptLibraryState("loaded");
+      buildCategoryChips();
+      renderPmGrid();
+      return PROMPTS;
+    })
+    .catch((error) => {
+      console.error(error);
+      promptLibraryPromise = undefined;
+      updatePromptLibraryState("error");
+      return [];
+    });
+
+  return promptLibraryPromise;
+}
+
+function primePromptLibrary() {
+  void loadPromptLibrary();
 }
 
 // ── Learning path data ──
@@ -399,7 +430,7 @@ function renderPmGrid() {
   const countEl = document.getElementById("pm-count");
   const loadMore = document.getElementById("pm-load-more");
 
-  countEl.textContent = total;
+  countEl.textContent = total.toLocaleString();
   empty.classList.toggle("visible", total === 0);
   loadMore.style.display = shown.length < total ? "block" : "none";
 
@@ -408,6 +439,10 @@ function renderPmGrid() {
 }
 
 function loadMorePrompts() {
+  if (promptLibraryStatus !== "loaded") {
+    primePromptLibrary();
+    return;
+  }
   pmPage++;
   renderPmGrid();
 }
@@ -489,9 +524,10 @@ function setCat(cat) {
   renderPmGrid();
 }
 
-function filterByCategory(cat) {
-  setCat(cat);
+async function filterByCategory(cat) {
   document.getElementById("prompt-master").scrollIntoView({ behavior: "smooth" });
+  await loadPromptLibrary();
+  setCat(cat);
 }
 
 function clearPmFilters() {
@@ -507,6 +543,10 @@ function clearPmFilters() {
     c.setAttribute("aria-pressed", c.dataset.diff === "all");
     if (c.dataset.diff === "all") c.style.background = "";
   });
+  if (promptLibraryStatus !== "loaded") {
+    primePromptLibrary();
+    return;
+  }
   buildCategoryChips();
   renderPmGrid();
 }
@@ -518,6 +558,10 @@ document.getElementById("pm-search").addEventListener("input", (e) => {
   searchDebounce = setTimeout(() => {
     pmSearch = e.target.value;
     pmPage = 1;
+    if (promptLibraryStatus !== "loaded") {
+      primePromptLibrary();
+      return;
+    }
     renderPmGrid();
   }, 250);
 });
@@ -526,6 +570,10 @@ document.getElementById("pm-search").addEventListener("input", (e) => {
 document.getElementById("pm-sort").addEventListener("change", (e) => {
   pmSort = e.target.value;
   pmPage = 1;
+  if (promptLibraryStatus !== "loaded") {
+    primePromptLibrary();
+    return;
+  }
   renderPmGrid();
 });
 
@@ -543,11 +591,49 @@ document.querySelectorAll(".pm-diff-chip").forEach((chip) => {
     if (diff === "Beginner") chip.classList.add("active-beginner");
     else if (diff === "Intermediate") chip.classList.add("active-intermediate");
     else if (diff === "Advanced") chip.classList.add("active-advanced");
+    if (promptLibraryStatus !== "loaded") {
+      primePromptLibrary();
+      return;
+    }
     renderPmGrid();
   });
 });
 
-loadPromptLibrary();
+function setupPromptLibraryLazyLoad() {
+  const promptSection = document.getElementById("prompt-master");
+  const promptTriggers = document.querySelectorAll(
+    'a[href="#prompt-master"], [data-filter-category]',
+  );
+  promptTriggers.forEach((trigger) => {
+    ["mouseenter", "focus", "touchstart"].forEach((eventName) => {
+      trigger.addEventListener(eventName, primePromptLibrary, { passive: true, once: true });
+    });
+  });
+
+  if (location.hash === "#prompt-master") {
+    primePromptLibrary();
+    return;
+  }
+
+  if ("IntersectionObserver" in window && promptSection) {
+    const promptObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          promptObserver.disconnect();
+          primePromptLibrary();
+        }
+      },
+      { rootMargin: "700px 0px 700px 0px", threshold: 0 },
+    );
+    promptObserver.observe(promptSection);
+  } else {
+    const schedule =
+      window.requestIdleCallback || ((callback) => window.setTimeout(callback, 1200));
+    schedule(primePromptLibrary);
+  }
+}
+
+setupPromptLibraryLazyLoad();
 
 // ── Toast ──
 function showToast(msg) {
@@ -559,51 +645,11 @@ function showToast(msg) {
 }
 
 // ── Confetti (surprise & delight) ──
-function launchConfetti() {
-  const canvas = document.getElementById("confetti-canvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const colors = ["#e8614a", "#0f7b76", "#e8960f", "#6b4fbb", "#1a7a4a", "#c4416a", "#1a6fa8"];
-  const pieces = Array.from({ length: 120 }, () => ({
-    x: Math.random() * canvas.width,
-    y: -20,
-    r: Math.random() * 8 + 4,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    vx: (Math.random() - 0.5) * 4,
-    vy: Math.random() * 4 + 2,
-    rot: Math.random() * 360,
-    vr: (Math.random() - 0.5) * 8,
-    alpha: 1,
-  }));
-
-  let frame;
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    pieces.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.rot += p.vr;
-      p.vy += 0.1;
-      if (p.y > canvas.height * 0.8) p.alpha -= 0.02;
-      if (p.alpha > 0) {
-        alive = true;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, p.alpha);
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rot * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.5);
-        ctx.restore();
-      }
-    });
-    if (alive) frame = requestAnimationFrame(draw);
-    else ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-  cancelAnimationFrame(frame);
-  draw();
+let confettiModulePromise;
+async function launchConfetti() {
+  confettiModulePromise ||= import("./confetti.js");
+  const { launchConfetti: runConfetti } = await confettiModulePromise;
+  runConfetti();
 }
 
 // ── Surprise & delight: Easter egg on logo click ──

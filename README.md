@@ -17,7 +17,9 @@ npm install
 npm start
 ```
 
-`npm start` builds the Vite site when `dist/` is missing, renders `remotion-hero/out/hero-ambient.mp4` only if needed, and serves the production build at <http://localhost:5173/>.
+`npm start` builds the Vite site when `dist/` is missing, renders `remotion-hero/out/hero-ambient.mp4` only when the file is missing or invalid, and serves the production build at <http://localhost:5173/>.
+
+Set `SKIP_REMOTION_RENDER=1` to keep CI/deploy builds moving without rendering the video; the CSS hero remains the fallback if the MP4 is not present.
 
 For live web development plus Remotion Studio:
 
@@ -45,9 +47,10 @@ npm run lint:styles
 npm run format:check
 npm run typecheck
 npm run build
+npx --yes @lhci/cli@0.14.0 autorun
 ```
 
-A Husky pre-commit hook runs `npm run lint:staged` for JS/TS, CSS, and formatted content.
+A Husky pre-commit hook runs `npm run lint:staged` for JS/TS, CSS, and formatted content. Lighthouse CI reads `lighthouserc.cjs` and fails GitHub Pages builds below the configured performance, accessibility, best-practices, and SEO budgets.
 
 ## Deploy
 
@@ -58,15 +61,15 @@ The same repo deploys to **Railway** and **GitHub Pages**. Both targets build th
 `railway.json` + `nixpacks.toml` tell Railway to:
 
 1. Install Node 20, Chromium, and ffmpeg dependencies for Remotion.
-2. Run `npm install --no-audit --no-fund`.
-3. Run `npm run build` to generate prompt data, render the hero video if missing, build Vite, and copy Remotion output into `dist/`.
+2. Run `npm install --prefer-offline --no-audit --no-fund` with the npm cache pinned to `/root/.npm` for faster repeat builds.
+3. Run `npm run build` to generate prompt data, conditionally render the hero video, build Vite, and copy Remotion output into `dist/`.
 4. Run `npm run start:railway` to serve `dist/` on `$PORT`.
 
 ### GitHub Pages
 
 1. In repo settings: Pages → Build and deployment → Source: **GitHub Actions**.
 2. Push to `main` or `master`.
-3. `.github/workflows/deploy-pages.yml` installs dependencies, runs `npm run build`, uploads `dist/`, and publishes the site.
+3. `.github/workflows/deploy-pages.yml` restores npm caches for both lockfiles, installs dependencies with `npm ci --prefer-offline`, runs `npm run build`, checks the Lighthouse CI budget, uploads `dist/`, and publishes the site.
 
 The published URL is typically `https://<username>.github.io/<repo>/`.
 
@@ -80,6 +83,8 @@ src/
 public/data/prompts.json      # Generated prompt library data served as a static asset
 scripts/build-prompts.mjs     # Converts Scraped Prompts markdown into prompt JSON
 scripts/start.js              # One-command production-build runner
+scripts/render-if-needed.mjs   # Conditional Remotion render used by build/deploy
+lighthouserc.cjs               # Lighthouse CI budgets for Pages workflow
 remotion-hero/                # Remotion ambient hero composition and rendered output
   src/HeroAmbient.tsx
   out/hero-ambient.mp4
@@ -115,7 +120,8 @@ Keep the Remotion video as a static asset; do not embed it as base64.
 
 ## What's New
 
-- The 3.7 MB monolithic HTML file has been split into a small Vite entry, extracted CSS, modular JS, and lazy-loaded prompt data.
+- The 3.7 MB monolithic HTML file has been split into a small Vite entry, extracted CSS, modular JS, and viewport-triggered prompt data.
 - Prompt data is now regenerated from the markdown source library instead of living inline in the page.
 - Deployment workflows now publish the built `dist/` artifact while preserving Railway and GitHub Pages compatibility.
+- Build output is minified with stable hashed asset names, the prompt library loads only near interaction, celebratory confetti is split into an on-demand chunk, Railway uses npm cache-aware installs, and GitHub Pages runs Lighthouse CI budgets.
 - ESLint, Prettier, Stylelint, TypeScript checks, lint-staged, and Husky are configured for maintainable changes.

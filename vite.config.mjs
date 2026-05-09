@@ -34,11 +34,17 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
     sourcemap: false,
+    minify: "esbuild",
+    cssCodeSplit: true,
+    assetsInlineLimit: 1024,
+    modulePreload: {
+      polyfill: false,
+    },
     rollupOptions: {
       output: {
-        manualChunks: {
-          prompts: ["/src/js/main.js"],
-        },
+        entryFileNames: "assets/[name]-[hash].js",
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
       },
     },
   },
