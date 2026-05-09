@@ -108,3 +108,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `4d29a46` (`feat: add AI output review checklist`).
 - Next suggested slice: Add a beginner-friendly “choose your AI task” decision helper that recommends builder, glossary, scenarios, checklist, or prompt library based on a user’s goal and risk level.
+
+## 2026-05-09 15:48:43 SGT
+- Chosen slice: Add a beginner-friendly AI task decision helper that recommends the safest starting point based on user goal and sensitivity risk.
+- Files changed:
+  - `index.html`
+  - `tests/task-decision-helper.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/task-decision-helper.test.js` failed before implementation because `#task-decision-helper` did not exist.
+  - GREEN targeted: `node --test tests/task-decision-helper.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: pending at log-write time; see immediate implementation commit followed by this log correction if needed.
+- Next suggested slice: Add a beginner-friendly saved prompt favorites tray using localStorage so users can save useful prompt cards for repeat practice.

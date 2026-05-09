@@ -886,6 +886,79 @@
       .step-detail-panel { position: static; }
     }
 
+    /* ── Beginner Task Decision Helper ── */
+    .decision-helper {
+      background: linear-gradient(135deg, var(--amber-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      display: grid;
+      grid-template-columns: minmax(260px, .9fr) minmax(0, 1.1fr);
+      gap: 26px;
+      align-items: stretch;
+    }
+    .decision-controls,
+    .decision-result {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+    .decision-controls { display: grid; gap: 18px; }
+    .decision-field label {
+      display: block;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .decision-field select {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      color: var(--ink);
+      padding: 12px 14px;
+      font: inherit;
+    }
+    .decision-field select:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+    .decision-hint { font-size: .86rem; color: var(--muted); margin-top: 7px; }
+    .decision-result-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      background: var(--teal-bg);
+      color: var(--teal);
+      padding: 5px 12px;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .decision-result h3 { font-size: 1.45rem; margin-bottom: 10px; }
+    .decision-next-steps {
+      margin: 16px 0 20px;
+      padding-left: 20px;
+      color: var(--ink2);
+    }
+    .decision-next-steps li { margin-bottom: 8px; }
+    .decision-safe-note {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--coral-bg);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: var(--ink2);
+      font-size: .9rem;
+      margin-top: 18px;
+    }
+    @media (max-width: 820px) {
+      .decision-helper { grid-template-columns: 1fr; padding: 24px; }
+    }
+
     /* ── Beginner Glossary ── */
     .glossary-bg {
       background: linear-gradient(135deg, var(--teal-bg), var(--surface));
@@ -2225,6 +2298,7 @@
         <li><a href="#why-ai">Why AI?</a></li>
         <li><a href="#newsletter">This Month</a></li>
         <li><a href="#learning-path">Learn</a></li>
+        <li><a href="#task-decision-helper">Start</a></li>
         <li><a href="#beginner-glossary">Glossary</a></li>
         <li><a href="#first-prompt-builder">Builder</a></li>
         <li><a href="#beginner-checklist">Checklist</a></li>
@@ -2257,6 +2331,7 @@
   <a href="#why-ai" class="mobile-link">Why AI?</a>
   <a href="#newsletter" class="mobile-link">This Month</a>
   <a href="#learning-path" class="mobile-link">Learn</a>
+  <a href="#task-decision-helper" class="mobile-link">Start</a>
   <a href="#beginner-glossary" class="mobile-link">Glossary</a>
   <a href="#first-prompt-builder" class="mobile-link">Builder</a>
   <a href="#beginner-checklist" class="mobile-link">Checklist</a>
@@ -2500,6 +2575,49 @@
       <div class="step-detail-panel reveal reveal-delay-2" id="step-detail">
         <!-- Detail injected by JS -->
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Beginner Task Decision Helper ── -->
+<section class="section" id="task-decision-helper">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">🧭 Start here</div>
+      <h2 class="section-title">Choose your safest AI starting point</h2>
+      <p class="section-subtitle">Not sure which interactive tool to use first? Pick your goal and risk level, then jump to the right beginner-friendly section.</p>
+    </div>
+    <div class="decision-helper" aria-label="Choose your beginner AI starting point">
+      <div class="decision-controls">
+        <div class="decision-field">
+          <label for="decision-goal">What do you want AI to help with?</label>
+          <select id="decision-goal" onchange="updateDecisionHelper()">
+            <option value="draft">Draft or rewrite text</option>
+            <option value="understand">Understand AI basics</option>
+            <option value="workflow">Follow a work scenario</option>
+            <option value="review">Review an AI answer</option>
+          </select>
+          <p class="decision-hint">Choose the closest match. You can change it anytime.</p>
+        </div>
+        <div class="decision-field">
+          <label for="decision-risk">How sensitive is the content?</label>
+          <select id="decision-risk" onchange="updateDecisionHelper()">
+            <option value="low">Low — public or general information</option>
+            <option value="medium">Medium — internal work details</option>
+            <option value="high">High — customer, HR, finance, legal, or personal data</option>
+          </select>
+          <p class="decision-hint">When in doubt, choose a higher risk level and use placeholders.</p>
+        </div>
+      </div>
+      <article class="decision-result" id="decision-recommendation" aria-live="polite">
+        <div class="decision-result-kicker">Best first stop</div>
+        <h3>Start with the prompt builder</h3>
+        <p>Answer the two questions to get a tailored recommendation. If the content is high risk, Review confidentiality first before using AI.</p>
+        <div class="decision-fallback-links" aria-label="Quick decision helper destinations">
+          <a class="btn btn-teal btn-sm" href="#first-prompt-builder" data-decision-link="#first-prompt-builder">Open prompt builder</a>
+          <a class="btn btn-secondary btn-sm" href="#output-review-checklist" data-decision-link="#output-review-checklist">Open review checklist</a>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -3216,6 +3334,25 @@ const AI_CONFIDENCE_QUIZ = {
   }
 };
 
+const DECISION_RECOMMENDATIONS = {
+  draft: {
+    low: { kicker: 'Best first stop', title: 'Start with the prompt builder', body: 'Use the builder to turn a simple goal into a clear role, task, tone, and format prompt.', link: '#first-prompt-builder', linkText: 'Open prompt builder', steps: ['Pick a role and task.', 'Keep examples short and specific.', 'Copy the prompt, then edit the answer before using it.'] },
+    medium: { kicker: 'Anonymize first', title: 'Start with the prompt builder using placeholders', body: 'You can draft safely if you replace internal details with placeholders before asking AI for help.', link: '#first-prompt-builder', linkText: 'Build an anonymized prompt', steps: ['Replace names, amounts, and project details with [placeholders].', 'Ask AI to mark assumptions.', 'Review facts before sharing.'] },
+    high: { kicker: 'Safety check', title: 'Review confidentiality first', body: 'High-risk content needs a human policy check before any AI tool sees it. Use the review checklist to decide what must stay out.', link: '#output-review-checklist', linkText: 'Open review checklist', steps: ['Do not paste customer, HR, finance, legal, or personal data.', 'Use approved internal tools only when policy allows.', 'Escalate unclear cases to the data owner.'] }
+  },
+  understand: {
+    default: { kicker: 'Learn the words', title: 'Start with the plain-English glossary', body: 'Build confidence by learning the few terms beginners see most often: prompt, context, hallucination, and iteration.', link: '#beginner-glossary', linkText: 'Open glossary', steps: ['Read one term.', 'Try the beginner example.', 'Remember the safe habit before using AI at work.'] }
+  },
+  workflow: {
+    low: { kicker: 'Guided practice', title: 'Start with a guided scenario', body: 'Choose email, meeting, spreadsheet, or policy-safe review workflows with ready-made beginner steps.', link: '#beginner-scenarios', linkText: 'Open scenarios', steps: ['Pick the closest work moment.', 'Copy the starter prompt shape.', 'Use the safe habit before sending anything.'] },
+    medium: { kicker: 'Guided and careful', title: 'Start with a scenario, then review', body: 'Scenario prompts help structure the work, but internal details still need placeholders and a careful review.', link: '#beginner-scenarios', linkText: 'Choose a scenario', steps: ['Replace sensitive details first.', 'Follow the scenario workflow.', 'Use the output review checklist before sharing.'] },
+    high: { kicker: 'High-risk workflow', title: 'Review confidentiality first', body: 'Use AI as a checklist only after confirming what information is allowed to leave approved systems.', link: '#output-review-checklist', linkText: 'Open review checklist', steps: ['Keep regulated or personal data out of public AI tools.', 'Ask the human owner if the content is safe to process.', 'Use scenarios only with non-confidential summaries.'] }
+  },
+  review: {
+    default: { kicker: 'Before sending', title: 'Start with the AI output review checklist', body: 'If AI already produced something, verify facts, tone, assumptions, and confidentiality before anyone else sees it.', link: '#output-review-checklist', linkText: 'Review the AI output', steps: ['Check names, dates, numbers, and links.', 'Mark assumptions and missing source material.', 'Remove anything confidential from the final draft.'] }
+  }
+};
+
 // ── State ──
 let activeStep = 0;
 let completedSteps = new Set();
@@ -3406,6 +3543,32 @@ function completeAll() {
 
 renderSteps();
 renderStepDetail();
+
+// ── Beginner task decision helper ──
+function getDecisionRecommendation(goal, risk) {
+  const goalMap = DECISION_RECOMMENDATIONS[goal] || DECISION_RECOMMENDATIONS.draft;
+  return goalMap[risk] || goalMap.default || goalMap.low || DECISION_RECOMMENDATIONS.review.default;
+}
+
+function updateDecisionHelper() {
+  const goal = document.getElementById('decision-goal')?.value || 'draft';
+  const risk = document.getElementById('decision-risk')?.value || 'low';
+  const recommendation = getDecisionRecommendation(goal, risk);
+  const panel = document.getElementById('decision-recommendation');
+  if (!panel) return;
+  panel.innerHTML = `
+    <div class="decision-result-kicker">${recommendation.kicker}</div>
+    <h3>${recommendation.title}</h3>
+    <p>${recommendation.body}</p>
+    <ol class="decision-next-steps">
+      ${recommendation.steps.map(step => `<li>${step}</li>`).join('')}
+    </ol>
+    <a class="btn btn-teal btn-sm" href="${recommendation.link}" data-decision-link="${recommendation.link}">${recommendation.linkText}</a>
+    <p class="decision-safe-note"><span aria-hidden="true">🛡️</span><span>Beginner safety rule: remove sensitive details first, then review before sharing.</span></p>
+  `;
+}
+
+updateDecisionHelper();
 
 // ── Beginner glossary ──
 function renderGlossaryTerms() {
