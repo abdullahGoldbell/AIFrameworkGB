@@ -1259,6 +1259,80 @@
       .scenario-tabs { grid-template-columns: 1fr; }
     }
 
+    /* ── AI Confidence Quiz ── */
+    .quiz-bg {
+      background: linear-gradient(135deg, var(--emerald-bg), var(--surface));
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-lg);
+      box-shadow: 8px 8px 0 color-mix(in srgb, var(--ink) 82%, transparent);
+      padding: 38px;
+      display: grid;
+      grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .quiz-card,
+    .quiz-feedback {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+    .quiz-card h3 { font-size: 1.45rem; margin-bottom: 12px; }
+    .quiz-meta {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 18px;
+    }
+    .quiz-options {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .quiz-option {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: var(--radius-sm);
+      padding: 15px 16px;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-weight: 800;
+      transition: transform var(--transition-spring), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .quiz-option:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .quiz-option[aria-checked="true"] {
+      border-color: var(--emerald);
+      background: var(--emerald-bg);
+      box-shadow: inset 0 0 0 1px var(--emerald);
+    }
+    .quiz-option:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+    .quiz-feedback { min-height: 220px; }
+    .quiz-feedback-kicker {
+      color: var(--emerald);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: .72rem;
+      margin-bottom: 10px;
+    }
+    .quiz-feedback h3 { font-size: 1.55rem; margin-bottom: 10px; }
+    .quiz-feedback ul { margin: 16px 0 0 20px; color: var(--ink2); }
+    .quiz-privacy-note {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    @media (max-width: 820px) {
+      .quiz-bg { grid-template-columns: 1fr; padding: 28px 20px; box-shadow: 4px 4px 0 var(--ink); }
+    }
+
     /* ── Prompt Master ── */
     .prompt-master-bg {
       background: var(--surface2);
@@ -2081,6 +2155,7 @@
         <li><a href="#first-prompt-builder">Builder</a></li>
         <li><a href="#beginner-checklist">Checklist</a></li>
         <li><a href="#beginner-scenarios">Scenarios</a></li>
+        <li><a href="#ai-confidence-quiz">Quiz</a></li>
         <li><a href="#prompt-master">Prompts</a></li>
         <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
         <li><a href="#stories">Stories</a></li>
@@ -2111,6 +2186,7 @@
   <a href="#first-prompt-builder" class="mobile-link">Builder</a>
   <a href="#beginner-checklist" class="mobile-link">Checklist</a>
   <a href="#beginner-scenarios" class="mobile-link">Scenarios</a>
+  <a href="#ai-confidence-quiz" class="mobile-link">Quiz</a>
   <a href="#prompt-master" class="mobile-link">Prompts</a>
   <a href="#dos-donts" class="mobile-link">Dos &amp; Don'ts</a>
   <a href="#stories" class="mobile-link">Stories</a>
@@ -2511,6 +2587,35 @@
       <article class="scenario-panel" id="scenario-panel" role="tabpanel" aria-labelledby="scenario-tab-email" aria-live="polite">
         <!-- Scenario detail injected by JS -->
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI Confidence Quiz ── -->
+<section class="section" id="ai-confidence-quiz">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">✅ Confidence Check</div>
+      <h2 class="section-title">Practice one safe AI decision</h2>
+      <p class="section-subtitle">A quick no-pressure quiz helps beginners choose the safest next step before pasting anything into an AI tool.</p>
+    </div>
+    <div class="quiz-bg reveal">
+      <div class="quiz-card">
+        <div class="quiz-meta">Scenario: You have rough notes from a client call and want AI to draft a follow-up email.</div>
+        <h3>What should you do first?</h3>
+        <p>Choose the safest beginner move. You can change your answer anytime.</p>
+        <div class="quiz-options" role="radiogroup" aria-label="AI confidence quiz answers">
+          <button class="quiz-option" type="button" role="radio" aria-checked="false" data-quiz-option="paste-all" onclick="chooseQuizAnswer('paste-all')">Paste the full notes, names, numbers, and internal comments so AI has all context.</button>
+          <button class="quiz-option" type="button" role="radio" aria-checked="false" data-quiz-option="use-as-is" onclick="chooseQuizAnswer('use-as-is')">Ask AI for the final email and send the first answer if it sounds polished.</button>
+          <button class="quiz-option" type="button" role="radio" aria-checked="false" data-quiz-option="ask-first" onclick="chooseQuizAnswer('ask-first')">Remove sensitive details, ask for a draft with assumptions marked, then review it before sending.</button>
+        </div>
+        <p class="quiz-privacy-note"><span aria-hidden="true">🔒</span><span>No personal data is stored. This quiz only changes the message shown on this page.</span></p>
+      </div>
+      <aside class="quiz-feedback" id="quiz-feedback" aria-live="polite">
+        <div class="quiz-feedback-kicker">Try it</div>
+        <h3>Pick an answer to get feedback</h3>
+        <p>Look for the option that keeps confidential data out, treats AI as a draft helper, and keeps a human review step.</p>
+      </aside>
     </div>
   </div>
 </section>
@@ -2947,12 +3052,37 @@ const BEGINNER_SCENARIOS = [
   }
 ];
 
+const AI_CONFIDENCE_QUIZ = {
+  correct: 'ask-first',
+  answers: {
+    'ask-first': {
+      kicker: 'Best beginner habit',
+      title: 'Yes — anonymize, draft, then review',
+      body: 'This keeps sensitive details out of the prompt, asks AI to show assumptions, and leaves the final judgment with you.',
+      tips: ['Replace names and numbers with placeholders.', 'Ask AI to flag assumptions instead of inventing facts.', 'Read and edit the answer before sending.']
+    },
+    'paste-all': {
+      kicker: 'Try a safer version',
+      title: 'Too much private context',
+      body: 'AI does not need raw confidential notes to help with structure. Give a sanitized summary or placeholders instead.',
+      tips: ['Remove client names, pricing, and internal comments.', 'Use [client], [amount], and [deadline] placeholders.', 'Use approved tools for sensitive data.']
+    },
+    'use-as-is': {
+      kicker: 'Human review needed',
+      title: 'Polished is not the same as correct',
+      body: 'AI output can sound confident while missing facts. Treat it as a first draft and verify anything important.',
+      tips: ['Check facts, commitments, dates, and tone.', 'Edit anything that does not sound like you.', 'Escalate high-risk content to the right owner.']
+    }
+  }
+};
+
 // ── State ──
 let activeStep = 0;
 let completedSteps = new Set();
 let activeGlossaryTerm = 'prompt';
 let completedChecklistItems = new Set();
 let activeScenario = 'email';
+let selectedQuizAnswer = '';
 let pmCategory = 'all';
 let pmDifficulty = 'all';
 let pmSearch = '';
@@ -3378,6 +3508,28 @@ function copyScenarioPrompt(btn) {
 }
 
 selectScenario(activeScenario);
+
+// ── AI confidence quiz ──
+function chooseQuizAnswer(answerId) {
+  const answer = AI_CONFIDENCE_QUIZ.answers[answerId];
+  const feedback = document.getElementById('quiz-feedback');
+  if (!answer || !feedback) return;
+  selectedQuizAnswer = answerId;
+  document.querySelectorAll('[data-quiz-option]').forEach(option => {
+    option.setAttribute('aria-checked', String(option.dataset.quizOption === selectedQuizAnswer));
+  });
+  feedback.innerHTML = `
+    <div class="quiz-feedback-kicker">${answer.kicker}</div>
+    <h3>${answer.title}</h3>
+    <p>${answer.body}</p>
+    <ul>
+      ${answer.tips.map(tip => `<li>${tip}</li>`).join('')}
+    </ul>
+  `;
+  if (answerId === AI_CONFIDENCE_QUIZ.correct) {
+    showToast('✅ Great choice: anonymize first, then review the AI draft.');
+  }
+}
 
 // ── Prompt Master ──
 function getCategoryMeta(cat) {
