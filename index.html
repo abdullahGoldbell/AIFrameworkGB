@@ -1041,6 +1041,77 @@
       .builder-bg { grid-template-columns: 1fr; padding: 28px 20px; box-shadow: 4px 4px 0 var(--ink); }
     }
 
+    /* ── Beginner Checklist ── */
+    .checklist-bg {
+      background: linear-gradient(135deg, var(--teal-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .checklist-progress-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 88px;
+    }
+    .checklist-progress-ring {
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: conic-gradient(var(--teal) var(--checklist-progress, 0%), var(--surface3) 0);
+    }
+    .checklist-progress-ring span {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--surface);
+      color: var(--teal);
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+    .checklist-progress-text { color: var(--muted); font-size: .95rem; }
+    .checklist-items { display: grid; gap: 14px; }
+    .checklist-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      transition: border-color var(--transition), transform var(--transition-spring), box-shadow var(--transition);
+    }
+    .checklist-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .checklist-item:has(input:checked) { border-color: var(--emerald); background: var(--emerald-bg); }
+    .checklist-item input {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--teal);
+      margin-top: 3px;
+    }
+    .checklist-item input:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+    .checklist-item-title { font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+    .checklist-item-help { color: var(--muted); font-size: .92rem; line-height: 1.55; }
+    .checklist-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+    @media (max-width: 820px) {
+      .checklist-bg { grid-template-columns: 1fr; padding: 28px 20px; }
+      .checklist-progress-card { position: static; }
+    }
+
     /* ── Prompt Master ── */
     .prompt-master-bg {
       background: var(--surface2);
@@ -1861,6 +1932,7 @@
         <li><a href="#learning-path">Learn</a></li>
         <li><a href="#beginner-glossary">Glossary</a></li>
         <li><a href="#first-prompt-builder">Builder</a></li>
+        <li><a href="#beginner-checklist">Checklist</a></li>
         <li><a href="#prompt-master">Prompts</a></li>
         <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
         <li><a href="#stories">Stories</a></li>
@@ -1889,6 +1961,7 @@
   <a href="#learning-path" class="mobile-link">Learn</a>
   <a href="#beginner-glossary" class="mobile-link">Glossary</a>
   <a href="#first-prompt-builder" class="mobile-link">Builder</a>
+  <a href="#beginner-checklist" class="mobile-link">Checklist</a>
   <a href="#prompt-master" class="mobile-link">Prompts</a>
   <a href="#dos-donts" class="mobile-link">Dos &amp; Don'ts</a>
   <a href="#stories" class="mobile-link">Stories</a>
@@ -2210,6 +2283,52 @@
         <button class="btn btn-primary" type="button" onclick="copyBuiltPrompt(this)">📋 Copy starter prompt</button>
         <p class="builder-safe-note"><span aria-hidden="true">✅</span><span><strong>Review before using:</strong> remove confidential details and fact-check important claims.</span></p>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── Beginner Progress Checklist ── -->
+<section class="section" id="beginner-checklist">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">✅ First-Week Checklist</div>
+      <h2 class="section-title">Track your beginner AI wins</h2>
+      <p class="section-subtitle">Tick off small, safe actions as you learn. Your progress is saved on this device so you can come back later without losing momentum.</p>
+    </div>
+    <div class="checklist-bg reveal">
+      <aside class="checklist-progress-card" aria-label="Beginner checklist progress">
+        <div class="checklist-progress-ring" id="beginner-checklist-ring" style="--checklist-progress:0%">
+          <span id="beginner-checklist-percent">0%</span>
+        </div>
+        <h3>Your AI confidence streak</h3>
+        <p class="checklist-progress-text" id="beginner-checklist-progress" aria-live="polite">0 of 5 starter actions complete.</p>
+        <div class="checklist-actions">
+          <button class="btn btn-secondary btn-sm" type="button" onclick="resetChecklistProgress()">Reset checklist</button>
+          <a class="btn btn-teal btn-sm" href="#first-prompt-builder">Open builder</a>
+        </div>
+      </aside>
+      <div class="checklist-items" id="beginner-checklist-items">
+        <label class="checklist-item">
+          <input type="checkbox" data-checklist-action="try-prompt-builder" onchange="toggleChecklistItem('try-prompt-builder', this.checked)">
+          <span><span class="checklist-item-title">Try the prompt builder</span><span class="checklist-item-help">Use role, task, tone, and format to create your first structured AI request.</span></span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" data-checklist-action="copy-safe-prompt" onchange="toggleChecklistItem('copy-safe-prompt', this.checked)">
+          <span><span class="checklist-item-title">Copy a safe starter prompt</span><span class="checklist-item-help">Keep placeholders like [client] or [amount] instead of real confidential details.</span></span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" data-checklist-action="review-ai-output" onchange="toggleChecklistItem('review-ai-output', this.checked)">
+          <span><span class="checklist-item-title">Review one AI answer carefully</span><span class="checklist-item-help">Check facts, names, dates, tone, and whether assumptions are clearly marked.</span></span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" data-checklist-action="learn-one-term" onchange="toggleChecklistItem('learn-one-term', this.checked)">
+          <span><span class="checklist-item-title">Learn one glossary term</span><span class="checklist-item-help">Open the plain-English glossary and remember one safe habit before using AI at work.</span></span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" data-checklist-action="save-useful-prompt" onchange="toggleChecklistItem('save-useful-prompt', this.checked)">
+          <span><span class="checklist-item-title">Save one useful prompt</span><span class="checklist-item-help">Bookmark or copy a prompt you can reuse for email, meetings, or summaries.</span></span>
+        </label>
+      </div>
     </div>
   </div>
 </section>
@@ -2578,10 +2697,20 @@ const GLOSSARY_TERMS = [
   }
 ];
 
+const CHECKLIST_STORAGE_KEY = 'ai-spark-beginner-checklist';
+const CHECKLIST_ITEMS = [
+  'try-prompt-builder',
+  'copy-safe-prompt',
+  'review-ai-output',
+  'learn-one-term',
+  'save-useful-prompt'
+];
+
 // ── State ──
 let activeStep = 0;
 let completedSteps = new Set();
 let activeGlossaryTerm = 'prompt';
+let completedChecklistItems = new Set();
 let pmCategory = 'all';
 let pmDifficulty = 'all';
 let pmSearch = '';
@@ -2867,6 +2996,57 @@ document.querySelectorAll('[data-builder-field]').forEach(field => {
   field.addEventListener('change', updatePromptBuilder);
 });
 updatePromptBuilder();
+
+// ── Beginner checklist ──
+function loadChecklistProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CHECKLIST_STORAGE_KEY) || '[]');
+    completedChecklistItems = new Set(saved.filter(id => CHECKLIST_ITEMS.includes(id)));
+  } catch (error) {
+    completedChecklistItems = new Set();
+  }
+}
+
+function saveChecklistProgress() {
+  localStorage.setItem(CHECKLIST_STORAGE_KEY, JSON.stringify([...completedChecklistItems]));
+}
+
+function renderChecklistProgress() {
+  const total = CHECKLIST_ITEMS.length;
+  const done = completedChecklistItems.size;
+  const percent = Math.round((done / total) * 100);
+  const progress = document.getElementById('beginner-checklist-progress');
+  const percentEl = document.getElementById('beginner-checklist-percent');
+  const ring = document.getElementById('beginner-checklist-ring');
+  if (progress) progress.textContent = `${done} of ${total} starter actions complete.`;
+  if (percentEl) percentEl.textContent = `${percent}%`;
+  if (ring) ring.style.setProperty('--checklist-progress', `${percent}%`);
+  document.querySelectorAll('[data-checklist-action]').forEach(input => {
+    input.checked = completedChecklistItems.has(input.dataset.checklistAction);
+  });
+}
+
+function toggleChecklistItem(itemId, checked) {
+  if (!CHECKLIST_ITEMS.includes(itemId)) return;
+  if (checked) completedChecklistItems.add(itemId);
+  else completedChecklistItems.delete(itemId);
+  saveChecklistProgress();
+  renderChecklistProgress();
+  if (checked && completedChecklistItems.size === CHECKLIST_ITEMS.length) {
+    showToast('🎉 Checklist complete! You are ready to try a real work-safe prompt.');
+    launchConfetti();
+  }
+}
+
+function resetChecklistProgress() {
+  completedChecklistItems = new Set();
+  saveChecklistProgress();
+  renderChecklistProgress();
+  showToast('Checklist reset. Start again with one small AI win.');
+}
+
+loadChecklistProgress();
+renderChecklistProgress();
 
 // ── Prompt Master ──
 function getCategoryMeta(cat) {
