@@ -44,6 +44,7 @@ npm run dev -- --host 127.0.0.1
 ```
 
 Expected ports:
+
 - Production preview: `http://127.0.0.1:4173/`
 - Vite dev app: `http://127.0.0.1:5173/`
 - Remotion Studio: `http://127.0.0.1:3000/`

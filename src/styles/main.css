@@ -49,10 +49,10 @@ html {
   --radius-lg: 24px;
   --radius-xl: 34px;
 
-  --shadow-sm: 0 2px 8px rgba(45, 36, 27, 0.07);
-  --shadow: 0 10px 28px rgba(45, 36, 27, 0.1);
-  --shadow-lg: 0 18px 54px rgba(45, 36, 27, 0.14);
-  --shadow-xl: 0 28px 78px rgba(45, 36, 27, 0.18);
+  --shadow-sm: 0 2px 8px rgb(45, 36, 27, 0.07);
+  --shadow: 0 10px 28px rgb(45, 36, 27, 0.1);
+  --shadow-lg: 0 18px 54px rgb(45, 36, 27, 0.14);
+  --shadow-xl: 0 28px 78px rgb(45, 36, 27, 0.18);
 
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -95,10 +95,10 @@ html {
   --indigo: #8094e8;
   --indigo-bg: #141a38;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.24);
-  --shadow: 0 6px 24px rgba(0, 0, 0, 0.32);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 24px 72px rgba(0, 0, 0, 0.48);
+  --shadow-sm: 0 2px 8px rgb(0, 0, 0, 0.24);
+  --shadow: 0 6px 24px rgb(0, 0, 0, 0.32);
+  --shadow-lg: 0 16px 48px rgb(0, 0, 0, 0.4);
+  --shadow-xl: 0 24px 72px rgb(0, 0, 0, 0.48);
 }
 
 /* ── Category color classes ── */
@@ -151,8 +151,8 @@ html {
 body {
   font-family: var(--font-body);
   background:
-    linear-gradient(90deg, rgba(23, 21, 19, 0.035) 1px, transparent 1px) 0 0 / 42px 42px,
-    linear-gradient(180deg, rgba(23, 21, 19, 0.025) 1px, transparent 1px) 0 0 / 42px 42px,
+    linear-gradient(90deg, rgb(23, 21, 19, 0.035) 1px, transparent 1px) 0 0 / 42px 42px,
+    linear-gradient(180deg, rgb(23, 21, 19, 0.025) 1px, transparent 1px) 0 0 / 42px 42px,
     var(--bg);
   color: var(--ink);
   line-height: 1.65;
@@ -281,14 +281,14 @@ a:focus-visible {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 251, 242, 0.88);
+  background: rgb(255, 251, 242, 0.88);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   border-bottom: 1px solid var(--border);
   transition: box-shadow var(--transition);
 }
 [data-theme="dark"] .nav {
-  background: rgba(19, 28, 26, 0.88);
+  background: rgb(19, 28, 26, 0.88);
 }
 .nav.scrolled {
   box-shadow: var(--shadow-sm);
@@ -326,8 +326,8 @@ a:focus-visible {
   background: #171513;
   color: #fff;
   box-shadow:
-    inset 0 0 0 2px rgba(255, 255, 255, 0.18),
-    0 8px 20px rgba(23, 21, 19, 0.16);
+    inset 0 0 0 2px rgb(255, 255, 255, 0.18),
+    0 8px 20px rgb(23, 21, 19, 0.16);
 }
 .nav-logo-icon svg {
   width: 25px;
@@ -488,12 +488,12 @@ a:focus-visible {
 .btn-primary {
   background: var(--coral);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(232, 97, 74, 0.35);
+  box-shadow: 0 4px 16px rgb(232, 97, 74, 0.35);
 }
 .btn-primary:hover {
   background: var(--coral-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(232, 97, 74, 0.45);
+  box-shadow: 0 8px 24px rgb(232, 97, 74, 0.45);
   color: #fff;
   text-decoration: none;
 }
@@ -512,12 +512,12 @@ a:focus-visible {
 .btn-teal {
   background: var(--teal);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(15, 123, 118, 0.3);
+  box-shadow: 0 4px 16px rgb(15, 123, 118, 0.3);
 }
 .btn-teal:hover {
   background: var(--teal-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(15, 123, 118, 0.4);
+  box-shadow: 0 8px 24px rgb(15, 123, 118, 0.4);
   color: #fff;
   text-decoration: none;
 }
@@ -577,12 +577,9 @@ a:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      ellipse 38% 44% at 86% 14%,
-      rgba(184, 79, 54, 0.13) 0%,
-      transparent 68%
-    ),
-    radial-gradient(ellipse 34% 38% at 10% 92%, rgba(12, 107, 102, 0.12) 0%, transparent 62%);
+  background:
+    radial-gradient(ellipse 38% 44% at 86% 14%, rgb(184, 79, 54, 0.13) 0%, transparent 68%),
+    radial-gradient(ellipse 34% 38% at 10% 92%, rgb(12, 107, 102, 0.12) 0%, transparent 62%);
   pointer-events: none;
 }
 .hero-inner {
@@ -720,7 +717,7 @@ a:focus-visible {
   border: 1.5px solid var(--ink);
   border-radius: 22px;
   box-shadow:
-    18px 22px 0 rgba(23, 21, 19, 0.1),
+    18px 22px 0 rgb(23, 21, 19, 0.1),
     var(--shadow-xl);
   transform: rotate(2deg);
   padding: 30px;
@@ -730,13 +727,9 @@ a:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-      90deg,
-      transparent 0 48%,
-      rgba(23, 21, 19, 0.08) 48% 48.5%,
-      transparent 48.5%
-    ),
-    repeating-linear-gradient(0deg, transparent 0 31px, rgba(23, 21, 19, 0.055) 32px);
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgb(23, 21, 19, 0.08) 48% 48.5%, transparent 48.5%),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgb(23, 21, 19, 0.055) 32px);
   opacity: 0.45;
   pointer-events: none;
 }
@@ -795,7 +788,7 @@ a:focus-visible {
   width: 160px;
   height: 160px;
   transform: rotate(-7deg);
-  filter: drop-shadow(0 18px 20px rgba(23, 21, 19, 0.16));
+  filter: drop-shadow(0 18px 20px rgb(23, 21, 19, 0.16));
   animation: float-card 5.5s ease-in-out infinite;
 }
 .hero-sticker {
@@ -819,7 +812,7 @@ a:focus-visible {
   border: 1.5px solid var(--ink);
   border-radius: 999px;
   padding: 10px 14px;
-  box-shadow: 5px 6px 0 rgba(23, 21, 19, 0.13);
+  box-shadow: 5px 6px 0 rgb(23, 21, 19, 0.13);
   font-size: 0.8rem;
   font-weight: 700;
   display: flex;
@@ -1326,7 +1319,7 @@ a:focus-visible {
 .pm-search:focus {
   outline: none;
   border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(15, 123, 118, 0.15);
+  box-shadow: 0 0 0 3px rgb(15, 123, 118, 0.15);
 }
 .pm-sort {
   padding: 12px 16px;
@@ -1615,7 +1608,7 @@ a:focus-visible {
   line-height: 1.7;
   color: var(--ink2);
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: anywhere;
   max-height: min(58vh, 560px);
   overflow-y: auto;
 }
@@ -1659,7 +1652,8 @@ a:focus-visible {
 
 /* ── Framework Showcase ── */
 .framework-showcase {
-  background: radial-gradient(circle at 8% 12%, var(--coral-bg), transparent 26%),
+  background:
+    radial-gradient(circle at 8% 12%, var(--coral-bg), transparent 26%),
     radial-gradient(circle at 92% 4%, var(--teal-bg), transparent 28%), var(--surface);
 }
 .showcase-grid {
@@ -1730,7 +1724,7 @@ a:focus-visible {
 .showcase-input:focus,
 .subscribe-row input:focus {
   border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(15, 123, 118, 0.15);
+  box-shadow: 0 0 0 3px rgb(15, 123, 118, 0.15);
   outline: none;
 }
 .playground-context {
@@ -1822,8 +1816,8 @@ a:focus-visible {
   align-items: center;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.48)),
-    var(--peach-bg);
+  background:
+    linear-gradient(135deg, rgb(255, 255, 255, 0.74), rgb(255, 255, 255, 0.48)), var(--peach-bg);
   box-shadow: var(--shadow);
   padding: 44px;
 }
@@ -2176,7 +2170,7 @@ a:focus-visible {
   width: 1px;
   height: 1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
@@ -2212,8 +2206,9 @@ a:focus-visible {
 
 /* ── V4 editorial redesign layer ── */
 body {
-  background: linear-gradient(90deg, rgba(23, 27, 24, 0.035) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(23, 27, 24, 0.025) 1px, transparent 1px), var(--bg);
+  background:
+    linear-gradient(90deg, rgb(23, 27, 24, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgb(23, 27, 24, 0.025) 1px, transparent 1px), var(--bg);
   background-size:
     36px 36px,
     36px 36px,
@@ -2283,7 +2278,8 @@ body {
   border-bottom: 1px solid var(--border);
 }
 .hero::before {
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       transparent 0 58%,
       color-mix(in srgb, var(--amber) 16%, transparent) 58% 63%,
@@ -2385,7 +2381,7 @@ body {
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: none;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgb(255, 255, 255, 0.16);
 }
 .hero-card-float::after {
   content: "Ready";
