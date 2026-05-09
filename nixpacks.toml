@@ -6,14 +6,16 @@
 nixPkgs = ["nodejs_20", "ffmpeg-full", "chromium"]
 
 [phases.install]
-cmds = ["npm install --no-audit --no-fund"]
+cmds = ["npm install --prefer-offline --no-audit --no-fund"]
 
 [phases.build]
-cmds = ["npm run render"]
+cmds = ["npm run build"]
 
 [start]
 cmd = "npm run start:railway"
 
 [variables]
+NIXPACKS_INSTALL_CACHE_DIRS = "/root/.npm"
+NPM_CONFIG_CACHE = "/root/.npm"
 PUPPETEER_SKIP_DOWNLOAD = "false"
 PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium"

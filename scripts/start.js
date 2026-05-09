@@ -1,16 +1,14 @@
 #!/usr/bin/env node
-/* eslint-disable */
-// One-command runner. Renders the Remotion video if missing, then serves
-// the site at http://localhost:5173 with auto-open.
 
-const { spawn } = require("child_process");
-const fs = require("fs");
-const path = require("path");
+const { spawn } = require("node:child_process");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const PORT = process.env.PORT || 5173;
+const PORT = String(process.env.PORT || "5173");
+const DIST_INDEX = path.join("dist", "index.html");
 const VIDEO = path.join("remotion-hero", "out", "hero-ambient.mp4");
 
-const c = {
+const color = {
   reset: "\x1b[0m",
   bold: "\x1b[1m",
   dim: "\x1b[2m",
@@ -20,70 +18,87 @@ const c = {
   red: "\x1b[31m",
 };
 
-const log = (msg) => console.log(msg);
+const log = (message = "") => console.log(message);
+const heading = (message) => log(`${color.green}${color.bold}▶ ${message}${color.reset}`);
+const warn = (message) =>
+  log(`${color.yellow}${color.bold}!${color.reset} ${color.yellow}${message}${color.reset}`);
+const fail = (message) => console.error(`${color.red}${color.bold}error:${color.reset} ${message}`);
 
-function run(cmd, args, opts = {}) {
+function run(command, args, options = {}) {
+  const label = `${command} ${args.join(" ")}`;
+  log(`${color.dim}$ ${label}${color.reset}`);
+
   return new Promise((resolve, reject) => {
-    const p = spawn(cmd, args, { stdio: "inherit", shell: true, ...opts });
-    p.on("close", (code) =>
-      code === 0 ? resolve() : reject(new Error(`${cmd} exited ${code}`))
-    );
+    const child = spawn(command, args, {
+      stdio: "inherit",
+      shell: process.platform === "win32",
+      env: { ...process.env, PORT },
+      ...options,
+    });
+
+    const forwardSignal = (signal) => child.kill(signal);
+    process.once("SIGINT", forwardSignal);
+    process.once("SIGTERM", forwardSignal);
+
+    child.on("error", reject);
+    child.on("close", (code, signal) => {
+      process.off("SIGINT", forwardSignal);
+      process.off("SIGTERM", forwardSignal);
+      if (code === 0) resolve();
+      else reject(new Error(`${label} exited with ${signal || code}`));
+    });
   });
 }
 
-async function main() {
-  if (!fs.existsSync(VIDEO)) {
-    log(
-      `${c.yellow}${c.bold}!${c.reset} ${c.yellow}Hero video not found.${c.reset} ${c.dim}Rendering once now (1-2 min, only on first run)…${c.reset}`
-    );
-    log(
-      `${c.dim}  Skip with: set NO_RENDER=1 npm start (page falls back to CSS animation)${c.reset}\n`
-    );
-    if (!process.env.NO_RENDER) {
-      try {
-        await run("npm", ["run", "render"]);
-      } catch (e) {
-        log(
-          `${c.red}Render failed.${c.reset} Page will still load with CSS animation fallback.`
-        );
-      }
-    }
+async function ensureBuild() {
+  const needsBuild = process.env.FORCE_BUILD || !fs.existsSync(DIST_INDEX);
+  if (!needsBuild) {
+    log(`${color.dim}Using existing dist/ build. Set FORCE_BUILD=1 to rebuild.${color.reset}`);
+    return;
   }
 
-  const url = `http://localhost:${PORT}/`;
-  log("");
-  log(
-    `${c.green}${c.bold}▶ AI Newsletter${c.reset} ${c.dim}— serving at${c.reset} ${c.cyan}${c.bold}${url}${c.reset}`
-  );
-  log(`${c.dim}  (Page served from index.html — no version suffix.)${c.reset}`);
-  log(
-    `${c.dim}  Press Ctrl+C to stop. Edit the hero animation in ${c.reset}remotion-hero/src/HeroAmbient.tsx ${c.dim}+ \`npm run studio\` for live preview.${c.reset}`
-  );
-  log("");
+  if (!fs.existsSync(VIDEO)) {
+    warn("Hero video not found. The first build may render Remotion output.");
+    log(
+      `${color.dim}Skip rendering with SKIP_REMOTION_RENDER=1 npm start; the page keeps its CSS fallback.${color.reset}`,
+    );
+  }
 
-  // Open browser after a short delay so server is ready.
-  setTimeout(() => {
-    const opener =
-      process.platform === "darwin"
-        ? "open"
-        : process.platform === "win32"
-        ? "start"
-        : "xdg-open";
-    spawn(opener, [url], { stdio: "ignore", detached: true, shell: true }).unref();
-  }, 1500);
-
-  // Hand off to `serve` (replaces this process so Ctrl+C works cleanly).
-  await run("npx", [
-    "--yes",
-    "serve",
-    "-l",
-    String(PORT),
-    "-n",
-    ".",
-  ]);
+  const skipRender = process.env.SKIP_REMOTION_RENDER === "1" || process.env.NO_RENDER === "1";
+  const buildScript = skipRender ? "build:site" : "build";
+  heading(`Building site via npm run ${buildScript}`);
+  await run("npm", ["run", buildScript]);
 }
 
-main().catch((e) => {
-  console.error(`${c.red}error:${c.reset}`, e.message);
+function openBrowser(url) {
+  if (process.env.NO_OPEN) return;
+  const opener =
+    process.platform === "darwin" ? "open" : process.platform === "win32" ? "start" : "xdg-open";
+  const child = spawn(opener, [url], { stdio: "ignore", detached: true, shell: true });
+  child.on("error", () => undefined);
+  child.unref();
+}
+
+async function main() {
+  await ensureBuild();
+
+  const url = `http://localhost:${PORT}/`;
+  log();
+  heading("AI Spark");
+  log(
+    `${color.dim}Serving production build at${color.reset} ${color.cyan}${color.bold}${url}${color.reset}`,
+  );
+  log(
+    `${color.dim}Source modules live in src/. Remotion composition lives in remotion-hero/src/.${color.reset}`,
+  );
+  log(`${color.dim}Press Ctrl+C to stop.${color.reset}`);
+  log();
+
+  setTimeout(() => openBrowser(url), 1000);
+  await run("npm", ["run", "serve"]);
+}
+
+main().catch((error) => {
+  fail(error.message);
   process.exit(1);
 });
