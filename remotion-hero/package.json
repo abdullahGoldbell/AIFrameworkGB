@@ -11,13 +11,13 @@
     "upgrade": "remotion upgrade"
   },
   "dependencies": {
-    "@remotion/cli": "^4.0.190",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "remotion": "^4.0.190"
+    "@remotion/cli": "4.0.459",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "remotion": "4.0.459"
   },
   "devDependencies": {
-    "@types/react": "^18.3.3",
-    "typescript": "^5.5.3"
+    "@types/react": "^19.2.14",
+    "typescript": "^6.0.3"
   }
 }

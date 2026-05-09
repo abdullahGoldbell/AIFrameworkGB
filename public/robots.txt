@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abdullah1854.github.io/AIFrameworkGB/sitemap.xml

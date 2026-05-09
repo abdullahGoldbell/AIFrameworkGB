@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      site-tooling:
+        patterns:
+          - "@playwright/*"
+          - "eslint*"
+          - "prettier"
+          - "stylelint*"
+          - "typescript*"
+          - "vite"
+
+  - package-ecosystem: npm
+    directory: /remotion-hero
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      remotion:
+        patterns:
+          - "@remotion/*"
+          - "remotion"
+          - "react"
+          - "react-dom"

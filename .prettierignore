@@ -1,0 +1,9 @@
+node_modules
+remotion-hero/node_modules
+dist
+public/data/prompts.json
+remotion-hero/out
+remotion-hero/src
+Scraped Prompts
+package-lock.json
+remotion-hero/package-lock.json
