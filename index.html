@@ -1736,10 +1736,63 @@
       text-align: center;
       margin-top: 32px;
     }
+    .prompt-favorites-tray {
+      margin: 0 0 28px;
+      padding: 20px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .prompt-favorites-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .prompt-favorites-header h3 { font-size: 1.1rem; margin-bottom: 4px; }
+    .prompt-favorites-header p { color: var(--muted); font-size: .9rem; }
+    .prompt-favorites-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .prompt-favorite-card {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+    }
+    .prompt-favorite-card strong { display: block; font-size: .85rem; line-height: 1.35; margin-bottom: 4px; }
+    .prompt-favorite-card span { display: block; color: var(--muted); font-size: .75rem; }
+    .prompt-favorite-empty {
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--teal-bg);
+      color: var(--teal-dark);
+      font-weight: 700;
+      font-size: .9rem;
+    }
+    .pm-favorite-btn {
+      width: 38px;
+      height: 36px;
+      border-radius: var(--radius-xs);
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background var(--transition), border-color var(--transition), transform var(--transition-spring);
+    }
+    .pm-favorite-btn:hover { transform: scale(1.04); background: var(--amber-bg); color: var(--amber); }
+    .pm-favorite-btn.active { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+    .pm-favorite-btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 
     @media (max-width: 600px) {
       .prompt-master-bg { padding: 24px 16px; }
       .pm-grid { grid-template-columns: 1fr; }
+      .prompt-favorites-header { flex-direction: column; }
     }
 
     /* ── Dos & Don'ts ── */
@@ -2913,6 +2966,18 @@
         <span>Showing <strong class="pm-count" id="pm-count">0</strong> prompts</span>
         <span id="pm-active-filter"></span>
       </div>
+      <aside class="prompt-favorites-tray" id="prompt-favorites-tray" aria-live="polite" aria-label="Saved prompt favorites">
+        <div class="prompt-favorites-header">
+          <div>
+            <h3>⭐ My beginner prompt favorites</h3>
+            <p>Save useful prompts here as your beginner practice list. Favorites stay on this device only.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" type="button" onclick="clearFavoritePrompts()">Clear favorites</button>
+        </div>
+        <div class="prompt-favorites-list" id="prompt-favorites-list">
+          <div class="prompt-favorite-empty">Tap ⭐ on any prompt card to build your personal starter list.</div>
+        </div>
+      </aside>
       <div class="pm-grid" id="pm-grid" role="list" aria-live="polite" aria-label="Prompt cards">
         <div class="pm-empty" id="pm-empty">
           <div class="pm-empty-icon">🔍</div>
@@ -3243,6 +3308,7 @@ const GLOSSARY_TERMS = [
 ];
 
 const CHECKLIST_STORAGE_KEY = 'ai-spark-beginner-checklist';
+const FAVORITE_PROMPTS_STORAGE_KEY = 'AI_SPARK_FAVORITE_PROMPTS';
 const CHECKLIST_ITEMS = [
   'try-prompt-builder',
   'copy-safe-prompt',
@@ -3365,6 +3431,7 @@ let pmDifficulty = 'all';
 let pmSearch = '';
 let pmSort = 'default';
 let pmPage = 1;
+let favoritePromptIds = new Set();
 const PM_PAGE_SIZE = 24;
 
 // ── Theme ──
@@ -3897,6 +3964,7 @@ function getFilteredPrompts() {
 function renderPromptCard(p) {
   const meta = getCategoryMeta(p.category);
   const diffCls = 'diff-' + p.difficulty.toLowerCase();
+  const isFavorite = favoritePromptIds.has(String(p.id));
   return `
     <article class="pm-card ${meta.cls}" role="listitem" data-id="${p.id}">
       <div class="pm-card-header">
@@ -3915,6 +3983,7 @@ function renderPromptCard(p) {
       </div>
       <div class="pm-card-footer">
         <button class="pm-expand-btn" onclick="togglePromptCard(this)" aria-expanded="false">View Prompt</button>
+        <button class="pm-favorite-btn ${isFavorite ? 'active' : ''}" type="button" data-favorite-prompt="${p.id}" onclick="togglePromptFavorite(this, ${p.id})" aria-pressed="${isFavorite}" aria-label="${isFavorite ? 'Remove saved prompt' : 'Save prompt to favorites'}">⭐</button>
         <button class="pm-copy-btn" onclick="copyPrompt(this, ${p.id})" aria-label="Copy prompt">
           <span class="copy-icon">📋</span> Copy
         </button>
@@ -3960,6 +4029,63 @@ function togglePromptCard(btn) {
   card.classList.toggle('expanded', !isExpanded);
   btn.setAttribute('aria-expanded', !isExpanded);
   btn.textContent = isExpanded ? 'View Prompt' : 'Hide Prompt';
+}
+
+function loadFavoritePrompts() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITE_PROMPTS_STORAGE_KEY) || '[]');
+    favoritePromptIds = new Set(saved.map(String).filter(id => PROMPTS.some(prompt => String(prompt.id) === id)));
+  } catch (error) {
+    favoritePromptIds = new Set();
+  }
+}
+
+function saveFavoritePrompts() {
+  localStorage.setItem(FAVORITE_PROMPTS_STORAGE_KEY, JSON.stringify([...favoritePromptIds]));
+}
+
+function renderFavoritePrompts() {
+  const list = document.getElementById('prompt-favorites-list');
+  if (!list) return;
+  const favorites = [...favoritePromptIds]
+    .map(id => PROMPTS.find(prompt => String(prompt.id) === id))
+    .filter(Boolean)
+    .slice(0, 6);
+  if (!favorites.length) {
+    list.innerHTML = '<div class="prompt-favorite-empty">Tap ⭐ on any prompt card to build your personal starter list.</div>';
+    return;
+  }
+  list.innerHTML = favorites.map(prompt => `
+    <article class="prompt-favorite-card">
+      <strong>${escHtml(prompt.title)}</strong>
+      <span>${escHtml(prompt.category)} · ${escHtml(prompt.difficulty)}</span>
+    </article>
+  `).join('');
+}
+
+function togglePromptFavorite(btn, id) {
+  const key = String(id);
+  const prompt = PROMPTS.find(item => String(item.id) === key);
+  if (!prompt) return;
+  const willSave = !favoritePromptIds.has(key);
+  if (willSave) favoritePromptIds.add(key);
+  else favoritePromptIds.delete(key);
+  saveFavoritePrompts();
+  renderFavoritePrompts();
+  document.querySelectorAll(`[data-favorite-prompt="${key}"]`).forEach(button => {
+    button.classList.toggle('active', willSave);
+    button.setAttribute('aria-pressed', String(willSave));
+    button.setAttribute('aria-label', willSave ? 'Remove saved prompt' : 'Save prompt to favorites');
+  });
+  showToast(willSave ? '⭐ Saved to your prompt favorites.' : 'Prompt removed from favorites.');
+}
+
+function clearFavoritePrompts() {
+  favoritePromptIds = new Set();
+  saveFavoritePrompts();
+  renderFavoritePrompts();
+  renderPmGrid();
+  showToast('Prompt favorites cleared on this device.');
 }
 
 function copyPrompt(btn, id) {
@@ -4078,7 +4204,9 @@ document.querySelectorAll('.pm-diff-chip').forEach(chip => {
   });
 });
 
+loadFavoritePrompts();
 buildCategoryChips();
+renderFavoritePrompts();
 renderPmGrid();
 
 // ── Toast ──
