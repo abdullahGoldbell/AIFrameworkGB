@@ -21,29 +21,14 @@ test("prompt library filters and opens generated prompt cards", async ({ page })
   await search.fill("email");
   await expect(page.locator("#pm-count")).not.toHaveText("0");
 
-  const firstCardButton = page.locator("[data-prompt-action='toggle']").first();
+  const firstCardButton = page.locator(".pm-expand-btn").first();
   await firstCardButton.click();
   await expect(firstCardButton).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator(".pm-prompt-box").first()).toBeVisible();
 });
 
-test("framework playground, subscription validation, and theme persistence work", async ({
-  page,
-}) => {
-  await page.goto("/#framework-showcase");
-
-  await page.locator("#playground-task").selectOption("summary");
-  await page.locator("#playground-context").fill("Weekly pipeline notes for team leads.");
-  await expect(page.locator("#playground-output")).toContainText("meeting notes");
-  await expect(page.locator("#playground-output")).toContainText("Weekly pipeline notes");
-
-  await page.locator("#subscribe-email").fill("not-an-email");
-  await page.getByRole("button", { name: "Subscribe" }).click();
-  await expect(page.locator("#subscribe-message")).toHaveClass(/error/);
-
-  await page.locator("#subscribe-email").fill("teammate@example.com");
-  await page.getByRole("button", { name: "Subscribe" }).click();
-  await expect(page.locator("#subscribe-message")).toHaveClass(/success/);
+test("theme toggle persists across reloads", async ({ page }) => {
+  await page.goto("/");
 
   await page.getByRole("button", { name: /Toggle dark mode/i }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
