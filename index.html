@@ -3450,69 +3450,420 @@
         font-size: 0.75rem;
       }
 
-      /* ── Footer ── */
+      /* ── Footer (magazine masthead) ── */
       .footer {
+        position: relative;
         background: var(--surface2);
         border-top: 1px solid var(--border);
-        padding: 64px 0 40px;
+        padding: 72px 0 32px;
+        overflow: hidden;
+      }
+      .footer::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--coral) 0%, var(--amber) 50%, var(--teal) 100%);
+        opacity: 0.55;
+      }
+      .footer-masthead {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 40px;
+      }
+      .footer-masthead-eyebrow {
+        font-family: var(--font-editorial);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--coral-dark);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .footer-masthead-eyebrow::before,
+      .footer-masthead-eyebrow::after {
+        content: "";
+        width: 18px;
+        height: 1px;
+        background: var(--coral);
+        opacity: 0.55;
+      }
+      .footer-masthead-title {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: clamp(2rem, 4.5vw, 3.25rem);
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin: 0;
+      }
+      .footer-masthead-title em {
+        font-style: italic;
+        color: var(--coral);
+      }
+      .footer-masthead-tagline {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--ink2);
+        max-width: 56ch;
+        line-height: 1.55;
       }
       .footer-inner {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 48px;
+        grid-template-columns: 1.4fr 0.9fr 0.9fr 0.9fr;
+        gap: 56px;
+        align-items: start;
       }
-      .footer-brand h3 {
-        font-size: 1.25rem;
-        margin-bottom: 8px;
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
       }
-      .footer-brand p {
-        font-size: 0.875rem;
-        color: var(--muted);
-        line-height: 1.7;
-        margin-bottom: 20px;
+      .footer-subscribe {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 22px 22px 20px;
+        box-shadow: var(--shadow-sm);
       }
-      .footer-col h3,
-      .footer-col h4 {
-        font-size: 0.875rem;
+      .footer-subscribe::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 22px;
+        width: 56px;
+        height: 18px;
+        background: var(--amber-bg);
+        border: 1px dashed var(--amber);
+        border-radius: 2px;
+        transform: rotate(-3deg);
+        opacity: 0.85;
+      }
+      .footer-subscribe-label {
+        font-family: var(--font-editorial);
+        font-size: 0.6875rem;
         font-weight: 700;
-        margin-bottom: 16px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 6px;
+      }
+      .footer-subscribe-title {
+        font-family: var(--font-display);
+        font-size: 1.0625rem;
+        font-weight: 600;
         color: var(--ink);
+        margin-bottom: 4px;
+        line-height: 1.3;
+      }
+      .footer-subscribe-copy {
+        font-size: 0.8125rem;
+        color: var(--muted);
+        line-height: 1.55;
+        margin-bottom: 14px;
+      }
+      .footer-subscribe-form {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .footer-subscribe-input {
+        flex: 1 1 160px;
+        min-width: 0;
+        padding: 10px 12px;
+        font: inherit;
+        font-size: 0.875rem;
+        color: var(--ink);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xs);
+        transition:
+          border-color var(--transition),
+          box-shadow var(--transition);
+      }
+      .footer-subscribe-input::placeholder {
+        color: var(--muted);
+        opacity: 0.85;
+      }
+      .footer-subscribe-input:focus-visible {
+        outline: none;
+        border-color: var(--teal);
+        box-shadow: 0 0 0 3px var(--teal-bg);
+      }
+      .footer-subscribe-btn {
+        padding: 10px 16px;
+        font-family: var(--font-editorial);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #fff;
+        background: var(--coral);
+        border: 1px solid var(--coral);
+        border-radius: var(--radius-xs);
+        cursor: pointer;
+        transition:
+          background var(--transition),
+          transform var(--transition-spring),
+          box-shadow var(--transition);
+      }
+      .footer-subscribe-btn:hover {
+        background: var(--coral-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+      .footer-subscribe-btn:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 2px;
+      }
+      [data-theme="dark"] .footer-subscribe-btn {
+        color: var(--bg);
+      }
+      [data-theme="dark"] .footer-subscribe-btn:hover {
+        color: var(--bg);
+      }
+      .footer-subscribe-note {
+        display: block;
+        margin-top: 10px;
+        font-size: 0.75rem;
+        color: var(--muted);
+        font-style: italic;
+      }
+      .footer-col {
+        display: flex;
+        flex-direction: column;
+      }
+      .footer-col h3 {
+        font-family: var(--font-editorial);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+      }
+      .footer-col h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 28px;
+        height: 2px;
+        background: var(--coral);
       }
       .footer-links {
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 11px;
+        padding: 0;
+        margin: 0;
       }
       .footer-links a {
-        font-size: 0.875rem;
-        color: var(--muted);
-        transition: color var(--transition);
+        font-family: var(--font-display);
+        font-size: 0.9375rem;
+        color: var(--ink2);
+        line-height: 1.4;
+        text-decoration: none;
+        transition:
+          color var(--transition),
+          transform var(--transition);
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+      .footer-links a::before {
+        content: "›";
+        color: var(--coral);
+        font-weight: 700;
+        opacity: 0;
+        transform: translateX(-6px);
+        transition:
+          opacity var(--transition),
+          transform var(--transition);
       }
       .footer-links a:hover {
-        color: var(--ink);
+        color: var(--coral);
         text-decoration: none;
       }
+      .footer-links a:focus-visible {
+        color: var(--coral);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        outline: 2px solid var(--teal);
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+      .footer-links a:hover::before,
+      .footer-links a:focus-visible::before {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .footer-signature {
+        margin-top: 56px;
+        padding-top: 28px;
+        border-top: 1px dashed var(--border);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .footer-signature-text {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--ink2);
+        display: inline-flex;
+        align-items: baseline;
+        gap: 8px;
+        position: relative;
+      }
+      .footer-signature-text strong {
+        font-weight: 600;
+        color: var(--ink);
+        background-image: linear-gradient(
+          transparent 60%,
+          rgb(184, 79, 54, 0.18) 60%,
+          rgb(184, 79, 54, 0.18) 92%,
+          transparent 92%
+        );
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        padding: 0 2px;
+      }
+      .footer-flourish {
+        display: block;
+        width: 92px;
+        height: 14px;
+        margin-top: 6px;
+        color: var(--coral);
+        opacity: 0.85;
+      }
+      .footer-flourish svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .footer-flourish path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .footer-signature-meta {
+        font-family: var(--font-editorial);
+        font-size: 0.6875rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink2);
+        margin-top: 2px;
+      }
       .footer-bottom {
-        margin-top: 48px;
-        padding-top: 24px;
+        margin-top: 28px;
+        padding-top: 20px;
         border-top: 1px solid var(--border);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 0.8125rem;
-        color: var(--muted);
+        font-family: var(--font-editorial);
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        color: var(--ink2);
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 16px;
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
       }
-      @media (max-width: 900px) {
+      .footer-bottom-left {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .footer-issue-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        background: var(--coral-bg);
+        color: var(--coral-dark);
+        border-radius: 999px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .footer-bottom-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .footer-theme-toggle {
+        width: 36px;
+        height: 36px;
+        border: 1.5px solid var(--border);
+        border-radius: 50%;
+        background: var(--surface);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        color: var(--ink);
+        transition:
+          background var(--transition),
+          border-color var(--transition),
+          transform var(--transition-spring);
+      }
+      .footer-theme-toggle:hover {
+        background: var(--surface3);
+        border-color: var(--border2);
+        transform: rotate(-12deg) scale(1.06);
+      }
+      .footer-theme-toggle:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 1024px) {
         .footer-inner {
           grid-template-columns: 1fr 1fr;
+          gap: 40px;
+        }
+        .footer-brand {
+          grid-column: 1 / -1;
         }
       }
-      @media (max-width: 600px) {
+      @media (max-width: 640px) {
+        .footer {
+          padding: 56px 0 28px;
+        }
+        .footer-masthead {
+          margin-bottom: 32px;
+        }
         .footer-inner {
           grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
+          padding-bottom: max(16px, env(safe-area-inset-bottom));
+        }
+        .footer-signature {
+          margin-top: 40px;
         }
       }
 
@@ -7347,26 +7698,45 @@
       </section>
     </main>
 
-    <!-- ── Footer ── -->
-    <footer class="footer" id="footer" aria-labelledby="footer-heading">
+    <!-- ── Footer (masthead) ── -->
+    <footer class="footer" id="footer" role="contentinfo" aria-labelledby="footer-masthead-title">
       <div class="container">
-        <h2 id="footer-heading" class="sr-only">Site footer</h2>
+        <div class="footer-masthead">
+          <span class="footer-masthead-eyebrow">A monthly dispatch</span>
+          <h2 id="footer-masthead-title" class="footer-masthead-title">AI <em>Spark</em></h2>
+          <p class="footer-masthead-tagline">
+            A friendly internal dispatch — making AI useful, practical and human for every team at
+            the company.
+          </p>
+        </div>
+
         <div class="footer-inner">
           <div class="footer-brand">
-            <div class="nav-logo" style="margin-bottom: 12px">
-              <div class="nav-logo-icon">✨</div>
-              AI Spark
-            </div>
-            <p>
-              Your company's monthly AI newsletter. Practical AI for every employee — no technical
-              background needed.
-            </p>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap">
-              <a href="#hero" class="btn btn-secondary btn-sm">🏠 Home</a>
-              <a href="#prompt-master" class="btn btn-teal btn-sm">🗂️ See the prompts</a>
+            <div class="footer-subscribe" aria-labelledby="footer-subscribe-title">
+              <div class="footer-subscribe-label">The Mailroom</div>
+              <p id="footer-subscribe-title" class="footer-subscribe-title">
+                Get the next issue in your inbox.
+              </p>
+              <p class="footer-subscribe-copy">
+                One email a month. New prompts, real wins, no jargon.
+              </p>
+              <form class="footer-subscribe-form" id="footer-subscribe-form" novalidate>
+                <label class="sr-only" for="footer-subscribe-email">Email address</label>
+                <input
+                  type="email"
+                  id="footer-subscribe-email"
+                  class="footer-subscribe-input"
+                  placeholder="you@company.com"
+                  autocomplete="email"
+                  required
+                />
+                <button type="submit" class="footer-subscribe-btn">Subscribe</button>
+              </form>
+              <span class="footer-subscribe-note">Internal only · unsubscribe any time</span>
             </div>
           </div>
-          <div class="footer-col">
+
+          <nav class="footer-col" aria-label="Learn">
             <h3>Learn</h3>
             <ul class="footer-links">
               <li><a href="#why-ai">Why AI?</a></li>
@@ -7374,8 +7744,9 @@
               <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
               <li><a href="#stories">Success Stories</a></li>
             </ul>
-          </div>
-          <div class="footer-col">
+          </nav>
+
+          <nav class="footer-col" aria-label="Prompts">
             <h3>Prompts</h3>
             <ul class="footer-links">
               <li><a href="#prompt-master">All Prompts</a></li>
@@ -7391,8 +7762,9 @@
                 >
               </li>
             </ul>
-          </div>
-          <div class="footer-col">
+          </nav>
+
+          <nav class="footer-col" aria-label="This month">
             <h3>This Month</h3>
             <ul class="footer-links">
               <li><a href="#newsletter">May 2026 Issue</a></li>
@@ -7400,11 +7772,38 @@
               <li><a href="#newsletter">Tool Spotlight</a></li>
               <li><a href="#newsletter">Try This Today</a></li>
             </ul>
-          </div>
+          </nav>
         </div>
+
+        <div class="footer-signature">
+          <span class="footer-signature-text">
+            Made with care by <strong>The Spark Desk</strong>
+          </span>
+          <span class="footer-flourish" aria-hidden="true">
+            <svg viewBox="0 0 92 14" preserveAspectRatio="none">
+              <path d="M1 8 C 10 2, 18 12, 28 7 S 46 2, 56 8 S 74 13, 84 6 L 88 4 M 84 6 L 88 8" />
+            </svg>
+          </span>
+          <span class="footer-signature-meta">Internal · Goldbell · Singapore</span>
+        </div>
+
         <div class="footer-bottom">
-          <span>© 2026 AI Spark — Internal Employee Newsletter</span>
-          <span>Built with ✨ for our team</span>
+          <div class="footer-bottom-left">
+            <span class="footer-issue-pill">Vol. 1 · May 2026</span>
+            <span>© 2026 AI Spark — Internal Employee Newsletter</span>
+          </div>
+          <div class="footer-bottom-right">
+            <span>Built for our team</span>
+            <button
+              class="footer-theme-toggle"
+              id="footer-theme-toggle"
+              type="button"
+              aria-label="Toggle dark mode"
+              title="Toggle theme"
+            >
+              <span id="footer-theme-icon" aria-hidden="true">🌙</span>
+            </button>
+          </div>
         </div>
       </div>
     </footer>
@@ -20145,12 +20544,15 @@
       // ── Theme ──
       const themeToggle = document.getElementById("theme-toggle");
       const themeIcon = document.getElementById("theme-icon");
+      const footerThemeToggle = document.getElementById("footer-theme-toggle");
+      const footerThemeIcon = document.getElementById("footer-theme-icon");
       const html = document.documentElement;
       const THEME_STORAGE_KEY = "ai-framework-gb:theme";
 
       function setTheme(dark, { persist = true } = {}) {
         html.setAttribute("data-theme", dark ? "dark" : "light");
         themeIcon.textContent = dark ? "☀️" : "🌙";
+        if (footerThemeIcon) footerThemeIcon.textContent = dark ? "☀️" : "🌙";
         if (persist) {
           try {
             localStorage.setItem(THEME_STORAGE_KEY, dark ? "dark" : "light");
@@ -20173,6 +20575,28 @@
       themeToggle.addEventListener("click", () => {
         setTheme(html.getAttribute("data-theme") !== "dark");
       });
+      if (footerThemeToggle) {
+        footerThemeToggle.addEventListener("click", () => {
+          setTheme(html.getAttribute("data-theme") !== "dark");
+        });
+      }
+
+      // ── Footer subscribe (editorial form) ──
+      const footerSubscribeForm = document.getElementById("footer-subscribe-form");
+      if (footerSubscribeForm) {
+        footerSubscribeForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const input = document.getElementById("footer-subscribe-email");
+          const email = input && input.value ? input.value.trim() : "";
+          if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+            showToast("Please enter a valid email address.");
+            if (input) input.focus();
+            return;
+          }
+          showToast("✨ You're on the list. See you in the next issue!");
+          if (input) input.value = "";
+        });
+      }
 
       // ── Mobile menu ──
       const mobileMenuBtn = document.getElementById("mobile-menu-btn");
