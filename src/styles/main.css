@@ -194,6 +194,26 @@ a:focus-visible {
   border-radius: 4px;
 }
 
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 300;
+  transform: translateY(-140%);
+  background: var(--ink);
+  color: var(--bg);
+  border: 2px solid var(--bg);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  padding: 10px 14px;
+  font-weight: 800;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  color: var(--bg);
+  text-decoration: none;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -203,6 +223,18 @@ a:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .hero-badge-dot,
+  .hero-card-float,
+  .hero-center-icon,
+  .scroll-top.visible {
+    animation: none !important;
+  }
+  .btn:hover,
+  .theme-toggle:hover,
+  .why-card:hover,
+  .pm-card:hover {
+    transform: none !important;
   }
 }
 
@@ -362,6 +394,11 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
+.nav-mobile-btn:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+
 .nav-mobile-btn {
   display: none;
   width: 40px;
@@ -415,6 +452,9 @@ a:focus-visible {
   text-decoration: none;
 }
 .mobile-menu a:hover {
+  background: var(--surface3);
+}
+.mobile-menu a:focus-visible {
   background: var(--surface3);
 }
 
@@ -1084,8 +1124,13 @@ a:focus-visible {
   transition: background var(--transition);
   position: relative;
 }
-.step-item:hover {
+.step-item:hover,
+.step-item:focus-visible {
   background: var(--surface3);
+}
+.step-item:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
 }
 .step-item.active {
   background: var(--surface2);
@@ -2323,6 +2368,14 @@ body {
   .hero-stats > div {
     flex: 1 1 100%;
   }
+  .learning-path-wrap {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .step-detail-panel {
+    position: static;
+    padding: 24px;
+  }
   .issue-strip {
     grid-template-columns: 1fr;
   }
@@ -2344,6 +2397,12 @@ body {
   }
   .pm-diff-chips {
     flex-wrap: wrap;
+  }
+  .pm-grid {
+    grid-template-columns: 1fr;
+  }
+  .nl-card {
+    min-height: 44px;
   }
 }
 

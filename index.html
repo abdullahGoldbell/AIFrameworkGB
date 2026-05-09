@@ -10,6 +10,7 @@
     />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <!-- ── Navigation ── -->
     <nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
       <div class="container">
@@ -31,6 +32,7 @@
               class="theme-toggle"
               id="theme-toggle"
               aria-label="Toggle dark mode"
+              aria-pressed="false"
               title="Toggle theme"
             >
               <span id="theme-icon">🌙</span>
@@ -55,6 +57,7 @@
       role="dialog"
       aria-label="Mobile navigation"
       aria-modal="true"
+      aria-hidden="true"
     >
       <div class="mobile-menu-header">
         <div class="nav-logo">
@@ -71,611 +74,640 @@
       <a href="#stories" class="mobile-link">Stories</a>
     </div>
 
-    <!-- ── Hero ── -->
-    <section class="hero" id="hero">
-      <div class="container">
-        <div class="hero-inner">
-          <div class="hero-content">
-            <div class="hero-kicker-row reveal">
-              <span>Internal AI newsletter</span>
-              <span>Beginner-first</span>
-              <span>May 2026</span>
-            </div>
-            <div class="hero-badge reveal">
-              <span class="hero-badge-dot"></span>
-              New issue: practical AI at work
-            </div>
-            <h1 class="hero-title reveal reveal-delay-1">
-              AI field notes for<br />
-              <span class="highlight">real work</span>
-            </h1>
-            <p class="hero-desc reveal reveal-delay-2">
-              A monthly internal guide that turns AI from a vague idea into simple habits,
-              copy-ready prompts, and examples employees can use the same day.
-            </p>
-            <div class="hero-actions reveal reveal-delay-3">
-              <a href="#learning-path" class="btn btn-primary btn-lg">
-                <span>🚀</span> Start Learning AI
-              </a>
-              <a href="#prompt-master" class="btn btn-secondary btn-lg">
-                <span>🗂️</span> Browse Prompts
-              </a>
-            </div>
-            <div class="hero-stats reveal reveal-delay-4">
-              <div>
-                <div class="hero-stat-value" id="stat-prompts">875</div>
-                <div class="hero-stat-label">Ready-to-use prompts</div>
+    <main id="main-content" tabindex="-1">
+      <!-- ── Hero ── -->
+      <section class="hero" id="hero" aria-labelledby="hero-title">
+        <div class="container">
+          <div class="hero-inner">
+            <div class="hero-content">
+              <div class="hero-kicker-row reveal">
+                <span>Internal AI newsletter</span>
+                <span>Beginner-first</span>
+                <span>May 2026</span>
               </div>
-              <div>
-                <div class="hero-stat-value">10</div>
-                <div class="hero-stat-label">Work categories</div>
+              <div class="hero-badge reveal">
+                <span class="hero-badge-dot"></span>
+                New issue: practical AI at work
               </div>
-              <div>
-                <div class="hero-stat-value">5</div>
-                <div class="hero-stat-label">Monthly learning steps</div>
-              </div>
-            </div>
-            <div class="issue-strip reveal reveal-delay-4" aria-label="This issue at a glance">
-              <div><strong>01</strong><span>Learn one AI habit</span></div>
-              <div><strong>875</strong><span>Copy-ready prompts</span></div>
-              <div><strong>5 min</strong><span>Try-today workflow</span></div>
-              <div><strong>Safe</strong><span>Review before sharing</span></div>
-            </div>
-          </div>
-          <div class="hero-visual reveal reveal-delay-2">
-            <div class="hero-illustration">
-              <div class="hero-blob hero-blob-1"></div>
-              <div class="hero-blob hero-blob-2"></div>
-              <div class="hero-card-float">📧 Draft email in 10 sec</div>
-              <div class="hero-card-float">📊 Summarize data instantly</div>
-              <div class="hero-card-float">🗓️ Meeting notes auto-done</div>
-              <div class="hero-card-float">💡 Brainstorm 20 ideas fast</div>
-              <div class="hero-center-icon">🤖</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Why AI Matters ── -->
-    <section class="section" id="why-ai">
-      <div class="container">
-        <div class="section-header reveal">
-          <div class="section-label">💡 Why it matters</div>
-          <h2 class="section-title">AI isn't magic — it's a really fast colleague</h2>
-          <p class="section-subtitle">
-            Think of AI as a helpful assistant that never sleeps, never judges, and always has time
-            for your questions. Here's what it can do for you at work:
-          </p>
-        </div>
-        <div class="why-grid">
-          <div class="why-card reveal reveal-delay-1">
-            <div class="why-card-icon" style="background: var(--coral-bg)">📧</div>
-            <h3>Writing Emails</h3>
-            <p>
-              Struggling to find the right words? AI can draft professional emails in seconds — you
-              just review and send.
-            </p>
-            <div class="before-after">
-              <span class="ba-label ba-before">Before: 20 min</span>
-              <span>→</span>
-              <span class="ba-label ba-after">After: 2 min</span>
-            </div>
-          </div>
-          <div class="why-card reveal reveal-delay-2">
-            <div class="why-card-icon" style="background: var(--teal-bg)">🗓️</div>
-            <h3>Meeting Summaries</h3>
-            <p>
-              Paste your meeting notes and get a clean summary with action items — no more
-              re-reading long transcripts.
-            </p>
-            <div class="before-after">
-              <span class="ba-label ba-before">Before: 30 min</span>
-              <span>→</span>
-              <span class="ba-label ba-after">After: 1 min</span>
-            </div>
-          </div>
-          <div class="why-card reveal reveal-delay-3">
-            <div class="why-card-icon" style="background: var(--amber-bg)">📊</div>
-            <h3>Data & Reports</h3>
-            <p>
-              Ask AI to explain your spreadsheet, suggest formulas, or turn raw numbers into a
-              readable summary for your manager.
-            </p>
-            <div class="before-after">
-              <span class="ba-label ba-before">Before: 2 hours</span>
-              <span>→</span>
-              <span class="ba-label ba-after">After: 15 min</span>
-            </div>
-          </div>
-          <div class="why-card reveal reveal-delay-1">
-            <div class="why-card-icon" style="background: var(--violet-bg)">🎯</div>
-            <h3>Brainstorming</h3>
-            <p>
-              Stuck on ideas? Ask AI to generate 20 options in 30 seconds. You pick the best ones —
-              AI does the heavy lifting.
-            </p>
-            <div class="before-after">
-              <span class="ba-label ba-before">Before: 45 min</span>
-              <span>→</span>
-              <span class="ba-label ba-after">After: 5 min</span>
-            </div>
-          </div>
-          <div class="why-card reveal reveal-delay-2">
-            <div class="why-card-icon" style="background: var(--emerald-bg)">📑</div>
-            <h3>Presentations</h3>
-            <p>
-              Give AI your bullet points and get a full presentation outline with suggested slide
-              titles and talking points.
-            </p>
-            <div class="before-after">
-              <span class="ba-label ba-before">Before: 3 hours</span>
-              <span>→</span>
-              <span class="ba-label ba-after">After: 30 min</span>
-            </div>
-          </div>
-          <div class="why-card reveal reveal-delay-3">
-            <div class="why-card-icon" style="background: var(--sky-bg)">🔍</div>
-            <h3>Research & Analysis</h3>
-            <p>
-              Ask AI to summarize a long document, compare options, or explain a complex topic in
-              simple language.
-            </p>
-            <div class="before-after">
-              <span class="ba-label ba-before">Before: 1 hour</span>
-              <span>→</span>
-              <span class="ba-label ba-after">After: 10 min</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Monthly Newsletter ── -->
-    <section class="section-sm" id="newsletter">
-      <div class="container">
-        <div class="newsletter-bg reveal">
-          <div class="newsletter-issue-badge">📬 May 2026 Issue</div>
-          <h2 class="newsletter-title">This Month in AI</h2>
-          <p class="newsletter-subtitle">
-            Click any card to read more — each one is a quick, practical insight you can use today.
-          </p>
-          <div class="newsletter-cards">
-            <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
-              <div class="nl-card-accent" style="background: var(--amber)"></div>
-              <div class="nl-card-type" style="color: var(--amber)">⚡ Tip of the Month</div>
-              <h4>The "Role + Task + Format" Formula</h4>
-              <p>The single most effective way to get better AI results — every time.</p>
-              <div class="nl-card-expand">
-                <strong>Try this structure:</strong> "You are a [role]. [Task description]. Output
-                as [format]."<br /><br />
-                <strong>Example:</strong> "You are a senior HR manager. Write a professional email
-                declining a job applicant. Keep it warm, brief, and under 100 words."<br /><br />
-                This simple formula works for almost any task and consistently produces more useful,
-                on-target results than vague requests.
-              </div>
-              <span class="nl-card-caret">▼</span>
-            </div>
-
-            <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
-              <div class="nl-card-accent" style="background: var(--teal)"></div>
-              <div class="nl-card-type" style="color: var(--teal)">🔦 Tool Spotlight</div>
-              <h4>ChatGPT for Everyday Work</h4>
-              <p>
-                The tool most of your colleagues are already quietly using — and how to get started.
+              <h1 class="hero-title reveal reveal-delay-1" id="hero-title">
+                AI field notes for<br />
+                <span class="highlight">real work</span>
+              </h1>
+              <p class="hero-desc reveal reveal-delay-2">
+                A monthly internal guide that turns AI from a vague idea into simple habits,
+                copy-ready prompts, and examples employees can use the same day.
               </p>
-              <div class="nl-card-expand">
-                <strong>What it is:</strong> ChatGPT is a free AI assistant you can talk to like a
-                colleague. Ask it to write, summarize, explain, or brainstorm anything.<br /><br />
-                <strong>Best for:</strong> Drafting emails, summarizing documents, generating ideas,
-                explaining complex topics in plain English.<br /><br />
-                <strong>Get started:</strong> Visit chat.openai.com — no special skills needed. Just
-                type what you need as if asking a knowledgeable colleague.
+              <div class="hero-actions reveal reveal-delay-3">
+                <a href="#learning-path" class="btn btn-primary btn-lg">
+                  <span>🚀</span> Start Learning AI
+                </a>
+                <a href="#prompt-master" class="btn btn-secondary btn-lg">
+                  <span>🗂️</span> Browse Prompts
+                </a>
               </div>
-              <span class="nl-card-caret">▼</span>
+              <div class="hero-stats reveal reveal-delay-4">
+                <div>
+                  <div class="hero-stat-value" id="stat-prompts">875</div>
+                  <div class="hero-stat-label">Ready-to-use prompts</div>
+                </div>
+                <div>
+                  <div class="hero-stat-value">10</div>
+                  <div class="hero-stat-label">Work categories</div>
+                </div>
+                <div>
+                  <div class="hero-stat-value">5</div>
+                  <div class="hero-stat-label">Monthly learning steps</div>
+                </div>
+              </div>
+              <div class="issue-strip reveal reveal-delay-4" aria-label="This issue at a glance">
+                <div><strong>01</strong><span>Learn one AI habit</span></div>
+                <div><strong>875</strong><span>Copy-ready prompts</span></div>
+                <div><strong>5 min</strong><span>Try-today workflow</span></div>
+                <div><strong>Safe</strong><span>Review before sharing</span></div>
+              </div>
             </div>
-
-            <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
-              <div class="nl-card-accent" style="background: var(--coral)"></div>
-              <div class="nl-card-type" style="color: var(--coral)">💼 Real Work Use Case</div>
-              <h4>Finance Team Cuts Report Time by 60%</h4>
-              <p>How one team used AI to transform their monthly reporting process.</p>
-              <div class="nl-card-expand">
-                <strong>The challenge:</strong> The finance team spent 3 hours every month manually
-                formatting and writing the management summary for their financial reports.<br /><br />
-                <strong>The solution:</strong> They paste their raw numbers into ChatGPT with a
-                simple prompt: "Summarize these figures for a non-finance executive audience.
-                Highlight key trends and flag anything unusual."<br /><br />
-                <strong>The result:</strong> First draft in 5 minutes. Total time saved: ~2.5 hours
-                per month.
+            <div class="hero-visual reveal reveal-delay-2">
+              <div class="hero-illustration">
+                <div class="hero-blob hero-blob-1"></div>
+                <div class="hero-blob hero-blob-2"></div>
+                <div class="hero-card-float">📧 Draft email in 10 sec</div>
+                <div class="hero-card-float">📊 Summarize data instantly</div>
+                <div class="hero-card-float">🗓️ Meeting notes auto-done</div>
+                <div class="hero-card-float">💡 Brainstorm 20 ideas fast</div>
+                <div class="hero-center-icon">🤖</div>
               </div>
-              <span class="nl-card-caret">▼</span>
-            </div>
-
-            <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
-              <div class="nl-card-accent" style="background: var(--rose)"></div>
-              <div class="nl-card-type" style="color: var(--rose)">⚠️ Common Mistake</div>
-              <h4>Treating AI Output as Final</h4>
-              <p>The most common mistake beginners make — and how to avoid it.</p>
-              <div class="nl-card-expand">
-                <strong>The mistake:</strong> Copying AI output directly without reviewing it. AI
-                can be confidently wrong — it doesn't know your company, your context, or the latest
-                facts.<br /><br />
-                <strong>The fix:</strong> Always treat AI output as a first draft. Read it. Edit it.
-                Check any facts it mentions. Add your own judgment before sending or using it.<br /><br />
-                <strong>Remember:</strong> AI is a powerful assistant, not a replacement for your
-                expertise and accountability.
-              </div>
-              <span class="nl-card-caret">▼</span>
-            </div>
-
-            <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
-              <div class="nl-card-accent" style="background: var(--violet)"></div>
-              <div class="nl-card-type" style="color: var(--violet)">🎯 Try This Today</div>
-              <h4>The 5-Minute Email Makeover</h4>
-              <p>A prompt you can use right now to improve any email you've written.</p>
-              <div class="nl-card-expand">
-                <strong>Copy this prompt:</strong><br /><br />
-                <em
-                  >"Review this email and improve it. Make it clearer, more professional, and more
-                  concise. Keep the same meaning but remove any unnecessary words. Here is the
-                  email: [paste your email]"</em
-                ><br /><br />
-                <strong>Why it works:</strong> This is one of the highest-value uses of AI for
-                everyday work. You keep control of the message; AI just makes it better.
-              </div>
-              <span class="nl-card-caret">▼</span>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ── Learning Path ── -->
-    <section class="section" id="learning-path">
-      <div class="container">
-        <div class="section-header reveal">
-          <div class="section-label">🎓 Beginner Path</div>
-          <h2 class="section-title">Your 5-step AI starter guide</h2>
-          <p class="section-subtitle">
-            Never used AI before? Start here. These five steps take you from zero to confident in
-            the time it takes to have a coffee.
-          </p>
-        </div>
-        <div class="learning-path-wrap">
-          <div class="steps-list reveal" id="steps-list">
-            <!-- Steps injected by JS -->
+      <!-- ── Why AI Matters ── -->
+      <section class="section" id="why-ai" aria-labelledby="why-ai-title">
+        <div class="container">
+          <div class="section-header reveal">
+            <div class="section-label">💡 Why it matters</div>
+            <h2 class="section-title" id="why-ai-title">
+              AI isn't magic — it's a really fast colleague
+            </h2>
+            <p class="section-subtitle">
+              Think of AI as a helpful assistant that never sleeps, never judges, and always has
+              time for your questions. Here's what it can do for you at work:
+            </p>
           </div>
-          <div class="step-detail-panel reveal reveal-delay-2" id="step-detail">
-            <!-- Detail injected by JS -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Prompt Master ── -->
-    <section class="section" id="prompt-master">
-      <div class="container">
-        <div class="section-header reveal">
-          <div class="section-label">🗂️ Prompt Library</div>
-          <h2 class="section-title">Prompt Master</h2>
-          <p class="section-subtitle">
-            875 paste-ready prompts organized like an internal knowledge hub. Search by job, filter
-            by category, open the card, and copy a prompt that is already shaped for real work.
-          </p>
-        </div>
-        <div class="prompt-master-bg reveal">
-          <div class="pm-controls">
-            <div class="pm-search-wrap">
-              <span class="pm-search-icon" aria-hidden="true">🔍</span>
-              <input
-                type="search"
-                class="pm-search"
-                id="pm-search"
-                placeholder="Search prompts by title, category, or keyword…"
-                aria-label="Search prompts"
-              />
+          <div class="why-grid">
+            <div class="why-card reveal reveal-delay-1">
+              <div class="why-card-icon" style="background: var(--coral-bg)">📧</div>
+              <h3>Writing Emails</h3>
+              <p>
+                Struggling to find the right words? AI can draft professional emails in seconds —
+                you just review and send.
+              </p>
+              <div class="before-after">
+                <span class="ba-label ba-before">Before: 20 min</span>
+                <span>→</span>
+                <span class="ba-label ba-after">After: 2 min</span>
+              </div>
             </div>
-            <select class="pm-sort" id="pm-sort" aria-label="Sort prompts">
-              <option value="default">Sort: Default</option>
-              <option value="az">A → Z</option>
-              <option value="za">Z → A</option>
-              <option value="beginner">Easiest first</option>
-              <option value="advanced">Hardest first</option>
-            </select>
+            <div class="why-card reveal reveal-delay-2">
+              <div class="why-card-icon" style="background: var(--teal-bg)">🗓️</div>
+              <h3>Meeting Summaries</h3>
+              <p>
+                Paste your meeting notes and get a clean summary with action items — no more
+                re-reading long transcripts.
+              </p>
+              <div class="before-after">
+                <span class="ba-label ba-before">Before: 30 min</span>
+                <span>→</span>
+                <span class="ba-label ba-after">After: 1 min</span>
+              </div>
+            </div>
+            <div class="why-card reveal reveal-delay-3">
+              <div class="why-card-icon" style="background: var(--amber-bg)">📊</div>
+              <h3>Data & Reports</h3>
+              <p>
+                Ask AI to explain your spreadsheet, suggest formulas, or turn raw numbers into a
+                readable summary for your manager.
+              </p>
+              <div class="before-after">
+                <span class="ba-label ba-before">Before: 2 hours</span>
+                <span>→</span>
+                <span class="ba-label ba-after">After: 15 min</span>
+              </div>
+            </div>
+            <div class="why-card reveal reveal-delay-1">
+              <div class="why-card-icon" style="background: var(--violet-bg)">🎯</div>
+              <h3>Brainstorming</h3>
+              <p>
+                Stuck on ideas? Ask AI to generate 20 options in 30 seconds. You pick the best ones
+                — AI does the heavy lifting.
+              </p>
+              <div class="before-after">
+                <span class="ba-label ba-before">Before: 45 min</span>
+                <span>→</span>
+                <span class="ba-label ba-after">After: 5 min</span>
+              </div>
+            </div>
+            <div class="why-card reveal reveal-delay-2">
+              <div class="why-card-icon" style="background: var(--emerald-bg)">📑</div>
+              <h3>Presentations</h3>
+              <p>
+                Give AI your bullet points and get a full presentation outline with suggested slide
+                titles and talking points.
+              </p>
+              <div class="before-after">
+                <span class="ba-label ba-before">Before: 3 hours</span>
+                <span>→</span>
+                <span class="ba-label ba-after">After: 30 min</span>
+              </div>
+            </div>
+            <div class="why-card reveal reveal-delay-3">
+              <div class="why-card-icon" style="background: var(--sky-bg)">🔍</div>
+              <h3>Research & Analysis</h3>
+              <p>
+                Ask AI to summarize a long document, compare options, or explain a complex topic in
+                simple language.
+              </p>
+              <div class="before-after">
+                <span class="ba-label ba-before">Before: 1 hour</span>
+                <span>→</span>
+                <span class="ba-label ba-after">After: 10 min</span>
+              </div>
+            </div>
           </div>
-          <div class="pm-cats" id="pm-cats" role="group" aria-label="Filter by category">
-            <!-- Category chips injected by JS -->
+        </div>
+      </section>
+
+      <!-- ── Monthly Newsletter ── -->
+      <section class="section-sm" id="newsletter" aria-labelledby="newsletter-title">
+        <div class="container">
+          <div class="newsletter-bg reveal">
+            <div class="newsletter-issue-badge">📬 May 2026 Issue</div>
+            <h2 class="newsletter-title" id="newsletter-title">This Month in AI</h2>
+            <p class="newsletter-subtitle">
+              Click any card to read more — each one is a quick, practical insight you can use
+              today.
+            </p>
+            <div class="newsletter-cards">
+              <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
+                <div class="nl-card-accent" style="background: var(--amber)"></div>
+                <div class="nl-card-type" style="color: var(--amber)">⚡ Tip of the Month</div>
+                <h4>The "Role + Task + Format" Formula</h4>
+                <p>The single most effective way to get better AI results — every time.</p>
+                <div class="nl-card-expand">
+                  <strong>Try this structure:</strong> "You are a [role]. [Task description]. Output
+                  as [format]."<br /><br />
+                  <strong>Example:</strong> "You are a senior HR manager. Write a professional email
+                  declining a job applicant. Keep it warm, brief, and under 100 words."<br /><br />
+                  This simple formula works for almost any task and consistently produces more
+                  useful, on-target results than vague requests.
+                </div>
+                <span class="nl-card-caret">▼</span>
+              </div>
+
+              <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
+                <div class="nl-card-accent" style="background: var(--teal)"></div>
+                <div class="nl-card-type" style="color: var(--teal)">🔦 Tool Spotlight</div>
+                <h4>ChatGPT for Everyday Work</h4>
+                <p>
+                  The tool most of your colleagues are already quietly using — and how to get
+                  started.
+                </p>
+                <div class="nl-card-expand">
+                  <strong>What it is:</strong> ChatGPT is a free AI assistant you can talk to like a
+                  colleague. Ask it to write, summarize, explain, or brainstorm anything.<br /><br />
+                  <strong>Best for:</strong> Drafting emails, summarizing documents, generating
+                  ideas, explaining complex topics in plain English.<br /><br />
+                  <strong>Get started:</strong> Visit chat.openai.com — no special skills needed.
+                  Just type what you need as if asking a knowledgeable colleague.
+                </div>
+                <span class="nl-card-caret">▼</span>
+              </div>
+
+              <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
+                <div class="nl-card-accent" style="background: var(--coral)"></div>
+                <div class="nl-card-type" style="color: var(--coral)">💼 Real Work Use Case</div>
+                <h4>Finance Team Cuts Report Time by 60%</h4>
+                <p>How one team used AI to transform their monthly reporting process.</p>
+                <div class="nl-card-expand">
+                  <strong>The challenge:</strong> The finance team spent 3 hours every month
+                  manually formatting and writing the management summary for their financial
+                  reports.<br /><br />
+                  <strong>The solution:</strong> They paste their raw numbers into ChatGPT with a
+                  simple prompt: "Summarize these figures for a non-finance executive audience.
+                  Highlight key trends and flag anything unusual."<br /><br />
+                  <strong>The result:</strong> First draft in 5 minutes. Total time saved: ~2.5
+                  hours per month.
+                </div>
+                <span class="nl-card-caret">▼</span>
+              </div>
+
+              <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
+                <div class="nl-card-accent" style="background: var(--rose)"></div>
+                <div class="nl-card-type" style="color: var(--rose)">⚠️ Common Mistake</div>
+                <h4>Treating AI Output as Final</h4>
+                <p>The most common mistake beginners make — and how to avoid it.</p>
+                <div class="nl-card-expand">
+                  <strong>The mistake:</strong> Copying AI output directly without reviewing it. AI
+                  can be confidently wrong — it doesn't know your company, your context, or the
+                  latest facts.<br /><br />
+                  <strong>The fix:</strong> Always treat AI output as a first draft. Read it. Edit
+                  it. Check any facts it mentions. Add your own judgment before sending or using
+                  it.<br /><br />
+                  <strong>Remember:</strong> AI is a powerful assistant, not a replacement for your
+                  expertise and accountability.
+                </div>
+                <span class="nl-card-caret">▼</span>
+              </div>
+
+              <div class="nl-card" tabindex="0" role="button" aria-expanded="false">
+                <div class="nl-card-accent" style="background: var(--violet)"></div>
+                <div class="nl-card-type" style="color: var(--violet)">🎯 Try This Today</div>
+                <h4>The 5-Minute Email Makeover</h4>
+                <p>A prompt you can use right now to improve any email you've written.</p>
+                <div class="nl-card-expand">
+                  <strong>Copy this prompt:</strong><br /><br />
+                  <em
+                    >"Review this email and improve it. Make it clearer, more professional, and more
+                    concise. Keep the same meaning but remove any unnecessary words. Here is the
+                    email: [paste your email]"</em
+                  ><br /><br />
+                  <strong>Why it works:</strong> This is one of the highest-value uses of AI for
+                  everyday work. You keep control of the message; AI just makes it better.
+                </div>
+                <span class="nl-card-caret">▼</span>
+              </div>
+            </div>
           </div>
-          <div class="pm-diff-chips" role="group" aria-label="Filter by difficulty">
-            <button class="pm-diff-chip" data-diff="all" aria-pressed="true">All Levels</button>
-            <button class="pm-diff-chip" data-diff="Beginner" aria-pressed="false">
-              🟢 Beginner
-            </button>
-            <button class="pm-diff-chip" data-diff="Intermediate" aria-pressed="false">
-              🟡 Intermediate
-            </button>
-            <button class="pm-diff-chip" data-diff="Advanced" aria-pressed="false">
-              🔴 Advanced
-            </button>
+        </div>
+      </section>
+
+      <!-- ── Learning Path ── -->
+      <section class="section" id="learning-path" aria-labelledby="learning-path-title">
+        <div class="container">
+          <div class="section-header reveal">
+            <div class="section-label">🎓 Beginner Path</div>
+            <h2 class="section-title" id="learning-path-title">Your 5-step AI starter guide</h2>
+            <p class="section-subtitle">
+              Never used AI before? Start here. These five steps take you from zero to confident in
+              the time it takes to have a coffee.
+            </p>
           </div>
-          <div class="pm-results-bar">
-            <span>Showing <strong class="pm-count" id="pm-count">0</strong> prompts</span>
-            <span id="pm-active-filter"></span>
+          <div class="learning-path-wrap">
+            <div
+              class="steps-list reveal"
+              id="steps-list"
+              role="tablist"
+              aria-label="AI starter guide steps"
+            >
+              <!-- Steps injected by JS -->
+            </div>
+            <div
+              class="step-detail-panel reveal reveal-delay-2"
+              id="step-detail"
+              role="tabpanel"
+              aria-live="polite"
+            >
+              <!-- Detail injected by JS -->
+            </div>
           </div>
-          <div
-            class="pm-grid"
-            id="pm-grid"
-            role="list"
-            aria-live="polite"
-            aria-label="Prompt cards"
-          >
-            <div class="pm-empty" id="pm-empty">
-              <div class="pm-empty-icon">🔍</div>
-              <h3>No prompts found</h3>
-              <p>Try a different search term or clear your filters.</p>
-              <button class="btn btn-secondary mt-4" data-action="clear-pm-filters">
-                Clear all filters
+        </div>
+      </section>
+
+      <!-- ── Prompt Master ── -->
+      <section class="section" id="prompt-master" aria-labelledby="prompt-master-title">
+        <div class="container">
+          <div class="section-header reveal">
+            <div class="section-label">🗂️ Prompt Library</div>
+            <h2 class="section-title" id="prompt-master-title">Prompt Master</h2>
+            <p class="section-subtitle">
+              875 paste-ready prompts organized like an internal knowledge hub. Search by job,
+              filter by category, open the card, and copy a prompt that is already shaped for real
+              work.
+            </p>
+          </div>
+          <div class="prompt-master-bg reveal">
+            <div class="pm-controls">
+              <div class="pm-search-wrap">
+                <span class="pm-search-icon" aria-hidden="true">🔍</span>
+                <input
+                  type="search"
+                  class="pm-search"
+                  id="pm-search"
+                  placeholder="Search prompts by title, category, or keyword…"
+                  aria-label="Search prompts"
+                />
+              </div>
+              <select class="pm-sort" id="pm-sort" aria-label="Sort prompts">
+                <option value="default">Sort: Default</option>
+                <option value="az">A → Z</option>
+                <option value="za">Z → A</option>
+                <option value="beginner">Easiest first</option>
+                <option value="advanced">Hardest first</option>
+              </select>
+            </div>
+            <div class="pm-cats" id="pm-cats" role="group" aria-label="Filter by category">
+              <!-- Category chips injected by JS -->
+            </div>
+            <div class="pm-diff-chips" role="group" aria-label="Filter by difficulty">
+              <button class="pm-diff-chip" data-diff="all" aria-pressed="true">All Levels</button>
+              <button class="pm-diff-chip" data-diff="Beginner" aria-pressed="false">
+                🟢 Beginner
+              </button>
+              <button class="pm-diff-chip" data-diff="Intermediate" aria-pressed="false">
+                🟡 Intermediate
+              </button>
+              <button class="pm-diff-chip" data-diff="Advanced" aria-pressed="false">
+                🔴 Advanced
+              </button>
+            </div>
+            <div class="pm-results-bar">
+              <span aria-live="polite"
+                >Showing <strong class="pm-count" id="pm-count">0</strong> prompts</span
+              >
+              <span id="pm-active-filter"></span>
+            </div>
+            <div
+              class="pm-grid"
+              id="pm-grid"
+              role="list"
+              aria-live="polite"
+              aria-label="Prompt cards"
+            >
+              <div class="pm-empty" id="pm-empty">
+                <div class="pm-empty-icon">🔍</div>
+                <h3>No prompts found</h3>
+                <p>Try a different search term or clear your filters.</p>
+                <button class="btn btn-secondary mt-4" data-action="clear-pm-filters">
+                  Clear all filters
+                </button>
+              </div>
+            </div>
+            <div class="pm-load-more" id="pm-load-more">
+              <button class="btn btn-secondary" data-action="load-more-prompts">
+                Load more prompts
               </button>
             </div>
           </div>
-          <div class="pm-load-more" id="pm-load-more">
-            <button class="btn btn-secondary" data-action="load-more-prompts">
-              Load more prompts
-            </button>
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ── Dos & Don'ts ── -->
-    <section class="section" id="dos-donts" style="background: var(--surface2)">
-      <div class="container">
-        <div class="section-header centered reveal">
-          <div class="section-label">📋 Guidelines</div>
-          <h2 class="section-title">AI Dos &amp; Don'ts</h2>
-          <p class="section-subtitle">
-            A quick reference to help you use AI safely, responsibly, and effectively at work.
-          </p>
-        </div>
-        <div class="dos-donts-grid reveal">
-          <div class="dos-col">
-            <h3>✅ Do this</h3>
-            <ul class="dos-list">
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Always review AI output</strong> before using it. Treat it as a smart
-                  first draft, not a finished product.</span
-                >
-              </li>
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Be specific in your prompts.</strong> The more context you give, the
-                  better the result. Include role, task, and format.</span
-                >
-              </li>
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Use AI for repetitive writing tasks</strong> like emails, summaries, and
-                  templates — this is where it saves the most time.</span
-                >
-              </li>
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Fact-check important claims.</strong> AI can be confidently wrong. Verify
-                  anything critical before sharing.</span
-                >
-              </li>
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Iterate and refine.</strong> If the first result isn't right, ask AI to
-                  adjust it. Say "make it shorter" or "make it more formal."</span
-                >
-              </li>
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Use AI to learn.</strong> Ask it to explain things you don't understand —
-                  it's a patient, always-available teacher.</span
-                >
-              </li>
-              <li class="dos-item">
-                <span class="dos-icon">✓</span
-                ><span
-                  ><strong>Keep a prompt library.</strong> When you find a prompt that works well,
-                  save it for reuse.</span
-                >
-              </li>
-            </ul>
+      <!-- ── Dos & Don'ts ── -->
+      <section
+        class="section"
+        id="dos-donts"
+        style="background: var(--surface2)"
+        aria-labelledby="dos-donts-title"
+      >
+        <div class="container">
+          <div class="section-header centered reveal">
+            <div class="section-label">📋 Guidelines</div>
+            <h2 class="section-title" id="dos-donts-title">AI Dos &amp; Don'ts</h2>
+            <p class="section-subtitle">
+              A quick reference to help you use AI safely, responsibly, and effectively at work.
+            </p>
           </div>
-          <div class="donts-col">
-            <h3>❌ Don't do this</h3>
-            <ul class="donts-list">
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Never share confidential data</strong> with public AI tools. No client
-                  names, financial figures, or internal strategies.</span
-                >
-              </li>
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Don't submit AI output without reading it.</strong> You are responsible
-                  for everything you send or publish.</span
-                >
-              </li>
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Don't assume AI is always right.</strong> It can hallucinate facts,
-                  dates, and names with complete confidence.</span
-                >
-              </li>
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Avoid vague prompts.</strong> "Write something about sales" will get you
-                  a generic result. Be specific about what you need.</span
-                >
-              </li>
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Don't use AI to replace your judgment.</strong> Use it to support your
-                  thinking, not substitute it.</span
-                >
-              </li>
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Don't share AI-generated content</strong> as your own original research
-                  or expertise without disclosure.</span
-                >
-              </li>
-              <li class="donts-item">
-                <span class="donts-icon">✕</span
-                ><span
-                  ><strong>Don't give up after one bad result.</strong> Rephrase your prompt, add
-                  more context, and try again.</span
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Success Stories ── -->
-    <section class="section" id="stories">
-      <div class="container">
-        <div class="section-header reveal">
-          <div class="section-label">🌟 Real results</div>
-          <h2 class="section-title">How teams are using AI</h2>
-          <p class="section-subtitle">
-            Real examples from departments just like yours — showing what's possible when you start
-            using AI in your daily work.
-          </p>
-        </div>
-        <div class="stories-grid">
-          <div class="story-card reveal reveal-delay-1">
-            <div class="story-dept" style="background: var(--sky-bg); color: var(--sky)">👥 HR</div>
-            <div class="story-problem">
-              <div class="story-problem-label">The challenge</div>
-              Writing 15 individual performance review templates every quarter took the HR team a
-              full day.
+          <div class="dos-donts-grid reveal">
+            <div class="dos-col">
+              <h3>✅ Do this</h3>
+              <ul class="dos-list">
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Always review AI output</strong> before using it. Treat it as a smart
+                    first draft, not a finished product.</span
+                  >
+                </li>
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Be specific in your prompts.</strong> The more context you give, the
+                    better the result. Include role, task, and format.</span
+                  >
+                </li>
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Use AI for repetitive writing tasks</strong> like emails, summaries,
+                    and templates — this is where it saves the most time.</span
+                  >
+                </li>
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Fact-check important claims.</strong> AI can be confidently wrong.
+                    Verify anything critical before sharing.</span
+                  >
+                </li>
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Iterate and refine.</strong> If the first result isn't right, ask AI to
+                    adjust it. Say "make it shorter" or "make it more formal."</span
+                  >
+                </li>
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Use AI to learn.</strong> Ask it to explain things you don't understand
+                    — it's a patient, always-available teacher.</span
+                  >
+                </li>
+                <li class="dos-item">
+                  <span class="dos-icon">✓</span
+                  ><span
+                    ><strong>Keep a prompt library.</strong> When you find a prompt that works well,
+                    save it for reuse.</span
+                  >
+                </li>
+              </ul>
             </div>
-            <div class="story-solution">
-              <div class="story-solution-label">The AI solution</div>
-              Used a structured prompt to generate customized review templates for each role in
-              under an hour.
-            </div>
-            <div class="story-result">
-              <span class="story-result-badge">⏱ 7 hours saved</span> per quarter
-            </div>
-          </div>
-
-          <div class="story-card reveal reveal-delay-2">
-            <div class="story-dept" style="background: var(--emerald-bg); color: var(--emerald)">
-              💰 Finance
-            </div>
-            <div class="story-problem">
-              <div class="story-problem-label">The challenge</div>
-              Monthly management reports required manual narrative writing that was time-consuming
-              and inconsistent.
-            </div>
-            <div class="story-solution">
-              <div class="story-solution-label">The AI solution</div>
-              AI generates the narrative section from raw data in minutes, with a consistent
-              professional tone.
-            </div>
-            <div class="story-result">
-              <span class="story-result-badge">⏱ 2.5 hours saved</span> per report
-            </div>
-          </div>
-
-          <div class="story-card reveal reveal-delay-3">
-            <div class="story-dept" style="background: var(--coral-bg); color: var(--coral)">
-              📣 Sales
-            </div>
-            <div class="story-problem">
-              <div class="story-problem-label">The challenge</div>
-              Sales reps spent too long crafting individual follow-up emails after client meetings.
-            </div>
-            <div class="story-solution">
-              <div class="story-solution-label">The AI solution</div>
-              A prompt template turns meeting notes into polished follow-up emails in under 2
-              minutes.
-            </div>
-            <div class="story-result">
-              <span class="story-result-badge">📈 40% faster</span> follow-up response time
-            </div>
-          </div>
-
-          <div class="story-card reveal reveal-delay-1">
-            <div class="story-dept" style="background: var(--amber-bg); color: var(--amber)">
-              ⚙️ Operations
-            </div>
-            <div class="story-problem">
-              <div class="story-problem-label">The challenge</div>
-              Creating SOPs (Standard Operating Procedures) for new processes was slow and
-              inconsistently formatted.
-            </div>
-            <div class="story-solution">
-              <div class="story-solution-label">The AI solution</div>
-              AI generates a structured SOP draft from a brief description — team just reviews and
-              approves.
-            </div>
-            <div class="story-result">
-              <span class="story-result-badge">⏱ 3 hours saved</span> per SOP document
-            </div>
-          </div>
-
-          <div class="story-card reveal reveal-delay-2">
-            <div class="story-dept" style="background: var(--violet-bg); color: var(--violet)">
-              💻 IT
-            </div>
-            <div class="story-problem">
-              <div class="story-problem-label">The challenge</div>
-              Writing user-friendly documentation for internal tools was always deprioritized due to
-              time constraints.
-            </div>
-            <div class="story-solution">
-              <div class="story-solution-label">The AI solution</div>
-              IT team uses AI to convert technical notes into clear, beginner-friendly user guides
-              in minutes.
-            </div>
-            <div class="story-result">
-              <span class="story-result-badge">📄 5x more docs</span> published per month
-            </div>
-          </div>
-
-          <div class="story-card reveal reveal-delay-3">
-            <div class="story-dept" style="background: var(--teal-bg); color: var(--teal)">
-              📋 PMO
-            </div>
-            <div class="story-problem">
-              <div class="story-problem-label">The challenge</div>
-              Weekly project status reports required pulling information from multiple sources and
-              formatting it consistently.
-            </div>
-            <div class="story-solution">
-              <div class="story-solution-label">The AI solution</div>
-              PMO pastes raw updates into a prompt and gets a formatted stakeholder report in under
-              5 minutes.
-            </div>
-            <div class="story-result">
-              <span class="story-result-badge">⏱ 90 min saved</span> per weekly report
+            <div class="donts-col">
+              <h3>❌ Don't do this</h3>
+              <ul class="donts-list">
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Never share confidential data</strong> with public AI tools. No client
+                    names, financial figures, or internal strategies.</span
+                  >
+                </li>
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Don't submit AI output without reading it.</strong> You are responsible
+                    for everything you send or publish.</span
+                  >
+                </li>
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Don't assume AI is always right.</strong> It can hallucinate facts,
+                    dates, and names with complete confidence.</span
+                  >
+                </li>
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Avoid vague prompts.</strong> "Write something about sales" will get
+                    you a generic result. Be specific about what you need.</span
+                  >
+                </li>
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Don't use AI to replace your judgment.</strong> Use it to support your
+                    thinking, not substitute it.</span
+                  >
+                </li>
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Don't share AI-generated content</strong> as your own original research
+                    or expertise without disclosure.</span
+                  >
+                </li>
+                <li class="donts-item">
+                  <span class="donts-icon">✕</span
+                  ><span
+                    ><strong>Don't give up after one bad result.</strong> Rephrase your prompt, add
+                    more context, and try again.</span
+                  >
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- ── Success Stories ── -->
+      <section class="section" id="stories" aria-labelledby="stories-title">
+        <div class="container">
+          <div class="section-header reveal">
+            <div class="section-label">🌟 Real results</div>
+            <h2 class="section-title" id="stories-title">How teams are using AI</h2>
+            <p class="section-subtitle">
+              Real examples from departments just like yours — showing what's possible when you
+              start using AI in your daily work.
+            </p>
+          </div>
+          <div class="stories-grid">
+            <div class="story-card reveal reveal-delay-1">
+              <div class="story-dept" style="background: var(--sky-bg); color: var(--sky)">
+                👥 HR
+              </div>
+              <div class="story-problem">
+                <div class="story-problem-label">The challenge</div>
+                Writing 15 individual performance review templates every quarter took the HR team a
+                full day.
+              </div>
+              <div class="story-solution">
+                <div class="story-solution-label">The AI solution</div>
+                Used a structured prompt to generate customized review templates for each role in
+                under an hour.
+              </div>
+              <div class="story-result">
+                <span class="story-result-badge">⏱ 7 hours saved</span> per quarter
+              </div>
+            </div>
+
+            <div class="story-card reveal reveal-delay-2">
+              <div class="story-dept" style="background: var(--emerald-bg); color: var(--emerald)">
+                💰 Finance
+              </div>
+              <div class="story-problem">
+                <div class="story-problem-label">The challenge</div>
+                Monthly management reports required manual narrative writing that was time-consuming
+                and inconsistent.
+              </div>
+              <div class="story-solution">
+                <div class="story-solution-label">The AI solution</div>
+                AI generates the narrative section from raw data in minutes, with a consistent
+                professional tone.
+              </div>
+              <div class="story-result">
+                <span class="story-result-badge">⏱ 2.5 hours saved</span> per report
+              </div>
+            </div>
+
+            <div class="story-card reveal reveal-delay-3">
+              <div class="story-dept" style="background: var(--coral-bg); color: var(--coral)">
+                📣 Sales
+              </div>
+              <div class="story-problem">
+                <div class="story-problem-label">The challenge</div>
+                Sales reps spent too long crafting individual follow-up emails after client
+                meetings.
+              </div>
+              <div class="story-solution">
+                <div class="story-solution-label">The AI solution</div>
+                A prompt template turns meeting notes into polished follow-up emails in under 2
+                minutes.
+              </div>
+              <div class="story-result">
+                <span class="story-result-badge">📈 40% faster</span> follow-up response time
+              </div>
+            </div>
+
+            <div class="story-card reveal reveal-delay-1">
+              <div class="story-dept" style="background: var(--amber-bg); color: var(--amber)">
+                ⚙️ Operations
+              </div>
+              <div class="story-problem">
+                <div class="story-problem-label">The challenge</div>
+                Creating SOPs (Standard Operating Procedures) for new processes was slow and
+                inconsistently formatted.
+              </div>
+              <div class="story-solution">
+                <div class="story-solution-label">The AI solution</div>
+                AI generates a structured SOP draft from a brief description — team just reviews and
+                approves.
+              </div>
+              <div class="story-result">
+                <span class="story-result-badge">⏱ 3 hours saved</span> per SOP document
+              </div>
+            </div>
+
+            <div class="story-card reveal reveal-delay-2">
+              <div class="story-dept" style="background: var(--violet-bg); color: var(--violet)">
+                💻 IT
+              </div>
+              <div class="story-problem">
+                <div class="story-problem-label">The challenge</div>
+                Writing user-friendly documentation for internal tools was always deprioritized due
+                to time constraints.
+              </div>
+              <div class="story-solution">
+                <div class="story-solution-label">The AI solution</div>
+                IT team uses AI to convert technical notes into clear, beginner-friendly user guides
+                in minutes.
+              </div>
+              <div class="story-result">
+                <span class="story-result-badge">📄 5x more docs</span> published per month
+              </div>
+            </div>
+
+            <div class="story-card reveal reveal-delay-3">
+              <div class="story-dept" style="background: var(--teal-bg); color: var(--teal)">
+                📋 PMO
+              </div>
+              <div class="story-problem">
+                <div class="story-problem-label">The challenge</div>
+                Weekly project status reports required pulling information from multiple sources and
+                formatting it consistently.
+              </div>
+              <div class="story-solution">
+                <div class="story-solution-label">The AI solution</div>
+                PMO pastes raw updates into a prompt and gets a formatted stakeholder report in
+                under 5 minutes.
+              </div>
+              <div class="story-result">
+                <span class="story-result-badge">⏱ 90 min saved</span> per weekly report
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <!-- ── Footer ── -->
     <footer class="footer" id="footer">

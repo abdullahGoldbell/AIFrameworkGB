@@ -145,6 +145,15 @@ let pmSearch = "";
 let pmSort = "default";
 let pmPage = 1;
 const PM_PAGE_SIZE = 24;
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+function prefersReducedMotion() {
+  return reducedMotionQuery.matches;
+}
+
+function scrollBehavior() {
+  return prefersReducedMotion() ? "auto" : "smooth";
+}
 
 // ── Theme ──
 const themeToggle = document.getElementById("theme-toggle");
@@ -154,6 +163,7 @@ const html = document.documentElement;
 function setTheme(dark) {
   html.setAttribute("data-theme", dark ? "dark" : "light");
   themeIcon.textContent = dark ? "☀️" : "🌙";
+  themeToggle.setAttribute("aria-pressed", dark ? "true" : "false");
 }
 
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -168,15 +178,20 @@ const mobileMenuBtn = document.getElementById("mobile-menu-btn");
 const mobileMenu = document.getElementById("mobile-menu");
 const mobileClose = document.getElementById("mobile-close");
 
-mobileMenuBtn.addEventListener("click", () => {
+function openMobileMenu() {
   mobileMenu.classList.add("open");
   mobileMenuBtn.setAttribute("aria-expanded", "true");
+  mobileMenu.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-});
+  mobileClose.focus();
+}
+
+mobileMenuBtn.addEventListener("click", openMobileMenu);
 
 function closeMobileMenu() {
   mobileMenu.classList.remove("open");
   mobileMenuBtn.setAttribute("aria-expanded", "false");
+  mobileMenu.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 }
 
@@ -204,7 +219,10 @@ window.addEventListener(
       if (y >= s.offsetTop - 100) current = s.id;
     });
     navLinks.forEach((a) => {
-      a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+      const isCurrent = a.getAttribute("href") === "#" + current;
+      a.classList.toggle("active", isCurrent);
+      if (isCurrent) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
     });
   },
   { passive: true },
@@ -212,39 +230,52 @@ window.addEventListener(
 
 // ── Reveal on scroll ──
 const revealEls = document.querySelectorAll(".reveal");
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("visible");
-        revealObserver.unobserve(e.target);
+if (prefersReducedMotion()) {
+  revealEls.forEach((el) => el.classList.add("visible"));
+} else {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          revealObserver.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.05, rootMargin: "50px 0px 0px 0px" },
+  );
+  revealEls.forEach((el) => revealObserver.observe(el));
+  requestAnimationFrame(() => {
+    revealEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add("visible");
+        revealObserver.unobserve(el);
       }
     });
-  },
-  { threshold: 0.05, rootMargin: "50px 0px 0px 0px" },
-);
-revealEls.forEach((el) => revealObserver.observe(el));
-// Immediately reveal elements already in viewport
-requestAnimationFrame(() => {
-  revealEls.forEach((el) => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      el.classList.add("visible");
-      revealObserver.unobserve(el);
-    }
   });
-});
+}
 
 // ── Newsletter cards ──
+document.querySelectorAll(".nl-card").forEach((card, index) => {
+  const details = card.querySelector(".nl-card-expand");
+  if (!details) return;
+  details.id ||= `newsletter-card-${index + 1}`;
+  details.hidden = true;
+  card.setAttribute("aria-controls", details.id);
+});
+
 function toggleNlCard(card) {
   const isExpanded = card.classList.contains("expanded");
   document.querySelectorAll(".nl-card").forEach((c) => {
     c.classList.remove("expanded");
     c.setAttribute("aria-expanded", "false");
+    c.querySelector(".nl-card-expand")?.setAttribute("hidden", "");
   });
   if (!isExpanded) {
     card.classList.add("expanded");
     card.setAttribute("aria-expanded", "true");
+    card.querySelector(".nl-card-expand")?.removeAttribute("hidden");
   }
 }
 
@@ -254,7 +285,7 @@ function renderSteps() {
   list.innerHTML = STEPS.map(
     (s, i) => `
     <div class="step-item ${i === activeStep ? "active" : ""} ${completedSteps.has(i) ? "done" : ""}"
-         data-step-index="${i}" tabindex="0" role="button" aria-label="Step ${s.num}: ${s.title}">
+         id="step-tab-${i}" data-step-index="${i}" tabindex="${i === activeStep ? "0" : "-1"}" role="tab" aria-selected="${i === activeStep ? "true" : "false"}" aria-controls="step-detail" aria-label="Step ${s.num}: ${s.title}">
       <div class="step-num"><span>${s.num}</span></div>
       <div class="step-content">
         <div class="step-title">${s.title}</div>
@@ -271,13 +302,14 @@ function renderStepDetail() {
   const panel = document.getElementById("step-detail");
   const progress = STEPS.map(
     (_, i) => `
-    <div class="step-progress-dot ${completedSteps.has(i) ? "done" : ""} ${i === activeStep ? "active" : ""}"></div>
+    <div class="step-progress-dot ${completedSteps.has(i) ? "done" : ""} ${i === activeStep ? "active" : ""}" aria-hidden="true"></div>
   `,
   ).join("");
+  panel.setAttribute("aria-labelledby", "step-detail-title");
   panel.innerHTML = `
-    <div class="step-progress">${progress}</div>
-    <div class="step-detail-icon" style="background:${s.iconBg}">${s.icon}</div>
-    <h3 class="step-detail-title">${s.title}</h3>
+    <div class="step-progress" aria-hidden="true">${progress}</div>
+    <div class="step-detail-icon" style="background:${s.iconBg}" aria-hidden="true">${s.icon}</div>
+    <h3 class="step-detail-title" id="step-detail-title">${s.title}</h3>
     <p class="step-detail-body">${s.detail}</p>
     <div class="step-detail-tips">
       ${s.tips
@@ -400,12 +432,12 @@ function renderPromptCard(p) {
         </div>
       </div>
       <div class="pm-card-footer">
-        <button class="pm-expand-btn" data-prompt-action="toggle" aria-expanded="false">View Prompt</button>
+        <button class="pm-expand-btn" data-prompt-action="toggle" aria-expanded="false" aria-controls="prompt-${p.id}">View Prompt</button>
         <button class="pm-copy-btn" data-prompt-action="copy" data-prompt-id="${p.id}" aria-label="Copy prompt">
           <span class="copy-icon">📋</span> Copy
         </button>
       </div>
-      <div class="pm-card-prompt-wrap">
+      <div class="pm-card-prompt-wrap" id="prompt-${p.id}" hidden>
         <div class="pm-prompt-box">${escHtml(p.prompt)}</div>
       </div>
     </article>
@@ -451,6 +483,8 @@ function togglePromptCard(btn) {
   const card = btn.closest(".pm-card");
   const isExpanded = card.classList.contains("expanded");
   card.classList.toggle("expanded", !isExpanded);
+  const prompt = card.querySelector(".pm-card-prompt-wrap");
+  if (prompt) prompt.hidden = isExpanded;
   btn.setAttribute("aria-expanded", !isExpanded);
   btn.textContent = isExpanded ? "View Prompt" : "Hide Prompt";
 }
@@ -525,7 +559,7 @@ function setCat(cat) {
 }
 
 async function filterByCategory(cat) {
-  document.getElementById("prompt-master").scrollIntoView({ behavior: "smooth" });
+  document.getElementById("prompt-master").scrollIntoView({ behavior: scrollBehavior() });
   await loadPromptLibrary();
   setCat(cat);
 }
@@ -647,6 +681,7 @@ function showToast(msg) {
 // ── Confetti (surprise & delight) ──
 let confettiModulePromise;
 async function launchConfetti() {
+  if (prefersReducedMotion()) return;
   confettiModulePromise ||= import("./confetti.js");
   const { launchConfetti: runConfetti } = await confettiModulePromise;
   runConfetti();
@@ -659,7 +694,7 @@ document.querySelector(".nav-logo").addEventListener("click", () => {
   if (logoClicks === 5) {
     logoClicks = 0;
     launchConfetti();
-    showToast("🎉 You found the Easter egg! You are an AI Spark pro!");
+    showToast("You found the Easter egg! You are an AI Spark pro!");
   }
 });
 
@@ -677,7 +712,7 @@ function handleActionClick(event) {
 
   const scrollButton = target.closest('[data-action="scroll-top"]');
   if (scrollButton) {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: scrollBehavior() });
     return;
   }
 
@@ -724,9 +759,49 @@ function handleActionClick(event) {
 }
 
 function handleActionKeydown(event) {
-  if (event.key !== "Enter" && event.key !== " ") return;
   const target = event.target;
   if (!(target instanceof Element)) return;
+
+  if (mobileMenu.classList.contains("open")) {
+    if (event.key === "Escape") {
+      closeMobileMenu();
+      mobileMenuBtn.focus();
+      return;
+    }
+    if (event.key === "Tab") {
+      const focusable = [...mobileMenu.querySelectorAll("a[href], button:not([disabled])")];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  const stepTab = target.closest("[data-step-index]");
+  if (
+    stepTab &&
+    ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"].includes(event.key)
+  ) {
+    const current = Number(stepTab.dataset.stepIndex);
+    const lastIndex = STEPS.length - 1;
+    let next = current;
+    if (event.key === "ArrowDown" || event.key === "ArrowRight")
+      next = Math.min(lastIndex, current + 1);
+    else if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = Math.max(0, current - 1);
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = lastIndex;
+    event.preventDefault();
+    selectStep(next);
+    document.querySelector(`[data-step-index="${next}"]`)?.focus();
+    return;
+  }
+
+  if (event.key !== "Enter" && event.key !== " ") return;
   const interactiveCard = target.closest(".nl-card, [data-step-index]");
   if (!interactiveCard) return;
   event.preventDefault();
