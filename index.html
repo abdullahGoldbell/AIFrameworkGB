@@ -340,6 +340,94 @@
       .nav-links a.active {
         color: var(--coral);
       }
+      .nav-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .nav-group-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--muted);
+        background: transparent;
+        border: 0;
+        padding: 6px 12px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition:
+          color var(--transition),
+          background var(--transition);
+      }
+      .nav-group-btn:hover,
+      .nav-group-btn[aria-expanded="true"] {
+        color: var(--ink);
+        background: var(--surface3);
+      }
+      .nav-group.has-active > .nav-group-btn {
+        color: var(--coral);
+      }
+      .nav-group-btn:focus-visible {
+        outline: 2px solid var(--teal);
+        outline-offset: 2px;
+      }
+      .nav-group-caret {
+        font-size: 0.7em;
+        line-height: 1;
+        transition: transform var(--transition);
+      }
+      .nav-group-btn[aria-expanded="true"] .nav-group-caret {
+        transform: rotate(180deg);
+      }
+      .nav-submenu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 200px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow:
+          0 12px 32px -12px rgba(0, 0, 0, 0.18),
+          0 2px 6px rgba(0, 0, 0, 0.06);
+        padding: 6px;
+        list-style: none;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        z-index: 60;
+      }
+      .nav-submenu[hidden] {
+        display: none;
+      }
+      .nav-submenu a {
+        display: block;
+        padding: 8px 14px;
+        border-radius: var(--radius-sm);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--ink2);
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+          color var(--transition),
+          background var(--transition);
+      }
+      .nav-submenu a:hover,
+      .nav-submenu a:focus-visible {
+        color: var(--ink);
+        background: var(--surface3);
+        outline: none;
+      }
+      .nav-submenu a.active {
+        color: var(--coral);
+        background: var(--surface3);
+      }
       .nav-actions {
         display: flex;
         align-items: center;
@@ -544,6 +632,31 @@
         position: relative;
         overflow: hidden;
       }
+      .hero-bg-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.22;
+        pointer-events: none;
+        z-index: 0;
+        filter: saturate(0.95);
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+        -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-bg-video {
+          display: none !important;
+        }
+        .hero-bg-fallback {
+          display: block !important;
+        }
+      }
+      [data-theme="dark"] .hero-bg-media {
+        opacity: 0.09;
+        mix-blend-mode: screen;
+      }
       .hero::before {
         content: "";
         position: absolute;
@@ -552,6 +665,7 @@
           radial-gradient(ellipse 38% 44% at 86% 14%, rgba(184, 79, 54, 0.13) 0%, transparent 68%),
           radial-gradient(ellipse 34% 38% at 10% 92%, rgba(12, 107, 102, 0.12) 0%, transparent 62%);
         pointer-events: none;
+        z-index: 1;
       }
       .hero-inner {
         display: grid;
@@ -559,6 +673,7 @@
         gap: 58px;
         align-items: center;
         position: relative;
+        z-index: 2;
       }
       .issue-strip {
         display: grid;
@@ -3336,6 +3451,35 @@
         background: var(--ink);
         color: var(--bg);
       }
+      .nav-group-btn {
+        border-radius: 999px;
+        letter-spacing: 0.01em;
+      }
+      .nav-group-btn:hover,
+      .nav-group-btn[aria-expanded="true"] {
+        background: var(--ink);
+        color: var(--bg);
+      }
+      .nav-group.has-active > .nav-group-btn {
+        background: var(--ink);
+        color: var(--bg);
+      }
+      .nav-submenu {
+        border-radius: 18px;
+        border: 1.5px solid var(--ink);
+        box-shadow: 4px 4px 0 var(--coral);
+        padding: 8px;
+      }
+      .nav-submenu a {
+        border-radius: 999px;
+        letter-spacing: 0.01em;
+      }
+      .nav-submenu a:hover,
+      .nav-submenu a:focus-visible,
+      .nav-submenu a.active {
+        background: var(--ink);
+        color: var(--bg);
+      }
       .theme-toggle,
       .nav-mobile-btn {
         border-radius: 12px;
@@ -3757,19 +3901,71 @@
             <li><a href="#why-ai">Why AI?</a></li>
             <li><a href="#newsletter">This Month</a></li>
             <li><a href="#learning-path">Learn</a></li>
-            <li><a href="#task-decision-helper">Start</a></li>
-            <li><a href="#beginner-glossary">Glossary</a></li>
-            <li><a href="#ai-terms-flashcards">Flashcards</a></li>
-            <li><a href="#first-prompt-builder">Builder</a></li>
-            <li><a href="#prompt-comparison-tool">Compare</a></li>
-            <li><a href="#safe-prompt-templates">Templates</a></li>
-            <li><a href="#beginner-checklist">Checklist</a></li>
-            <li><a href="#beginner-scenarios">Scenarios</a></li>
-            <li><a href="#ai-confidence-quiz">Quiz</a></li>
-            <li><a href="#ai-safety-myth-buster">Myths</a></li>
-            <li><a href="#output-review-checklist">Review</a></li>
+            <li class="nav-group" data-nav-group>
+              <button
+                type="button"
+                class="nav-group-btn"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="nav-beginner-menu"
+              >
+                Beginner
+                <span class="nav-group-caret" aria-hidden="true">▾</span>
+              </button>
+              <ul class="nav-submenu" id="nav-beginner-menu" role="menu" hidden>
+                <li role="none">
+                  <a role="menuitem" href="#task-decision-helper">Start here</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#beginner-glossary">Glossary</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#ai-terms-flashcards">Flashcards</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#ai-confidence-quiz">Quiz</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#ai-safety-myth-buster">Myths</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-group" data-nav-group>
+              <button
+                type="button"
+                class="nav-group-btn"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="nav-tools-menu"
+              >
+                Tools
+                <span class="nav-group-caret" aria-hidden="true">▾</span>
+              </button>
+              <ul class="nav-submenu" id="nav-tools-menu" role="menu" hidden>
+                <li role="none">
+                  <a role="menuitem" href="#first-prompt-builder">Builder</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#prompt-comparison-tool">Compare</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#safe-prompt-templates">Templates</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#beginner-scenarios">Scenarios</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#beginner-checklist">Checklist</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#output-review-checklist">Review</a>
+                </li>
+                <li role="none">
+                  <a role="menuitem" href="#dos-donts">Dos &amp; Don'ts</a>
+                </li>
+              </ul>
+            </li>
             <li><a href="#prompt-master">Prompts</a></li>
-            <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
             <li><a href="#stories">Stories</a></li>
           </ul>
           <div class="nav-actions">
@@ -3830,6 +4026,27 @@
 
     <!-- ── Hero ── -->
     <section class="hero" id="hero">
+      <video
+        class="hero-bg-media hero-bg-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="/hero/hero-bg-still.webp"
+        aria-hidden="true"
+      >
+        <source src="/hero/hero-bg-loop.mp4" type="video/mp4" />
+      </video>
+      <img
+        class="hero-bg-media hero-bg-fallback"
+        src="/hero/hero-bg-still.webp"
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        decoding="async"
+        style="display: none"
+      />
       <div class="container">
         <div class="hero-inner">
           <div class="hero-content">
@@ -18439,6 +18656,51 @@
         .querySelectorAll(".mobile-link")
         .forEach((a) => a.addEventListener("click", closeMobileMenu));
 
+      // ── Nav dropdown groups ──
+      const navGroups = Array.from(document.querySelectorAll(".nav-group"));
+      function closeAllNavGroups(except) {
+        navGroups.forEach((g) => {
+          if (g === except) return;
+          const btn = g.querySelector(".nav-group-btn");
+          const menu = g.querySelector(".nav-submenu");
+          if (!btn || !menu) return;
+          btn.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+        });
+      }
+      navGroups.forEach((group) => {
+        const btn = group.querySelector(".nav-group-btn");
+        const menu = group.querySelector(".nav-submenu");
+        if (!btn || !menu) return;
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isOpen = btn.getAttribute("aria-expanded") === "true";
+          closeAllNavGroups(group);
+          btn.setAttribute("aria-expanded", String(!isOpen));
+          menu.hidden = isOpen;
+        });
+        menu.addEventListener("click", (e) => {
+          if (e.target.closest("a")) {
+            btn.setAttribute("aria-expanded", "false");
+            menu.hidden = true;
+          }
+        });
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".nav-group")) closeAllNavGroups();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          const open = navGroups.find(
+            (g) => g.querySelector(".nav-group-btn")?.getAttribute("aria-expanded") === "true",
+          );
+          if (open) {
+            closeAllNavGroups();
+            open.querySelector(".nav-group-btn").focus();
+          }
+        }
+      });
+
       // ── Scroll effects ──
       const nav = document.getElementById("main-nav");
       const scrollTopBtn = document.getElementById("scroll-top");
@@ -18459,6 +18721,9 @@
           });
           navLinks.forEach((a) => {
             a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+          });
+          navGroups.forEach((g) => {
+            g.classList.toggle("has-active", !!g.querySelector(".nav-submenu a.active"));
           });
         },
         { passive: true },

@@ -2468,7 +2468,8 @@ body {
   color: var(--bg);
 }
 .nl-card:first-child h4,
-.nl-card:first-child p {
+.nl-card:first-child p,
+.nl-card:first-child .nl-card-expand {
   color: var(--bg);
 }
 .prompt-master-bg {
