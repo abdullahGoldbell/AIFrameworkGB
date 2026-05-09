@@ -1079,9 +1079,9 @@
 
       /* ── Monthly Newsletter ── */
       .newsletter-bg {
-        background: linear-gradient(135deg, var(--surface2), var(--surface));
+        background: linear-gradient(150deg, var(--surface2), var(--surface) 65%);
         border-radius: var(--radius-lg);
-        padding: 56px;
+        padding: 64px 56px 72px;
         border: 1px solid var(--border);
         position: relative;
         overflow: hidden;
@@ -1089,10 +1089,10 @@
       .newsletter-bg::before {
         content: "";
         position: absolute;
-        top: -60px;
-        right: -60px;
-        width: 240px;
-        height: 240px;
+        top: -80px;
+        right: -80px;
+        width: 280px;
+        height: 280px;
         background: radial-gradient(circle, var(--amber-bg), transparent 70%);
         pointer-events: none;
       }
@@ -1103,30 +1103,37 @@
         background: var(--amber);
         color: #fff;
         border-radius: 100px;
-        padding: 6px 16px;
+        padding: 7px 18px;
         font-size: 0.8125rem;
         font-weight: 700;
-        margin-bottom: 20px;
+        margin-bottom: 22px;
+        letter-spacing: 0.02em;
       }
       .newsletter-title {
-        font-size: clamp(1.5rem, 3vw, 2.25rem);
-        margin-bottom: 12px;
+        font-family: var(--font-display);
+        font-size: clamp(1.85rem, 3.4vw, 2.6rem);
+        line-height: 1.15;
+        margin-bottom: 14px;
+        color: var(--ink);
       }
       .newsletter-subtitle {
         color: var(--muted);
-        margin-bottom: 40px;
+        margin-bottom: 56px;
         font-size: 1.0625rem;
+        max-width: 60ch;
+        line-height: 1.55;
       }
       .newsletter-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 22px;
       }
       .nl-card {
+        --nl-accent: var(--amber);
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        padding: 24px;
+        padding: 28px 26px 22px;
         cursor: pointer;
         transition:
           transform var(--transition-spring),
@@ -1134,70 +1141,228 @@
           border-color var(--transition);
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        color: var(--ink);
       }
       .nl-card:hover {
-        transform: translateY(-4px) scale(1.01);
-        box-shadow: var(--shadow);
+        transform: translateY(-3px);
+        box-shadow: 6px 6px 0 color-mix(in srgb, var(--nl-accent) 22%, transparent);
+        border-color: color-mix(in srgb, var(--nl-accent) 55%, var(--border));
       }
       .nl-card:focus-visible {
         outline: 3px solid var(--teal);
         outline-offset: 3px;
       }
       .nl-card-type {
+        font-family: var(--font-editorial);
         font-size: 0.7rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
         display: flex;
         align-items: center;
         gap: 6px;
       }
       .nl-card h4 {
-        font-size: 0.9375rem;
-        font-weight: 700;
-        margin-bottom: 8px;
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 10px;
+        color: var(--ink);
       }
-      .nl-card p {
-        font-size: 0.8125rem;
-        color: var(--muted);
+      .nl-card > p {
+        font-size: 0.9375rem;
+        color: var(--ink2);
         line-height: 1.6;
       }
       .nl-card-expand {
-        display: none;
-        margin-top: 16px;
-        padding-top: 16px;
-        border-top: 1px solid var(--border);
-        font-size: 0.8125rem;
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition:
+          grid-template-rows var(--transition-slow),
+          opacity var(--transition-slow),
+          margin-top var(--transition-slow);
+        font-size: 0.9375rem;
         color: var(--ink2);
         line-height: 1.7;
+        margin-top: 0;
+      }
+      .nl-card-expand > .nl-card-expand-inner {
+        overflow: hidden;
+        min-height: 0;
+        padding-top: 0;
+        border-top: 1px solid transparent;
+        transition:
+          padding-top var(--transition-slow),
+          border-top-color var(--transition-slow);
       }
       .nl-card.expanded .nl-card-expand {
-        display: block;
+        grid-template-rows: 1fr;
+        opacity: 1;
+        margin-top: 18px;
+      }
+      .nl-card.expanded .nl-card-expand > .nl-card-expand-inner {
+        padding-top: 18px;
+        border-top-color: color-mix(in srgb, var(--nl-accent) 28%, var(--border));
+      }
+      .nl-card-expand strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .nl-card-expand em {
+        color: var(--ink);
+      }
+      .nl-card-cta {
+        margin-top: 20px;
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-editorial);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--nl-accent);
+        padding: 8px 14px;
+        border: 1.5px solid color-mix(in srgb, var(--nl-accent) 60%, var(--border));
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--nl-accent) 8%, transparent);
+        pointer-events: none;
+        transition:
+          background var(--transition),
+          border-color var(--transition),
+          color var(--transition);
+      }
+      .nl-card:hover .nl-card-cta {
+        background: color-mix(in srgb, var(--nl-accent) 16%, transparent);
+        border-color: var(--nl-accent);
+      }
+      .nl-card-cta-arrow {
+        transition: transform var(--transition);
+      }
+      .nl-card.expanded .nl-card-cta-arrow {
+        transform: rotate(90deg);
+      }
+      .nl-card-cta-label-collapsed {
+        display: inline;
+      }
+      .nl-card-cta-label-expanded {
+        display: none;
+      }
+      .nl-card.expanded .nl-card-cta-label-collapsed {
+        display: none;
+      }
+      .nl-card.expanded .nl-card-cta-label-expanded {
+        display: inline;
       }
       .nl-card-caret {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 22px;
+        right: 22px;
         font-size: 0.75rem;
         color: var(--muted);
         transition: transform var(--transition);
+        pointer-events: none;
       }
       .nl-card.expanded .nl-card-caret {
         transform: rotate(180deg);
+        color: var(--nl-accent);
       }
       .nl-card-accent {
         position: absolute;
         top: 0;
         left: 0;
-        width: 4px;
-        height: 100%;
-        border-radius: 4px 0 0 4px;
+        right: 0;
+        width: 100%;
+        height: 5px;
+        border-radius: var(--radius) var(--radius) 0 0;
+        background: var(--nl-accent);
+      }
+
+      /* Featured (first/dark) card — explicit colors so all text reads on dark */
+      .nl-card--featured {
+        grid-row: span 2;
+        background: linear-gradient(165deg, #1f2826 0%, #141c1a 100%);
+        border-color: #2c3a37;
+        color: #f3eedf;
+      }
+      [data-theme="dark"] .nl-card--featured {
+        background: linear-gradient(165deg, #0c1614 0%, #060b0a 100%);
+        border-color: #1f2c29;
+      }
+      .nl-card--featured h4,
+      .nl-card--featured > p {
+        color: #f6efe0;
+      }
+      .nl-card--featured > p {
+        color: #d6cfbe;
+      }
+      .nl-card--featured .nl-card-expand,
+      .nl-card--featured .nl-card-expand strong,
+      .nl-card--featured .nl-card-expand em {
+        color: #efe8d7;
+      }
+      .nl-card--featured.expanded .nl-card-expand > .nl-card-expand-inner {
+        border-top-color: color-mix(in srgb, var(--nl-accent) 60%, #3a4744);
+      }
+      .nl-card--featured .nl-card-type {
+        color: #ffc84a;
+      }
+      .nl-card--featured .nl-card-caret {
+        color: #c2bba9;
+      }
+      .nl-card--featured .nl-card-cta {
+        color: #fff;
+        background: color-mix(in srgb, var(--nl-accent) 22%, transparent);
+        border-color: color-mix(in srgb, var(--nl-accent) 70%, #4a5552);
+      }
+      .nl-card--featured:hover .nl-card-cta {
+        background: color-mix(in srgb, var(--nl-accent) 36%, transparent);
+        border-color: var(--nl-accent);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .nl-card-expand,
+        .nl-card-expand > .nl-card-expand-inner,
+        .nl-card-caret,
+        .nl-card-cta-arrow {
+          transition: none;
+        }
+        .nl-card-expand {
+          opacity: 1;
+        }
+        .nl-card:not(.expanded) .nl-card-expand {
+          display: none;
+        }
+        .nl-card.expanded .nl-card-expand {
+          display: block;
+          margin-top: 18px;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .nl-card--featured {
+          grid-row: auto;
+        }
       }
 
       @media (max-width: 600px) {
         .newsletter-bg {
-          padding: 28px 20px;
+          padding: 36px 22px 44px;
+        }
+        .newsletter-subtitle {
+          margin-bottom: 32px;
+        }
+        .newsletter-cards {
+          gap: 16px;
+        }
+        .nl-card {
+          padding: 24px 22px 20px;
         }
       }
 
@@ -3718,27 +3883,14 @@
         grid-column: span 6;
       }
       .newsletter-bg {
-        border-radius: 0;
+        border-radius: var(--radius-lg);
         border: 2px solid var(--ink);
-        box-shadow: 8px 8px 0 var(--ink);
+        box-shadow: 10px 10px 0 var(--ink);
         background: var(--surface);
       }
       .newsletter-cards {
         grid-template-columns: 1.3fr 1fr 1fr;
-        align-items: start;
-      }
-      .nl-card:first-child {
-        grid-row: span 2;
-        min-height: 100%;
-        background: var(--ink);
-        color: var(--bg);
-      }
-      .nl-card:first-child h4,
-      .nl-card:first-child p,
-      .nl-card:first-child .nl-card-expand,
-      .nl-card:first-child .nl-card-expand strong,
-      .nl-card:first-child .nl-card-caret {
-        color: var(--bg);
+        align-items: stretch;
       }
       .nl-card:first-child .nl-card-expand {
         border-top-color: color-mix(in srgb, var(--bg) 28%, transparent);
@@ -5199,27 +5351,1491 @@
                 <span class="hero-badge-dot"></span>
                 New issue: practical AI at work
               </div>
-              <h1 class="hero-title reveal reveal-delay-1">
-                AI field notes for<br />
-                <span class="highlight">real work</span>
-              </h1>
-              <p class="hero-desc reveal reveal-delay-2">
-                A monthly internal guide that turns AI from a vague idea into simple habits,
-                copy-ready prompts, and friendly examples — designed for beginners who want to try
-                something useful in five minutes or less.
-              </p>
-              <div class="hero-actions reveal reveal-delay-3">
-                <a href="#learning-path" class="btn btn-primary btn-lg">
-                  <span>🚀</span> Start Learning AI
-                </a>
-                <a href="#prompt-master" class="btn btn-secondary btn-lg">
-                  <span>🗂️</span> Show me the prompts
-                </a>
+              <div>
+                <div class="hero-stat-value">5</div>
+                <div class="hero-stat-label">Monthly learning steps</div>
               </div>
-              <div class="hero-stats reveal reveal-delay-4">
-                <div>
-                  <div class="hero-stat-value" id="stat-prompts">875</div>
-                  <div class="hero-stat-label">Ready-to-use prompts</div>
+            </div>
+            <div class="issue-strip reveal reveal-delay-4" aria-label="This issue at a glance">
+              <div><strong>01</strong><span>Learn one AI habit</span></div>
+              <div><strong>875</strong><span>Copy-ready prompts</span></div>
+              <div><strong>5 min</strong><span>Try-today workflow</span></div>
+              <div><strong>Safe</strong><span>Review before sharing</span></div>
+            </div>
+          </div>
+          <div class="hero-visual reveal reveal-delay-2">
+            <div class="hero-illustration">
+              <div class="hero-blob hero-blob-1"></div>
+              <div class="hero-blob hero-blob-2"></div>
+              <div class="hero-card-float">📧 Draft email in 10 sec</div>
+              <div class="hero-card-float">📊 Summarize data instantly</div>
+              <div class="hero-card-float">🗓️ Meeting notes auto-done</div>
+              <div class="hero-card-float">💡 Brainstorm 20 ideas fast</div>
+              <div class="hero-center-icon">🤖</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Why AI Matters ── -->
+    <section class="section" id="why-ai">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">💡 Why it matters</div>
+          <h2 class="section-title">AI isn't magic — it's a really fast colleague</h2>
+          <p class="section-subtitle">
+            Think of AI as a helpful assistant that never sleeps, never judges, and always has time
+            for your questions. Here's what it can do for you at work:
+          </p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card reveal reveal-delay-1">
+            <div class="why-card-icon" style="background: var(--coral-bg)">📧</div>
+            <h3>Writing Emails</h3>
+            <p>
+              Struggling to find the right words? AI can draft professional emails in seconds — you
+              just review and send.
+            </p>
+            <div class="before-after">
+              <span class="ba-label ba-before">Before: 20 min</span>
+              <span>→</span>
+              <span class="ba-label ba-after">After: 2 min</span>
+            </div>
+          </div>
+          <div class="why-card reveal reveal-delay-2">
+            <div class="why-card-icon" style="background: var(--teal-bg)">🗓️</div>
+            <h3>Meeting Summaries</h3>
+            <p>
+              Paste your meeting notes and get a clean summary with action items — no more
+              re-reading long transcripts.
+            </p>
+            <div class="before-after">
+              <span class="ba-label ba-before">Before: 30 min</span>
+              <span>→</span>
+              <span class="ba-label ba-after">After: 1 min</span>
+            </div>
+          </div>
+          <div class="why-card reveal reveal-delay-3">
+            <div class="why-card-icon" style="background: var(--amber-bg)">📊</div>
+            <h3>Data & Reports</h3>
+            <p>
+              Ask AI to explain your spreadsheet, suggest formulas, or turn raw numbers into a
+              readable summary for your manager.
+            </p>
+            <div class="before-after">
+              <span class="ba-label ba-before">Before: 2 hours</span>
+              <span>→</span>
+              <span class="ba-label ba-after">After: 15 min</span>
+            </div>
+          </div>
+          <div class="why-card reveal reveal-delay-1">
+            <div class="why-card-icon" style="background: var(--violet-bg)">🎯</div>
+            <h3>Brainstorming</h3>
+            <p>
+              Stuck on ideas? Ask AI to generate 20 options in 30 seconds. You pick the best ones —
+              AI does the heavy lifting.
+            </p>
+            <div class="before-after">
+              <span class="ba-label ba-before">Before: 45 min</span>
+              <span>→</span>
+              <span class="ba-label ba-after">After: 5 min</span>
+            </div>
+          </div>
+          <div class="why-card reveal reveal-delay-2">
+            <div class="why-card-icon" style="background: var(--emerald-bg)">📑</div>
+            <h3>Presentations</h3>
+            <p>
+              Give AI your bullet points and get a full presentation outline with suggested slide
+              titles and talking points.
+            </p>
+            <div class="before-after">
+              <span class="ba-label ba-before">Before: 3 hours</span>
+              <span>→</span>
+              <span class="ba-label ba-after">After: 30 min</span>
+            </div>
+          </div>
+          <div class="why-card reveal reveal-delay-3">
+            <div class="why-card-icon" style="background: var(--sky-bg)">🔍</div>
+            <h3>Research & Analysis</h3>
+            <p>
+              Ask AI to summarize a long document, compare options, or explain a complex topic in
+              simple language.
+            </p>
+            <div class="before-after">
+              <span class="ba-label ba-before">Before: 1 hour</span>
+              <span>→</span>
+              <span class="ba-label ba-after">After: 10 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Monthly Newsletter ── -->
+    <section class="section" id="newsletter">
+      <div class="container">
+        <div class="newsletter-bg reveal">
+          <div class="newsletter-issue-badge">📬 May 2026 Issue</div>
+          <h2 class="newsletter-title">This Month in AI</h2>
+          <p class="newsletter-subtitle">
+            Five quick, practical insights you can use today. Click any card to read the full story.
+          </p>
+          <div class="newsletter-cards">
+            <div
+              class="nl-card nl-card--featured"
+              tabindex="0"
+              role="button"
+              aria-expanded="false"
+              onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--amber)"
+            >
+              <div class="nl-card-accent"></div>
+              <div class="nl-card-type">⚡ Tip of the Month</div>
+              <h4>The "Role + Task + Format" Formula</h4>
+              <p>The single most effective way to get better AI results — every time.</p>
+              <div class="nl-card-expand">
+                <div class="nl-card-expand-inner">
+                  <strong>Try this structure:</strong> "You are a [role]. [Task description].
+                  Output as [format]."<br /><br />
+                  <strong>Example:</strong> "You are a senior HR manager. Write a professional
+                  email declining a job applicant. Keep it warm, brief, and under 100 words."<br /><br />
+                  This simple formula works for almost any task and consistently produces more
+                  useful, on-target results than vague requests.
+                </div>
+              </div>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
+            </div>
+
+            <div
+              class="nl-card"
+              tabindex="0"
+              role="button"
+              aria-expanded="false"
+              onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--teal)"
+            >
+              <div class="nl-card-accent"></div>
+              <div class="nl-card-type" style="color: var(--teal)">🔦 Tool Spotlight</div>
+              <h4>ChatGPT for Everyday Work</h4>
+              <p>
+                The tool most of your colleagues are already quietly using — and how to get started.
+              </p>
+              <div class="nl-card-expand">
+                <div class="nl-card-expand-inner">
+                  <strong>What it is:</strong> ChatGPT is a free AI assistant you can talk to like a
+                  colleague. Ask it to write, summarize, explain, or brainstorm anything.<br /><br />
+                  <strong>Best for:</strong> Drafting emails, summarizing documents, generating
+                  ideas, explaining complex topics in plain English.<br /><br />
+                  <strong>Get started:</strong> Visit chat.openai.com — no special skills needed.
+                  Just type what you need as if asking a knowledgeable colleague.
+                </div>
+              </div>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
+            </div>
+
+            <div
+              class="nl-card"
+              tabindex="0"
+              role="button"
+              aria-expanded="false"
+              onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--coral)"
+            >
+              <div class="nl-card-accent"></div>
+              <div class="nl-card-type" style="color: var(--coral)">💼 Real Work Use Case</div>
+              <h4>Finance Team Cuts Report Time by 60%</h4>
+              <p>How one team used AI to transform their monthly reporting process.</p>
+              <div class="nl-card-expand">
+                <div class="nl-card-expand-inner">
+                  <strong>The challenge:</strong> The finance team spent 3 hours every month
+                  manually formatting and writing the management summary for their financial
+                  reports.<br /><br />
+                  <strong>The solution:</strong> They paste their raw numbers into ChatGPT with a
+                  simple prompt: "Summarize these figures for a non-finance executive audience.
+                  Highlight key trends and flag anything unusual."<br /><br />
+                  <strong>The result:</strong> First draft in 5 minutes. Total time saved: ~2.5
+                  hours per month.
+                </div>
+              </div>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
+            </div>
+
+            <div
+              class="nl-card"
+              tabindex="0"
+              role="button"
+              aria-expanded="false"
+              onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--rose)"
+            >
+              <div class="nl-card-accent"></div>
+              <div class="nl-card-type" style="color: var(--rose)">⚠️ Common Mistake</div>
+              <h4>Treating AI Output as Final</h4>
+              <p>The most common mistake beginners make — and how to avoid it.</p>
+              <div class="nl-card-expand">
+                <div class="nl-card-expand-inner">
+                  <strong>The mistake:</strong> Copying AI output directly without reviewing it. AI
+                  can be confidently wrong — it doesn't know your company, your context, or the
+                  latest facts.<br /><br />
+                  <strong>The fix:</strong> Always treat AI output as a first draft. Read it. Edit
+                  it. Check any facts it mentions. Add your own judgment before sending or using it.<br /><br />
+                  <strong>Remember:</strong> AI is a powerful assistant, not a replacement for your
+                  expertise and accountability.
+                </div>
+              </div>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
+            </div>
+
+            <div
+              class="nl-card"
+              tabindex="0"
+              role="button"
+              aria-expanded="false"
+              onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--violet)"
+            >
+              <div class="nl-card-accent"></div>
+              <div class="nl-card-type" style="color: var(--violet)">🎯 Try This Today</div>
+              <h4>The 5-Minute Email Makeover</h4>
+              <p>A prompt you can use right now to improve any email you've written.</p>
+              <div class="nl-card-expand">
+                <div class="nl-card-expand-inner">
+                  <strong>Copy this prompt:</strong><br /><br />
+                  <em
+                    >"Review this email and improve it. Make it clearer, more professional, and
+                    more concise. Keep the same meaning but remove any unnecessary words. Here is
+                    the email: [paste your email]"</em
+                  ><br /><br />
+                  <strong>Why it works:</strong> This is one of the highest-value uses of AI for
+                  everyday work. You keep control of the message; AI just makes it better.
+                </div>
+              </div>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Learning Path ── -->
+    <section class="section" id="learning-path">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🎓 Beginner Path</div>
+          <h2 class="section-title">Your 5-step AI starter guide</h2>
+          <p class="section-subtitle">
+            Never used AI before? Start here. These five steps take you from zero to confident in
+            the time it takes to have a coffee.
+          </p>
+        </div>
+        <div class="learning-path-wrap">
+          <div class="steps-list reveal" id="steps-list">
+            <!-- Steps injected by JS -->
+          </div>
+          <div class="step-detail-panel reveal reveal-delay-2" id="step-detail">
+            <!-- Detail injected by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Beginner Task Decision Helper ── -->
+    <section class="section" id="task-decision-helper">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🧭 Start here</div>
+          <h2 class="section-title">Choose your safest AI starting point</h2>
+          <p class="section-subtitle">
+            Not sure which interactive tool to use first? Pick your goal and risk level, then jump
+            to the right beginner-friendly section.
+          </p>
+        </div>
+        <div class="decision-helper" aria-label="Choose your beginner AI starting point">
+          <div class="decision-controls">
+            <div class="decision-field">
+              <label for="decision-goal">What do you want AI to help with?</label>
+              <select id="decision-goal" onchange="updateDecisionHelper()">
+                <option value="draft">Draft or rewrite text</option>
+                <option value="understand">Understand AI basics</option>
+                <option value="workflow">Follow a work scenario</option>
+                <option value="review">Review an AI answer</option>
+              </select>
+              <p class="decision-hint">Choose the closest match. You can change it anytime.</p>
+            </div>
+            <div class="decision-field">
+              <label for="decision-risk">How sensitive is the content?</label>
+              <select id="decision-risk" onchange="updateDecisionHelper()">
+                <option value="low">Low — public or general information</option>
+                <option value="medium">Medium — internal work details</option>
+                <option value="high">High — customer, HR, finance, legal, or personal data</option>
+              </select>
+              <p class="decision-hint">
+                When in doubt, choose a higher risk level and use placeholders.
+              </p>
+            </div>
+          </div>
+          <article class="decision-result" id="decision-recommendation" aria-live="polite">
+            <div class="decision-result-kicker">Best first stop</div>
+            <h3>Start with the prompt builder</h3>
+            <p>
+              Answer the two questions to get a tailored recommendation. If the content is high
+              risk, Review confidentiality first before using AI.
+            </p>
+            <div class="decision-fallback-links" aria-label="Quick decision helper destinations">
+              <a
+                class="btn btn-teal btn-sm"
+                href="#first-prompt-builder"
+                data-decision-link="#first-prompt-builder"
+                >Open prompt builder</a
+              >
+              <a
+                class="btn btn-secondary btn-sm"
+                href="#output-review-checklist"
+                data-decision-link="#output-review-checklist"
+                >Open review checklist</a
+              >
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Beginner Glossary ── -->
+    <section class="section" id="beginner-glossary">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">📖 Plain-English Glossary</div>
+          <h2 class="section-title">AI words without the intimidation</h2>
+          <p class="section-subtitle">
+            Tap a term to see what it means, when it matters at work, and one safe habit to remember
+            before you try it.
+          </p>
+        </div>
+        <div class="glossary-bg reveal">
+          <div
+            class="glossary-term-list"
+            id="glossary-term-list"
+            role="group"
+            aria-label="Choose a beginner AI term"
+          >
+            <button
+              class="glossary-term-btn"
+              type="button"
+              data-glossary-term="prompt"
+              aria-pressed="true"
+            >
+              Prompt <span class="glossary-term-pill">Start here</span>
+            </button>
+            <button
+              class="glossary-term-btn"
+              type="button"
+              data-glossary-term="context"
+              aria-pressed="false"
+            >
+              Context <span class="glossary-term-pill">Better answers</span>
+            </button>
+            <button
+              class="glossary-term-btn"
+              type="button"
+              data-glossary-term="hallucination"
+              aria-pressed="false"
+            >
+              Hallucination <span class="glossary-term-pill">Review carefully</span>
+            </button>
+            <button
+              class="glossary-term-btn"
+              type="button"
+              data-glossary-term="iteration"
+              aria-pressed="false"
+            >
+              Iteration <span class="glossary-term-pill">Make it better</span>
+            </button>
+          </div>
+          <article class="glossary-panel" id="glossary-term-panel" aria-live="polite">
+            <!-- Glossary detail injected by JS -->
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AI Terms Flashcards ── -->
+    <section class="section" id="ai-terms-flashcards">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🃏 AI Terms Flashcards</div>
+          <h2 class="section-title">Practice the words until they feel familiar</h2>
+          <p class="section-subtitle">
+            Flip one beginner term at a time, then move to the next card with a simple reminder for
+            safe workplace use.
+          </p>
+        </div>
+        <div class="flashcards-bg reveal">
+          <aside class="flashcards-guide" aria-label="How to use AI terms flashcards">
+            <h3>Three-minute practice</h3>
+            <ol>
+              <li>Read the front of the card and say the meaning in your own words.</li>
+              <li>Flip to check the plain-English definition and example.</li>
+              <li>Notice the safe habit before using the term in a real prompt.</li>
+            </ol>
+          </aside>
+          <article
+            class="flashcard-practice"
+            id="flashcard-practice-card"
+            aria-live="polite"
+            aria-labelledby="flashcard-progress"
+          >
+            <div class="flashcard-progress" id="flashcard-progress">Card 1 of 4</div>
+            <div class="flashcard-face" id="flashcard-face">
+              <!-- Flashcard content injected by JS -->
+            </div>
+            <p class="flashcard-safe-reminder">
+              <span aria-hidden="true">🛡️</span
+              ><span
+                >Use placeholders before sharing context, and fact-check important AI output before
+                sending.</span
+              >
+            </p>
+            <div class="flashcard-actions">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-flashcard-action="flip"
+                onclick="flipFlashcard()"
+              >
+                Flip card
+              </button>
+              <button
+                class="btn btn-teal"
+                type="button"
+                data-flashcard-action="next"
+                onclick="nextFlashcard()"
+              >
+                Next term
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── First Prompt Builder ── -->
+    <section class="section" id="first-prompt-builder">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🧩 First Prompt Builder</div>
+          <h2 class="section-title">Build a safe starter prompt in 30 seconds</h2>
+          <p class="section-subtitle">
+            Pick a role, task, tone, and output format. The builder turns those choices into a
+            copy-ready prompt with a review reminder for beginners.
+          </p>
+        </div>
+        <div class="builder-bg reveal">
+          <div class="builder-controls" aria-label="Prompt builder choices">
+            <div class="builder-field">
+              <label for="builder-role">1. Choose the AI role</label>
+              <select
+                id="builder-role"
+                aria-describedby="builder-role-help"
+                data-builder-field="role"
+              >
+                <option value="helpful workplace assistant">Helpful workplace assistant</option>
+                <option value="friendly HR assistant">Friendly HR assistant</option>
+                <option value="clear project coordinator">Clear project coordinator</option>
+                <option value="patient spreadsheet coach">Patient spreadsheet coach</option>
+              </select>
+              <p id="builder-role-help" class="builder-helper">
+                <span aria-hidden="true">🎭</span
+                ><span
+                  ><strong>Role</strong> tells AI which perspective to use, so the answer feels more
+                  relevant.</span
+                >
+              </p>
+            </div>
+            <div class="builder-field">
+              <label for="builder-task">2. Choose the task</label>
+              <select
+                id="builder-task"
+                aria-describedby="builder-task-help"
+                data-builder-field="task"
+              >
+                <option value="rewrite my draft so it is clearer and easier to understand">
+                  Rewrite a draft clearly
+                </option>
+                <option value="summarize my notes into key points and action items">
+                  Summarize notes
+                </option>
+                <option value="brainstorm practical next steps for a work problem">
+                  Brainstorm next steps
+                </option>
+                <option value="explain this topic in simple beginner-friendly language">
+                  Explain a topic simply
+                </option>
+              </select>
+              <p id="builder-task-help" class="builder-helper">
+                <span aria-hidden="true">🎯</span
+                ><span
+                  ><strong>Task</strong> makes the expected action explicit, reducing vague or
+                  off-topic answers.</span
+                >
+              </p>
+            </div>
+            <div class="builder-field">
+              <label for="builder-tone">3. Choose the tone</label>
+              <select
+                id="builder-tone"
+                aria-describedby="builder-tone-help"
+                data-builder-field="tone"
+              >
+                <option value="warm, professional, and concise">Warm and professional</option>
+                <option value="simple, encouraging, and jargon-free">Simple and encouraging</option>
+                <option value="direct, structured, and action-oriented">
+                  Direct and structured
+                </option>
+                <option value="polite, calm, and customer-friendly">
+                  Polite and customer-friendly
+                </option>
+              </select>
+              <p id="builder-tone-help" class="builder-helper">
+                <span aria-hidden="true">💬</span
+                ><span
+                  ><strong>Tone</strong> controls how the answer should sound before you spend time
+                  editing.</span
+                >
+              </p>
+            </div>
+            <div class="builder-field">
+              <label for="builder-format">4. Choose the format</label>
+              <select
+                id="builder-format"
+                aria-describedby="builder-format-help"
+                data-builder-field="format"
+              >
+                <option value="a short email draft with a subject line">
+                  Short email with subject
+                </option>
+                <option value="5 bullet points with owners and next steps">
+                  Bullets with next steps
+                </option>
+                <option value="a table with columns for issue, recommendation, and action">
+                  Simple table
+                </option>
+                <option value="a checklist I can review before sending">Review checklist</option>
+              </select>
+              <p id="builder-format-help" class="builder-helper">
+                <span aria-hidden="true">🧱</span
+                ><span
+                  ><strong>Format</strong> reduces rework by asking for the shape you need
+                  upfront.</span
+                >
+              </p>
+            </div>
+            <div class="builder-field">
+              <label for="builder-context">Optional context placeholder</label>
+              <input
+                id="builder-context"
+                data-builder-field="context"
+                type="text"
+                value="[paste anonymized notes or draft here]"
+                aria-describedby="builder-context-help"
+              />
+              <p id="builder-context-help" class="builder-safe-note">
+                <span aria-hidden="true">🛡️</span
+                ><span
+                  >Use placeholders like [client], [project], or [amount] for anything
+                  sensitive.</span
+                >
+              </p>
+            </div>
+            <aside class="builder-helper-tips" aria-label="Why each prompt choice matters">
+              <h3>Why this prompt recipe works</h3>
+              <p><strong>Role</strong> tells AI which perspective to use.</p>
+              <p><strong>Task</strong> makes the expected action explicit.</p>
+              <p><strong>Tone</strong> controls how the answer should sound.</p>
+              <p><strong>Format</strong> reduces rework by asking for the shape you need.</p>
+            </aside>
+          </div>
+          <article class="builder-preview" aria-label="Generated starter prompt">
+            <h3>Your starter prompt</h3>
+            <div class="builder-output" id="prompt-builder-output" aria-live="polite"></div>
+            <button class="btn btn-primary" type="button" onclick="copyBuiltPrompt(this)">
+              📋 Copy starter prompt
+            </button>
+            <p class="builder-safe-note">
+              <span aria-hidden="true">✅</span
+              ><span
+                ><strong>Review before using:</strong> remove confidential details and fact-check
+                important claims.</span
+              >
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Prompt Comparison Tool ── -->
+    <section class="section" id="prompt-comparison-tool" aria-live="polite">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🔁 Prompt Comparison</div>
+          <h2 class="section-title">What changed? Prompt comparison</h2>
+          <p class="section-subtitle">
+            Turn a vague beginner prompt into a safer, more useful request by toggling role,
+            context, and format details.
+          </p>
+        </div>
+        <div class="comparison-bg reveal">
+          <div class="comparison-controls" aria-label="Prompt improvement choices">
+            <h3>Add prompt ingredients</h3>
+            <label class="comparison-toggle">
+              <input
+                type="checkbox"
+                data-comparison-toggle="role"
+                checked
+                onchange="updatePromptComparison()"
+              />
+              <span
+                ><strong>Role</strong
+                ><span
+                  >Role adds the point of view, so AI answers like a helpful workplace coach.</span
+                ></span
+              >
+            </label>
+            <label class="comparison-toggle">
+              <input
+                type="checkbox"
+                data-comparison-toggle="context"
+                checked
+                onchange="updatePromptComparison()"
+              />
+              <span
+                ><strong>Context</strong
+                ><span
+                  >Context narrows the situation without exposing private details or real
+                  names.</span
+                ></span
+              >
+            </label>
+            <label class="comparison-toggle">
+              <input
+                type="checkbox"
+                data-comparison-toggle="format"
+                checked
+                onchange="updatePromptComparison()"
+              />
+              <span
+                ><strong>Format</strong
+                ><span
+                  >Format tells AI what shape to return, which makes the answer easier to
+                  review.</span
+                ></span
+              >
+            </label>
+          </div>
+          <article class="comparison-result" aria-label="Weak and improved prompt comparison">
+            <div class="comparison-pair">
+              <div class="comparison-card">
+                <h4>Weak prompt</h4>
+                <div class="comparison-prompt-output">Make this better.</div>
+              </div>
+              <div class="comparison-card improved">
+                <h4>Improved prompt</h4>
+                <div class="comparison-prompt-output" id="comparison-prompt-output"></div>
+              </div>
+            </div>
+            <ul class="comparison-notes" id="comparison-notes"></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Safe Prompt Templates ── -->
+    <section class="section" id="safe-prompt-templates">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🛡️ Safe Templates</div>
+          <h2 class="section-title">Safe prompt templates by risk level</h2>
+          <p class="section-subtitle">
+            Beginners can choose low, medium, or high sensitivity and see what to include, what to
+            avoid, and a copy-ready prompt shape.
+          </p>
+        </div>
+        <div class="risk-template-bg reveal">
+          <div
+            class="risk-template-tabs"
+            role="tablist"
+            aria-label="Choose a prompt safety level"
+            aria-describedby="risk-template-choice-helper"
+          >
+            <div class="risk-template-helper" id="risk-template-choice-helper">
+              <strong>Which risk level should I choose?</strong>
+              <ul>
+                <li>
+                  <strong>Low = public learning:</strong> topics, examples, and drafts with no
+                  internal details.
+                </li>
+                <li>
+                  <strong>Medium = internal work after placeholders:</strong> replace names,
+                  amounts, projects, and customer details first.
+                </li>
+                <li>
+                  <strong>High = confidential, regulated, or personal data:</strong> do not paste it
+                  into public AI tools; ask for a generic checklist instead.
+                </li>
+              </ul>
+            </div>
+            <button
+              class="risk-template-tab"
+              type="button"
+              id="risk-template-tab-low"
+              role="tab"
+              data-risk-template="low"
+              aria-selected="true"
+              aria-controls="risk-template-panel"
+              onclick="selectRiskTemplate('low')"
+              onkeydown="handleRiskTemplateKeydown(event)"
+            >
+              🟢 Low risk<br /><span>Public or general information</span>
+            </button>
+            <button
+              class="risk-template-tab"
+              type="button"
+              id="risk-template-tab-medium"
+              role="tab"
+              data-risk-template="medium"
+              aria-selected="false"
+              aria-controls="risk-template-panel"
+              tabindex="-1"
+              onclick="selectRiskTemplate('medium')"
+              onkeydown="handleRiskTemplateKeydown(event)"
+            >
+              🟡 Medium risk<br /><span>Internal details with placeholders</span>
+            </button>
+            <button
+              class="risk-template-tab"
+              type="button"
+              id="risk-template-tab-high"
+              role="tab"
+              data-risk-template="high"
+              aria-selected="false"
+              aria-controls="risk-template-panel"
+              tabindex="-1"
+              onclick="selectRiskTemplate('high')"
+              onkeydown="handleRiskTemplateKeydown(event)"
+            >
+              🔴 High risk<br /><span>Confidential or regulated content</span>
+            </button>
+          </div>
+          <article
+            class="risk-template-result"
+            id="risk-template-panel"
+            role="tabpanel"
+            aria-labelledby="risk-template-tab-low"
+            aria-live="polite"
+          >
+            <div class="risk-template-kicker" id="risk-template-kicker">Low risk</div>
+            <h3 id="risk-template-title">Practice with public information</h3>
+            <p id="risk-template-summary">
+              Use AI freely for public, non-sensitive topics, but still fact-check the answer before
+              sharing.
+            </p>
+            <div class="risk-template-guidance">
+              <div class="risk-template-guidance-card">
+                <strong>Do</strong>
+                <p id="risk-template-do">
+                  Ask for structure, examples, and plain-English explanations.
+                </p>
+              </div>
+              <div class="risk-template-guidance-card">
+                <strong>Don't</strong>
+                <p id="risk-template-dont">
+                  Do not assume a polished answer is automatically true.
+                </p>
+              </div>
+            </div>
+            <strong>Copy-ready starter shape</strong>
+            <div class="risk-template-prompt" id="risk-template-prompt">
+              You are a patient workplace coach. Explain [public topic] in beginner-friendly
+              language. Return: 3 key points, 1 example, and 2 things to verify before using.
+            </div>
+            <button class="btn btn-primary btn-sm" type="button" onclick="copyRiskTemplate(this)">
+              📋 Copy safe template
+            </button>
+            <p class="risk-template-status" id="risk-template-status" aria-live="polite">
+              Choose a risk level before you paste work into AI.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Beginner Progress Checklist ── -->
+    <section class="section" id="beginner-checklist">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">✅ First-Week Checklist</div>
+          <h2 class="section-title">Track your beginner AI wins</h2>
+          <p class="section-subtitle">
+            Tick off small, safe actions as you learn. Your progress is saved on this device so you
+            can come back later without losing momentum.
+          </p>
+        </div>
+        <div class="checklist-bg reveal">
+          <aside class="checklist-progress-card" aria-label="Beginner checklist progress">
+            <div
+              class="checklist-progress-ring"
+              id="beginner-checklist-ring"
+              style="--checklist-progress: 0%"
+            >
+              <span id="beginner-checklist-percent">0%</span>
+            </div>
+            <h3>Your AI confidence streak</h3>
+            <p class="checklist-progress-text" id="beginner-checklist-progress" aria-live="polite">
+              0 of 5 starter actions complete.
+            </p>
+            <div class="checklist-actions">
+              <button
+                class="btn btn-secondary btn-sm"
+                type="button"
+                onclick="resetChecklistProgress()"
+              >
+                Reset checklist
+              </button>
+              <a class="btn btn-teal btn-sm" href="#first-prompt-builder">Open builder</a>
+            </div>
+          </aside>
+          <div class="checklist-items" id="beginner-checklist-items">
+            <label class="checklist-item">
+              <input
+                type="checkbox"
+                data-checklist-action="try-prompt-builder"
+                onchange="toggleChecklistItem('try-prompt-builder', this.checked)"
+              />
+              <span
+                ><span class="checklist-item-title">Try the prompt builder</span
+                ><span class="checklist-item-help"
+                  >Use role, task, tone, and format to create your first structured AI
+                  request.</span
+                ></span
+              >
+            </label>
+            <label class="checklist-item">
+              <input
+                type="checkbox"
+                data-checklist-action="copy-safe-prompt"
+                onchange="toggleChecklistItem('copy-safe-prompt', this.checked)"
+              />
+              <span
+                ><span class="checklist-item-title">Copy a safe starter prompt</span
+                ><span class="checklist-item-help"
+                  >Keep placeholders like [client] or [amount] instead of real confidential
+                  details.</span
+                ></span
+              >
+            </label>
+            <label class="checklist-item">
+              <input
+                type="checkbox"
+                data-checklist-action="review-ai-output"
+                onchange="toggleChecklistItem('review-ai-output', this.checked)"
+              />
+              <span
+                ><span class="checklist-item-title">Review one AI answer carefully</span
+                ><span class="checklist-item-help"
+                  >Check facts, names, dates, tone, and whether assumptions are clearly
+                  marked.</span
+                ></span
+              >
+            </label>
+            <label class="checklist-item">
+              <input
+                type="checkbox"
+                data-checklist-action="learn-one-term"
+                onchange="toggleChecklistItem('learn-one-term', this.checked)"
+              />
+              <span
+                ><span class="checklist-item-title">Learn one glossary term</span
+                ><span class="checklist-item-help"
+                  >Open the plain-English glossary and remember one safe habit before using AI at
+                  work.</span
+                ></span
+              >
+            </label>
+            <label class="checklist-item">
+              <input
+                type="checkbox"
+                data-checklist-action="save-useful-prompt"
+                onchange="toggleChecklistItem('save-useful-prompt', this.checked)"
+              />
+              <span
+                ><span class="checklist-item-title">Save one useful prompt</span
+                ><span class="checklist-item-help"
+                  >Bookmark or copy a prompt you can reuse for email, meetings, or summaries.</span
+                ></span
+              >
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Beginner Workflow Scenarios ── -->
+    <section class="section" id="beginner-scenarios">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🧭 Guided Scenarios</div>
+          <h2 class="section-title">Pick a real work moment and follow the steps</h2>
+          <p class="section-subtitle">
+            Use keyboard-accessible tabs to explore beginner workflows for email, meetings,
+            spreadsheets, and policy-safe reviews — each includes a copyable starting prompt shape.
+          </p>
+        </div>
+        <div class="scenarios-bg reveal">
+          <div class="scenario-tabs" role="tablist" aria-label="Beginner AI workflow scenarios">
+            <button
+              class="scenario-tab"
+              type="button"
+              id="scenario-tab-email"
+              role="tab"
+              data-scenario-tab="email"
+              aria-selected="true"
+              aria-controls="scenario-panel"
+              onclick="selectScenario('email')"
+              onkeydown="handleScenarioKeydown(event, 'email')"
+            >
+              📧 Email polish
+            </button>
+            <button
+              class="scenario-tab"
+              type="button"
+              id="scenario-tab-meeting"
+              role="tab"
+              data-scenario-tab="meeting"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              tabindex="-1"
+              onclick="selectScenario('meeting')"
+              onkeydown="handleScenarioKeydown(event, 'meeting')"
+            >
+              🗓️ Meeting recap
+            </button>
+            <button
+              class="scenario-tab"
+              type="button"
+              id="scenario-tab-spreadsheet"
+              role="tab"
+              data-scenario-tab="spreadsheet"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              tabindex="-1"
+              onclick="selectScenario('spreadsheet')"
+              onkeydown="handleScenarioKeydown(event, 'spreadsheet')"
+            >
+              📊 Spreadsheet helper
+            </button>
+            <button
+              class="scenario-tab"
+              type="button"
+              id="scenario-tab-policy"
+              role="tab"
+              data-scenario-tab="policy"
+              aria-selected="false"
+              aria-controls="scenario-panel"
+              tabindex="-1"
+              onclick="selectScenario('policy')"
+              onkeydown="handleScenarioKeydown(event, 'policy')"
+            >
+              🛡️ Safe review
+            </button>
+          </div>
+          <article
+            class="scenario-panel"
+            id="scenario-panel"
+            role="tabpanel"
+            aria-labelledby="scenario-tab-email"
+            aria-live="polite"
+          >
+            <!-- Scenario detail injected by JS -->
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AI Confidence Quiz ── -->
+    <section class="section" id="ai-confidence-quiz">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">✅ Confidence Check</div>
+          <h2 class="section-title">Practice one safe AI decision</h2>
+          <p class="section-subtitle">
+            A quick no-pressure quiz helps beginners choose the safest next step before pasting
+            anything into an AI tool.
+          </p>
+        </div>
+        <div class="quiz-bg reveal">
+          <div class="quiz-card">
+            <div class="quiz-meta">
+              Scenario: You have rough notes from a client call and want AI to draft a follow-up
+              email.
+            </div>
+            <h3>What should you do first?</h3>
+            <p>Choose the safest beginner move. You can change your answer anytime.</p>
+            <div class="quiz-options" role="radiogroup" aria-label="AI confidence quiz answers">
+              <button
+                class="quiz-option"
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-quiz-option="paste-all"
+                onclick="chooseQuizAnswer('paste-all')"
+              >
+                Paste the full notes, names, numbers, and internal comments so AI has all context.
+              </button>
+              <button
+                class="quiz-option"
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-quiz-option="use-as-is"
+                onclick="chooseQuizAnswer('use-as-is')"
+              >
+                Ask AI for the final email and send the first answer if it sounds polished.
+              </button>
+              <button
+                class="quiz-option"
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-quiz-option="ask-first"
+                onclick="chooseQuizAnswer('ask-first')"
+              >
+                Remove sensitive details, ask for a draft with assumptions marked, then review it
+                before sending.
+              </button>
+            </div>
+            <p class="quiz-privacy-note">
+              <span aria-hidden="true">🔒</span
+              ><span
+                >No personal data is stored. This quiz only changes the message shown on this
+                page.</span
+              >
+            </p>
+          </div>
+          <aside class="quiz-feedback" id="quiz-feedback" aria-live="polite">
+            <div class="quiz-feedback-kicker">Try it</div>
+            <h3>Pick an answer to get feedback</h3>
+            <p>
+              Look for the option that keeps confidential data out, treats AI as a draft helper, and
+              keeps a human review step.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AI Safety Myth Buster ── -->
+    <section class="section" id="ai-safety-myth-buster">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🧯 Safety Myth Buster</div>
+          <h2 class="section-title">Tap a myth before it becomes a work habit</h2>
+          <p class="section-subtitle">
+            Beginners can choose a common AI misconception and instantly see the safer workplace
+            habit to use instead.
+          </p>
+        </div>
+        <div class="myth-buster-bg reveal">
+          <div class="myth-options" role="radiogroup" aria-label="Common AI safety myths">
+            <button
+              class="myth-option"
+              type="button"
+              role="radio"
+              aria-checked="false"
+              data-myth-option="sounds-final"
+              onclick="chooseSafetyMyth('sounds-final')"
+            >
+              If the answer sounds polished, it is ready to send.
+            </button>
+            <button
+              class="myth-option"
+              type="button"
+              role="radio"
+              aria-checked="false"
+              data-myth-option="public-tool"
+              onclick="chooseSafetyMyth('public-tool')"
+            >
+              Any AI tool is fine for work content if the task is simple.
+            </button>
+            <button
+              class="myth-option"
+              type="button"
+              role="radio"
+              aria-checked="false"
+              data-myth-option="more-context"
+              onclick="chooseSafetyMyth('more-context')"
+            >
+              More raw context always gives better results.
+            </button>
+          </div>
+          <article class="myth-feedback" id="myth-buster-feedback" aria-live="polite">
+            <div class="myth-feedback-kicker">Choose a myth</div>
+            <h3>Build a safer AI reflex</h3>
+            <p>
+              Pick the belief that feels tempting. The coach will replace it with a
+              beginner-friendly safety habit.
+            </p>
+            <p class="myth-safe-habit">
+              <span aria-hidden="true">🛡️</span
+              ><span
+                ><strong>Safer workplace habit:</strong> Use placeholders and approved tools before
+                sharing work context.</span
+              >
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AI Output Review Checklist ── -->
+    <section class="section" id="output-review-checklist">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🔎 Before you send</div>
+          <h2 class="section-title">AI Output Review Checklist</h2>
+          <p class="section-subtitle">
+            A simple accordion helps beginners turn a polished AI draft into something safe,
+            accurate, and work-ready.
+          </p>
+        </div>
+        <div class="review-bg reveal">
+          <div class="review-intro-card">
+            <div class="review-intro-icon" aria-hidden="true">🧭</div>
+            <p>
+              <strong>Use this after every AI draft.</strong> Open each check, compare the AI answer
+              with your source material, then edit anything that is uncertain, too bold, or not
+              appropriate for your audience.
+            </p>
+          </div>
+          <div class="review-accordion" aria-label="AI output review checklist">
+            <article class="review-item" data-review-panel="facts">
+              <button
+                class="review-trigger"
+                type="button"
+                id="review-trigger-facts"
+                aria-expanded="true"
+                aria-controls="review-panel-facts"
+                onclick="toggleReviewChecklist('facts')"
+              >
+                1. Verify facts before forwarding
+              </button>
+              <div
+                class="review-panel"
+                id="review-panel-facts"
+                role="region"
+                aria-labelledby="review-trigger-facts"
+              >
+                <p>
+                  AI can sound confident even when details are wrong. Check every important claim
+                  against a trusted source.
+                </p>
+                <ul>
+                  <li>Confirm names, dates, numbers, prices, policies, and links.</li>
+                  <li>Remove invented sources or ask for “unknown” when evidence is missing.</li>
+                  <li>Keep your final version aligned with approved company material.</li>
+                </ul>
+              </div>
+            </article>
+            <article class="review-item" data-review-panel="tone">
+              <button
+                class="review-trigger"
+                type="button"
+                id="review-trigger-tone"
+                aria-expanded="false"
+                aria-controls="review-panel-tone"
+                onclick="toggleReviewChecklist('tone')"
+              >
+                2. Match tone to the audience
+              </button>
+              <div
+                class="review-panel"
+                id="review-panel-tone"
+                role="region"
+                aria-labelledby="review-trigger-tone"
+                hidden
+              >
+                <p>
+                  Polished does not always mean appropriate. Make sure the answer sounds like you
+                  and fits the relationship.
+                </p>
+                <ul>
+                  <li>Adjust warmth, formality, and directness for the reader.</li>
+                  <li>Replace generic AI phrases with concrete, human wording.</li>
+                  <li>Read it out loud before sending anything sensitive.</li>
+                </ul>
+              </div>
+            </article>
+            <article class="review-item" data-review-panel="assumptions">
+              <button
+                class="review-trigger"
+                type="button"
+                id="review-trigger-assumptions"
+                aria-expanded="false"
+                aria-controls="review-panel-assumptions"
+                onclick="toggleReviewChecklist('assumptions')"
+              >
+                3. Mark assumptions and gaps
+              </button>
+              <div
+                class="review-panel"
+                id="review-panel-assumptions"
+                role="region"
+                aria-labelledby="review-trigger-assumptions"
+                hidden
+              >
+                <p>
+                  AI fills gaps by guessing. Beginners should make uncertainty visible instead of
+                  hiding it in a confident sentence.
+                </p>
+                <ul>
+                  <li>Look for claims that were not in your prompt or source notes.</li>
+                  <li>Label uncertain items as “assumption,” “draft,” or “needs confirmation.”</li>
+                  <li>
+                    Ask a colleague or owner to confirm decisions, deadlines, and commitments.
+                  </li>
+                </ul>
+              </div>
+            </article>
+            <article class="review-item" data-review-panel="confidentiality">
+              <button
+                class="review-trigger"
+                type="button"
+                id="review-trigger-confidentiality"
+                aria-expanded="false"
+                aria-controls="review-panel-confidentiality"
+                onclick="toggleReviewChecklist('confidentiality')"
+              >
+                4. Re-check confidentiality
+              </button>
+              <div
+                class="review-panel"
+                id="review-panel-confidentiality"
+                role="region"
+                aria-labelledby="review-trigger-confidentiality"
+                hidden
+              >
+                <p>
+                  Do not paste secrets, customer data, or private HR details into public AI tools —
+                  and do not let them remain in drafts accidentally.
+                </p>
+                <ul>
+                  <li>
+                    Remove client names, personal data, account numbers, payroll details, and
+                    internal strategy.
+                  </li>
+                  <li>
+                    Use placeholders like [client], [amount], or [project] when examples are needed.
+                  </li>
+                  <li>Follow company AI policy for regulated, legal, finance, or HR content.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+          <p class="review-ready-note">
+            Beginner rule of thumb: if you would not say it, prove it, or share it yourself, do not
+            send it just because AI wrote it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Prompt Master ── -->
+    <section class="section" id="prompt-master">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">🗂️ Prompt Library</div>
+          <h2 class="section-title">Prompt Master</h2>
+          <p class="section-subtitle">
+            875 paste-ready prompts organized like an internal knowledge hub. Search by job, filter
+            by category, open the card, and copy a prompt that is already shaped for real work.
+          </p>
+        </div>
+        <div class="prompt-master-bg reveal">
+          <div class="pm-controls">
+            <div class="pm-search-wrap">
+              <span class="pm-search-icon" aria-hidden="true">🔍</span>
+              <input
+                type="search"
+                class="pm-search"
+                id="pm-search"
+                placeholder="Search prompts by title, category, or keyword…"
+                aria-label="Search prompts"
+              />
+            </div>
+            <select class="pm-sort" id="pm-sort" aria-label="Sort prompts">
+              <option value="default">Sort: Default</option>
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+              <option value="beginner">Easiest first</option>
+              <option value="advanced">Hardest first</option>
+            </select>
+          </div>
+          <div class="pm-cats" id="pm-cats" role="group" aria-label="Filter by category">
+            <!-- Category chips injected by JS -->
+          </div>
+          <div class="pm-diff-chips" role="group" aria-label="Filter by difficulty">
+            <button class="pm-diff-chip" data-diff="all" aria-pressed="true">All Levels</button>
+            <button class="pm-diff-chip" data-diff="Beginner" aria-pressed="false">
+              🟢 Beginner
+            </button>
+            <button class="pm-diff-chip" data-diff="Intermediate" aria-pressed="false">
+              🟡 Intermediate
+            </button>
+            <button class="pm-diff-chip" data-diff="Advanced" aria-pressed="false">
+              🔴 Advanced
+            </button>
+          </div>
+          <div class="pm-results-bar">
+            <span>Showing <strong class="pm-count" id="pm-count">0</strong> prompts</span>
+            <span id="pm-active-filter"></span>
+          </div>
+          <aside
+            class="prompt-practice-mode"
+            id="prompt-practice-mode"
+            aria-live="polite"
+            aria-label="Beginner prompt practice mode"
+          >
+            <div class="prompt-practice-header">
+              <div>
+                <h3>🎯 Practice mode: one safe prompt at a time</h3>
+                <p>
+                  Not sure where to begin? Try a single beginner prompt, copy it into your approved
+                  AI tool, then use the review step before sharing anything.
+                </p>
+              </div>
+              <button
+                class="btn btn-teal btn-sm"
+                type="button"
+                onclick="startBeginnerPracticeMode()"
+              >
+                Start with beginner prompts
+              </button>
+            </div>
+            <div class="practice-prompt-card" id="practice-prompt-card">
+              <div class="practice-prompt-title" id="practice-prompt-title">
+                Loading a beginner prompt…
+              </div>
+              <div class="practice-prompt-text" id="practice-prompt-text">
+                Pick Start with beginner prompts to focus the library on easy practice cards.
+              </div>
+              <div class="practice-steps" aria-label="Practice walkthrough steps">
+                <div class="practice-step" data-practice-step="try">
+                  <strong>1. Try</strong
+                  ><span>Read the card and replace placeholders with anonymized details.</span>
+                </div>
+                <div class="practice-step" data-practice-step="copy">
+                  <strong>2. Copy</strong
+                  ><span>Paste only into an approved tool and keep sensitive data out.</span>
+                </div>
+                <div class="practice-step" data-practice-step="review">
+                  <strong>3. Review</strong
+                  ><span
+                    >Review before sending: check facts, tone, assumptions, and
+                    confidentiality.</span
+                  >
+                </div>
+              </div>
+              <div class="practice-actions">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  type="button"
+                  onclick="nextPracticePrompt()"
+                >
+                  Show another beginner prompt
+                </button>
+                <button
+                  class="btn btn-primary btn-sm"
+                  type="button"
+                  onclick="copyPracticePrompt(this)"
+                >
+                  📋 Copy practice prompt
+                </button>
+                <span class="practice-safe-note" id="practice-copy-status" aria-live="polite"
+                  >Practice prompts are never saved by this page.</span
+                >
+              </div>
+            </div>
+          </aside>
+          <aside
+            class="prompt-favorites-tray"
+            id="prompt-favorites-tray"
+            aria-live="polite"
+            aria-label="Saved prompt favorites"
+          >
+            <div class="prompt-favorites-header">
+              <div>
+                <h3>⭐ My beginner prompt favorites</h3>
+                <p>
+                  Save useful prompts here as your beginner practice list. Favorites stay on this
+                  device only.
+                </p>
+              </div>
+              <button
+                class="btn btn-secondary btn-sm"
+                type="button"
+                onclick="clearFavoritePrompts()"
+              >
+                Clear favorites
+              </button>
+            </div>
+            <div class="prompt-favorites-list" id="prompt-favorites-list">
+              <div class="prompt-favorite-empty">
+                Tap ⭐ on any prompt card to build your personal starter list.
+              </div>
+            </div>
+          </aside>
+          <div
+            class="pm-grid"
+            id="pm-grid"
+            role="list"
+            aria-live="polite"
+            aria-label="Prompt cards"
+          >
+            <div class="pm-empty" id="pm-empty" aria-live="polite">
+              <div class="pm-empty-icon">🔍</div>
+              <h3>No prompts found yet — let’s get you unstuck</h3>
+              <p>
+                Try a beginner-safe search below, widen your filters, or clear everything to restart
+                the prompt library.
+              </p>
+              <div class="pm-empty-coaching" aria-label="Beginner search coaching">
+                <div class="pm-empty-tip">
+                  Use anonymized words like “client update” instead of real names, account details,
+                  or confidential project titles.
                 </div>
                 <div>
                   <div class="hero-stat-value">10</div>

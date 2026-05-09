@@ -2463,25 +2463,14 @@ body {
   grid-column: span 6;
 }
 .newsletter-bg {
-  border-radius: 0;
+  border-radius: var(--radius-lg);
   border: 2px solid var(--ink);
-  box-shadow: 8px 8px 0 var(--ink);
+  box-shadow: 10px 10px 0 var(--ink);
   background: var(--surface);
 }
 .newsletter-cards {
   grid-template-columns: 1.3fr 1fr 1fr;
-  align-items: start;
-}
-.nl-card:first-child {
-  grid-row: span 2;
-  min-height: 100%;
-  background: var(--ink);
-  color: var(--bg);
-}
-.nl-card:first-child h4,
-.nl-card:first-child p,
-.nl-card:first-child .nl-card-expand {
-  color: var(--bg);
+  align-items: stretch;
 }
 .prompt-master-bg {
   border: 2px solid var(--ink);
