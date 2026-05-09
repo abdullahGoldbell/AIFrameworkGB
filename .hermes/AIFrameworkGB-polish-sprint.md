@@ -190,5 +190,5 @@
   - RED: `node --test tests/risk-prompt-templates.test.js` failed before implementation because `#safe-prompt-templates` did not exist.
   - GREEN targeted: `node --test tests/risk-prompt-templates.test.js` passed.
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
-- Commit hash: pending at log-write time; corrected in the follow-up docs commit.
+- Commit hash: `d1efd64` (`feat: add safe prompt risk templates`).
 - Next suggested slice: Add keyboard support for the safe prompt template tabs (Arrow/Home/End) and a small “which risk level should I choose?” helper tip.
