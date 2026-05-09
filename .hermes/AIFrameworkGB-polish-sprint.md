@@ -10,5 +10,5 @@
   - RED: `node --test tests/beginner-glossary.test.js` failed before implementation because `#beginner-glossary` did not exist.
   - GREEN targeted: `node --test tests/beginner-glossary.test.js` passed.
   - Build: `npm run build` passed after installing missing Remotion dependencies; generated build artifacts were reverted to avoid unrelated changes.
-- Commit hash: pending; implementation commit will be recorded in a follow-up log commit.
+- Commit hash: `c4d6f49` (`feat: add beginner AI glossary explorer`).
 - Next suggested slice: Add a beginner-friendly “first prompt builder” that lets users choose role, task, tone, and format, then copies a composed starter prompt.
