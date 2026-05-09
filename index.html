@@ -1333,6 +1333,80 @@
       .quiz-bg { grid-template-columns: 1fr; padding: 28px 20px; box-shadow: 4px 4px 0 var(--ink); }
     }
 
+    /* ── AI Output Review Checklist ── */
+    .review-bg {
+      background: linear-gradient(135deg, var(--sky-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+    }
+    .review-intro-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    .review-intro-icon { font-size: 2rem; line-height: 1; }
+    .review-intro-card strong { color: var(--ink); }
+    .review-accordion { display: grid; gap: 12px; }
+    .review-item {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .review-trigger {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 900;
+      text-align: left;
+    }
+    .review-trigger:focus-visible { outline: 3px solid var(--teal); outline-offset: -3px; }
+    .review-trigger::after {
+      content: '+';
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--sky-bg);
+      color: var(--sky);
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .review-trigger[aria-expanded="true"]::after { content: '−'; }
+    .review-panel {
+      padding: 0 20px 20px;
+      color: var(--ink2);
+    }
+    .review-panel[hidden] { display: none; }
+    .review-panel ul { margin: 12px 0 0 22px; }
+    .review-panel li { margin-bottom: 8px; }
+    .review-ready-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    @media (max-width: 640px) {
+      .review-bg { padding: 24px 18px; }
+      .review-intro-card { flex-direction: column; }
+    }
+
     /* ── Prompt Master ── */
     .prompt-master-bg {
       background: var(--surface2);
@@ -2156,6 +2230,7 @@
         <li><a href="#beginner-checklist">Checklist</a></li>
         <li><a href="#beginner-scenarios">Scenarios</a></li>
         <li><a href="#ai-confidence-quiz">Quiz</a></li>
+        <li><a href="#output-review-checklist">Review</a></li>
         <li><a href="#prompt-master">Prompts</a></li>
         <li><a href="#dos-donts">Dos &amp; Don'ts</a></li>
         <li><a href="#stories">Stories</a></li>
@@ -2187,6 +2262,7 @@
   <a href="#beginner-checklist" class="mobile-link">Checklist</a>
   <a href="#beginner-scenarios" class="mobile-link">Scenarios</a>
   <a href="#ai-confidence-quiz" class="mobile-link">Quiz</a>
+  <a href="#output-review-checklist" class="mobile-link">Review</a>
   <a href="#prompt-master" class="mobile-link">Prompts</a>
   <a href="#dos-donts" class="mobile-link">Dos &amp; Don'ts</a>
   <a href="#stories" class="mobile-link">Stories</a>
@@ -2616,6 +2692,70 @@
         <h3>Pick an answer to get feedback</h3>
         <p>Look for the option that keeps confidential data out, treats AI as a draft helper, and keeps a human review step.</p>
       </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI Output Review Checklist ── -->
+<section class="section" id="output-review-checklist">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">🔎 Before you send</div>
+      <h2 class="section-title">AI Output Review Checklist</h2>
+      <p class="section-subtitle">A simple accordion helps beginners turn a polished AI draft into something safe, accurate, and work-ready.</p>
+    </div>
+    <div class="review-bg reveal">
+      <div class="review-intro-card">
+        <div class="review-intro-icon" aria-hidden="true">🧭</div>
+        <p><strong>Use this after every AI draft.</strong> Open each check, compare the AI answer with your source material, then edit anything that is uncertain, too bold, or not appropriate for your audience.</p>
+      </div>
+      <div class="review-accordion" aria-label="AI output review checklist">
+        <article class="review-item" data-review-panel="facts">
+          <button class="review-trigger" type="button" id="review-trigger-facts" aria-expanded="true" aria-controls="review-panel-facts" onclick="toggleReviewChecklist('facts')">1. Verify facts before forwarding</button>
+          <div class="review-panel" id="review-panel-facts" role="region" aria-labelledby="review-trigger-facts">
+            <p>AI can sound confident even when details are wrong. Check every important claim against a trusted source.</p>
+            <ul>
+              <li>Confirm names, dates, numbers, prices, policies, and links.</li>
+              <li>Remove invented sources or ask for “unknown” when evidence is missing.</li>
+              <li>Keep your final version aligned with approved company material.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="review-item" data-review-panel="tone">
+          <button class="review-trigger" type="button" id="review-trigger-tone" aria-expanded="false" aria-controls="review-panel-tone" onclick="toggleReviewChecklist('tone')">2. Match tone to the audience</button>
+          <div class="review-panel" id="review-panel-tone" role="region" aria-labelledby="review-trigger-tone" hidden>
+            <p>Polished does not always mean appropriate. Make sure the answer sounds like you and fits the relationship.</p>
+            <ul>
+              <li>Adjust warmth, formality, and directness for the reader.</li>
+              <li>Replace generic AI phrases with concrete, human wording.</li>
+              <li>Read it out loud before sending anything sensitive.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="review-item" data-review-panel="assumptions">
+          <button class="review-trigger" type="button" id="review-trigger-assumptions" aria-expanded="false" aria-controls="review-panel-assumptions" onclick="toggleReviewChecklist('assumptions')">3. Mark assumptions and gaps</button>
+          <div class="review-panel" id="review-panel-assumptions" role="region" aria-labelledby="review-trigger-assumptions" hidden>
+            <p>AI fills gaps by guessing. Beginners should make uncertainty visible instead of hiding it in a confident sentence.</p>
+            <ul>
+              <li>Look for claims that were not in your prompt or source notes.</li>
+              <li>Label uncertain items as “assumption,” “draft,” or “needs confirmation.”</li>
+              <li>Ask a colleague or owner to confirm decisions, deadlines, and commitments.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="review-item" data-review-panel="confidentiality">
+          <button class="review-trigger" type="button" id="review-trigger-confidentiality" aria-expanded="false" aria-controls="review-panel-confidentiality" onclick="toggleReviewChecklist('confidentiality')">4. Re-check confidentiality</button>
+          <div class="review-panel" id="review-panel-confidentiality" role="region" aria-labelledby="review-trigger-confidentiality" hidden>
+            <p>Do not paste secrets, customer data, or private HR details into public AI tools — and do not let them remain in drafts accidentally.</p>
+            <ul>
+              <li>Remove client names, personal data, account numbers, payroll details, and internal strategy.</li>
+              <li>Use placeholders like [client], [amount], or [project] when examples are needed.</li>
+              <li>Follow company AI policy for regulated, legal, finance, or HR content.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+      <p class="review-ready-note">Beginner rule of thumb: if you would not say it, prove it, or share it yourself, do not send it just because AI wrote it.</p>
     </div>
   </div>
 </section>
@@ -3509,29 +3649,46 @@ function copyScenarioPrompt(btn) {
 
 selectScenario(activeScenario);
 
-// ── AI confidence quiz ──
-function chooseQuizAnswer(answerId) {
-  const answer = AI_CONFIDENCE_QUIZ.answers[answerId];
-  const feedback = document.getElementById('quiz-feedback');
-  if (!answer || !feedback) return;
-  selectedQuizAnswer = answerId;
-  document.querySelectorAll('[data-quiz-option]').forEach(option => {
-    option.setAttribute('aria-checked', String(option.dataset.quizOption === selectedQuizAnswer));
-  });
-  feedback.innerHTML = `
-    <div class="quiz-feedback-kicker">${answer.kicker}</div>
-    <h3>${answer.title}</h3>
-    <p>${answer.body}</p>
-    <ul>
-      ${answer.tips.map(tip => `<li>${tip}</li>`).join('')}
-    </ul>
-  `;
-  if (answerId === AI_CONFIDENCE_QUIZ.correct) {
-    showToast('✅ Great choice: anonymize first, then review the AI draft.');
-  }
-}
+    // ── AI confidence quiz ──
+    function chooseQuizAnswer(answerId) {
+      const answer = AI_CONFIDENCE_QUIZ.answers[answerId];
+      const feedback = document.getElementById('quiz-feedback');
+      if (!answer || !feedback) return;
+      selectedQuizAnswer = answerId;
+      document.querySelectorAll('[data-quiz-option]').forEach(option => {
+        option.setAttribute('aria-checked', String(option.dataset.quizOption === selectedQuizAnswer));
+      });
+      feedback.innerHTML = `
+        <div class="quiz-feedback-kicker">${answer.kicker}</div>
+        <h3>${answer.title}</h3>
+        <p>${answer.body}</p>
+        <ul>
+          ${answer.tips.map(tip => `<li>${tip}</li>`).join('')}
+        </ul>
+      `;
+      if (answerId === AI_CONFIDENCE_QUIZ.correct) {
+        showToast('✅ Great choice: anonymize first, then review the AI draft.');
+      }
+    }
 
-// ── Prompt Master ──
+    // ── AI output review checklist ──
+    function toggleReviewChecklist(panelId) {
+      const item = document.querySelector(`[data-review-panel="${panelId}"]`);
+      if (!item) return;
+      const trigger = item.querySelector('.review-trigger');
+      const panel = item.querySelector('.review-panel');
+      const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+      document.querySelectorAll('[data-review-panel]').forEach(reviewItem => {
+        const reviewTrigger = reviewItem.querySelector('.review-trigger');
+        const reviewPanel = reviewItem.querySelector('.review-panel');
+        reviewTrigger.setAttribute('aria-expanded', 'false');
+        reviewPanel.hidden = true;
+      });
+      trigger.setAttribute('aria-expanded', String(willOpen));
+      panel.hidden = !willOpen;
+    }
+
+    // ── Prompt Master ──
 function getCategoryMeta(cat) {
   const map = {
     'Meetings':          { icon: '🗓️', cls: 'cat-blue' },
