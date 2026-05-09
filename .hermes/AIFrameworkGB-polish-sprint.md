@@ -122,3 +122,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `6c303a4` (`feat: add beginner task decision helper`).
 - Next suggested slice: Add a beginner-friendly saved prompt favorites tray using localStorage so users can save useful prompt cards for repeat practice.
+
+## 2026-05-09 16:24:36 SGT
+- Chosen slice: Add a persistent beginner prompt favorites tray to the prompt library so users can save useful prompt cards for repeat practice on the same device.
+- Files changed:
+  - `index.html`
+  - `tests/prompt-favorites.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/prompt-favorites.test.js` failed before implementation because `#prompt-favorites-tray` did not exist.
+  - GREEN targeted: `node --test tests/prompt-favorites.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `c722048` (`feat: add prompt favorites tray`).
+- Next suggested slice: Add a beginner-friendly prompt library “practice mode” that surfaces one easy prompt at a time with a simple try/copy/review walkthrough.
