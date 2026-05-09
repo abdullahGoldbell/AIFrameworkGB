@@ -18389,14 +18389,29 @@
       const themeToggle = document.getElementById("theme-toggle");
       const themeIcon = document.getElementById("theme-icon");
       const html = document.documentElement;
+      const THEME_STORAGE_KEY = "ai-framework-gb:theme";
 
-      function setTheme(dark) {
+      function setTheme(dark, { persist = true } = {}) {
         html.setAttribute("data-theme", dark ? "dark" : "light");
         themeIcon.textContent = dark ? "☀️" : "🌙";
+        if (persist) {
+          try {
+            localStorage.setItem(THEME_STORAGE_KEY, dark ? "dark" : "light");
+          } catch (error) {
+            /* localStorage unavailable; ignore */
+          }
+        }
       }
 
+      let storedTheme = null;
+      try {
+        storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+      } catch (error) {
+        storedTheme = null;
+      }
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark);
+      const initialDark = storedTheme ? storedTheme === "dark" : prefersDark;
+      setTheme(initialDark, { persist: false });
 
       themeToggle.addEventListener("click", () => {
         setTheme(html.getAttribute("data-theme") !== "dark");
