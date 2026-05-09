@@ -205,5 +205,19 @@
   - GREEN targeted: `node --test tests/risk-template-keyboard-helper.test.js` passed.
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `92f1026` (`feat: improve risk template keyboard guidance`).
-- Log commit hash: pending (`docs: log risk template keyboard guidance slice`).
+- Log commit hash: `9c08e6e` (`docs: log risk template keyboard guidance slice`).
 - Next suggested slice: Add a beginner-friendly “AI terms flashcards” mini-practice mode that quizzes glossary terms with accessible flip cards and safe-use reminders.
+
+## 2026-05-09 19:57:49 SGT
+- Chosen slice: Add a beginner-friendly AI terms flashcards mini-practice mode that reuses glossary terms with accessible flip/next controls and safe-use reminders.
+- Files changed:
+  - `index.html`
+  - `tests/glossary-flashcards.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/glossary-flashcards.test.js` failed before implementation because `#ai-terms-flashcards` did not exist.
+  - GREEN targeted: `node --test tests/glossary-flashcards.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `85afe7c` (`feat: add beginner AI terms flashcards`).
+- Next suggested slice: Add a beginner-friendly “AI safety myth buster” interaction that lets users choose common misconceptions and see safer workplace guidance.
