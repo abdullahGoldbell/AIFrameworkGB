@@ -66,3 +66,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `1ce4718` (`feat: add scenario prompt copy controls`).
 - Next suggested slice: Add inline helper tips or mini “why this works” notes to the prompt builder so beginners understand role, task, tone, format, and safe context choices.
+
+## 2026-05-09 13:59:49 SGT
+- Chosen slice: Add inline helper tips and a “why this prompt recipe works” explainer to the first prompt builder so beginners understand role, task, tone, format, and safe context choices.
+- Files changed:
+  - `index.html`
+  - `tests/prompt-builder-helper-tips.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/prompt-builder-helper-tips.test.js` failed before implementation because `.builder-helper-tips` and field helper descriptions did not exist.
+  - GREEN targeted: `node --test tests/prompt-builder-helper-tips.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `811692f` (`feat: add prompt builder helper tips`).
+- Next suggested slice: Add an accessible “AI confidence quiz” with immediate feedback that teaches safe beginner habits without storing personal data.
