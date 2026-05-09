@@ -2797,11 +2797,29 @@
         padding: 56px;
         border: 1px solid var(--border);
       }
+      /* Sticky controls bar wraps search+sort row + chip rows so the whole
+         filter shelf glides as the user scrolls the 875-card grid. */
+      .pm-controls-bar {
+        position: sticky;
+        top: 12px;
+        z-index: 8;
+        margin-bottom: 24px;
+        padding: 14px 16px;
+        background: color-mix(in srgb, var(--surface) 92%, transparent);
+        backdrop-filter: blur(14px) saturate(1.2);
+        -webkit-backdrop-filter: blur(14px) saturate(1.2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
       .pm-controls {
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
-        margin-bottom: 28px;
+        margin-bottom: 0;
       }
       .pm-search-wrap {
         position: relative;
@@ -2859,11 +2877,19 @@
         outline: 3px solid var(--teal);
         outline-offset: 2px;
       }
+      /* Chip cluster: cats on top row, difficulty on bottom row. On wider
+         screens the rows stack flat; on phones each row scrolls horizontally
+         with snap so the controls collapse into a tight, scannable strip. */
+      .pm-chip-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
       .pm-cats {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
-        margin-bottom: 24px;
+        margin-bottom: 0;
       }
       .pm-cat-chip {
         display: inline-flex;
@@ -2881,6 +2907,7 @@
           background var(--transition),
           border-color var(--transition),
           color var(--transition),
+          box-shadow var(--transition),
           transform var(--transition-spring);
         white-space: nowrap;
       }
@@ -2888,10 +2915,22 @@
         transform: translateY(-1px);
         background: var(--surface3);
       }
+      /* Active state: coral fill so the chosen filter is unmistakable
+         against the cream surface. The faint coloured halo carries the
+         category accent so the cat-* hues still register. */
       .pm-cat-chip.active {
-        background: var(--cat-bg, var(--teal-bg));
-        border-color: var(--cat-color, var(--teal));
-        color: var(--cat-color, var(--teal));
+        background: var(--coral);
+        border-color: var(--coral);
+        color: #fff;
+        box-shadow: 0 6px 16px color-mix(in srgb, var(--cat-color, var(--coral)) 32%, transparent);
+      }
+      .pm-cat-chip.active:hover {
+        background: var(--coral-dark);
+        border-color: var(--coral-dark);
+      }
+      .pm-cat-chip.active span {
+        color: #fff;
+        opacity: 0.85 !important;
       }
       .pm-cat-chip:focus-visible {
         outline: 3px solid var(--teal);
@@ -2900,7 +2939,7 @@
       .pm-diff-chips {
         display: flex;
         gap: 8px;
-        margin-bottom: 28px;
+        margin-bottom: 0;
       }
       .pm-diff-chip {
         padding: 5px 12px;
@@ -2911,6 +2950,7 @@
         font-size: 0.75rem;
         font-weight: 700;
         cursor: pointer;
+        white-space: nowrap;
         transition: all var(--transition);
       }
       .pm-diff-chip:hover {
@@ -2918,19 +2958,22 @@
         color: var(--ink);
       }
       .pm-diff-chip.active-beginner {
-        background: var(--emerald-bg);
+        background: var(--emerald);
         border-color: var(--emerald);
-        color: var(--emerald);
+        color: #fff;
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--emerald) 32%, transparent);
       }
       .pm-diff-chip.active-intermediate {
-        background: var(--amber-bg);
+        background: var(--amber);
         border-color: var(--amber);
-        color: var(--amber);
+        color: #fff;
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--amber) 32%, transparent);
       }
       .pm-diff-chip.active-advanced {
-        background: var(--rose-bg);
+        background: var(--rose);
         border-color: var(--rose);
-        color: var(--rose);
+        color: #fff;
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--rose) 32%, transparent);
       }
       .pm-diff-chip:focus-visible {
         outline: 3px solid var(--teal);
@@ -2951,7 +2994,7 @@
       .pm-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 16px;
+        gap: 24px;
         min-height: 200px;
       }
       .pm-card {
@@ -2967,10 +3010,15 @@
         display: flex;
         flex-direction: column;
       }
+      /* Lift + coloured shadow on hover. Each card already pulls
+         --cat-color / --cat-bg from its category class; we tint the
+         drop-shadow with that value so cards feel grouped by colour. */
       .pm-card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow);
-        border-color: var(--border2);
+        transform: translateY(-4px);
+        box-shadow:
+          0 14px 32px color-mix(in srgb, var(--cat-color, var(--ink)) 18%, transparent),
+          0 2px 6px rgba(23, 21, 19, 0.06);
+        border-color: color-mix(in srgb, var(--cat-color, var(--border2)) 60%, var(--border));
       }
       .pm-card-header {
         padding: 20px 20px 16px;
@@ -3142,7 +3190,10 @@
         display: none;
         grid-column: 1 / -1;
         text-align: center;
-        padding: 64px 24px;
+        padding: 56px 24px;
+        background: var(--surface);
+        border: 1.5px dashed var(--border2);
+        border-radius: var(--radius);
       }
       .pm-empty.visible {
         display: block;
@@ -3169,10 +3220,11 @@
       .pm-empty-tip {
         padding: 14px 16px;
         border-radius: var(--radius-sm);
-        background: var(--teal-bg);
-        color: var(--teal-dark);
+        background: var(--coral-bg);
+        color: var(--coral-dark);
         font-weight: 700;
         line-height: 1.5;
+        border-left: 4px solid var(--coral);
       }
       .pm-empty-suggestions {
         display: flex;
@@ -3195,8 +3247,9 @@
           transform var(--transition-spring);
       }
       .pm-empty-suggestion:hover {
-        background: var(--surface3);
-        border-color: var(--border2);
+        background: var(--coral-bg);
+        border-color: var(--coral);
+        color: var(--coral-dark);
         transform: translateY(-1px);
       }
       .pm-empty-suggestion:focus-visible {
@@ -3364,12 +3417,83 @@
         outline-offset: 3px;
       }
 
+      /* Tablet ≤900: bigger gap stays comfy, sticky bar still works. */
+      @media (max-width: 900px) {
+        .pm-grid {
+          gap: 20px;
+        }
+      }
+
+      /* Phone ≤720: collapse controls, switch chip rows to horizontal
+         snap-scroll so the dense filter shelf doesn’t eat half the screen. */
+      @media (max-width: 720px) {
+        .pm-controls-bar {
+          padding: 12px;
+          gap: 10px;
+          /* Sticky offset stays minimal so it doesn’t feel detached. */
+          top: 8px;
+        }
+        .pm-controls {
+          flex-wrap: nowrap;
+          gap: 8px;
+        }
+        .pm-search-wrap {
+          min-width: 0;
+          flex: 1 1 auto;
+        }
+        .pm-sort {
+          flex-shrink: 0;
+          padding: 12px 10px;
+          font-size: 0.8125rem;
+          max-width: 44%;
+        }
+        /* Chip rows become a single-line snap scroll; fade out at edges. */
+        .pm-cats,
+        .pm-diff-chips {
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          overflow-y: visible;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 4px 2px;
+          /* Soft right-edge fade hints there is more to scroll. */
+          mask-image: linear-gradient(
+            to right,
+            transparent 0,
+            #000 16px,
+            #000 calc(100% - 28px),
+            transparent 100%
+          );
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0,
+            #000 16px,
+            #000 calc(100% - 28px),
+            transparent 100%
+          );
+        }
+        .pm-cats::-webkit-scrollbar,
+        .pm-diff-chips::-webkit-scrollbar {
+          display: none;
+        }
+        .pm-cat-chip,
+        .pm-diff-chip {
+          scroll-snap-align: start;
+          flex-shrink: 0;
+        }
+      }
+
       @media (max-width: 600px) {
         .prompt-master-bg {
           padding: 24px 16px;
         }
         .pm-grid {
           grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .pm-card {
+          width: 100%;
         }
         .prompt-favorites-header {
           flex-direction: column;
@@ -3464,6 +3588,85 @@
         .dos-donts-grid {
           grid-template-columns: 1fr;
         }
+      }
+
+      /* ── Success Stories ── */
+      .stories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+      .story-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px;
+        transition:
+          transform var(--transition-spring),
+          box-shadow var(--transition);
+      }
+      .story-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+      }
+      .story-dept {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+      }
+      .story-problem {
+        background: var(--rose-bg);
+        border-radius: var(--radius-xs);
+        padding: 12px;
+        margin-bottom: 12px;
+        font-size: 0.8125rem;
+        color: var(--rose);
+        border-left: 3px solid var(--rose);
+      }
+      .story-problem-label {
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .story-solution {
+        background: var(--emerald-bg);
+        border-radius: var(--radius-xs);
+        padding: 12px;
+        font-size: 0.8125rem;
+        color: var(--emerald);
+        border-left: 3px solid var(--emerald);
+      }
+      .story-solution-label {
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .story-result {
+        margin-top: 16px;
+        font-size: 0.8125rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .story-result-badge {
+        background: var(--amber-bg);
+        color: var(--amber);
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
       }
 
       /* ── Success Stories — mini case studies ── */
@@ -7556,39 +7759,45 @@
             </p>
           </div>
           <div class="prompt-master-bg reveal">
-            <div class="pm-controls">
-              <div class="pm-search-wrap">
-                <span class="pm-search-icon" aria-hidden="true">🔍</span>
-                <input
-                  type="search"
-                  class="pm-search"
-                  id="pm-search"
-                  placeholder="Try 'email', 'meeting recap', or a job task…"
-                  aria-label="Search prompts"
-                />
+            <div class="pm-controls-bar">
+              <div class="pm-controls">
+                <div class="pm-search-wrap">
+                  <span class="pm-search-icon" aria-hidden="true">🔍</span>
+                  <input
+                    type="search"
+                    class="pm-search"
+                    id="pm-search"
+                    placeholder="Try 'email', 'meeting recap', or a job task…"
+                    aria-label="Search prompts"
+                  />
+                </div>
+                <select class="pm-sort" id="pm-sort" aria-label="Sort prompts">
+                  <option value="default">Sort: Default</option>
+                  <option value="az">A → Z</option>
+                  <option value="za">Z → A</option>
+                  <option value="beginner">Easiest first</option>
+                  <option value="advanced">Hardest first</option>
+                </select>
               </div>
-              <select class="pm-sort" id="pm-sort" aria-label="Sort prompts">
-                <option value="default">Sort: Default</option>
-                <option value="az">A → Z</option>
-                <option value="za">Z → A</option>
-                <option value="beginner">Easiest first</option>
-                <option value="advanced">Hardest first</option>
-              </select>
-            </div>
-            <div class="pm-cats" id="pm-cats" role="group" aria-label="Filter by category">
-              <!-- Category chips injected by JS -->
-            </div>
-            <div class="pm-diff-chips" role="group" aria-label="Filter by difficulty">
-              <button class="pm-diff-chip" data-diff="all" aria-pressed="true">All Levels</button>
-              <button class="pm-diff-chip" data-diff="Beginner" aria-pressed="false">
-                🟢 Beginner
-              </button>
-              <button class="pm-diff-chip" data-diff="Intermediate" aria-pressed="false">
-                🟡 Intermediate
-              </button>
-              <button class="pm-diff-chip" data-diff="Advanced" aria-pressed="false">
-                🔴 Advanced
-              </button>
+              <div class="pm-chip-rows">
+                <div class="pm-cats" id="pm-cats" role="group" aria-label="Filter by category">
+                  <!-- Category chips injected by JS -->
+                </div>
+                <div class="pm-diff-chips" role="group" aria-label="Filter by difficulty">
+                  <button class="pm-diff-chip" data-diff="all" aria-pressed="true">
+                    All Levels
+                  </button>
+                  <button class="pm-diff-chip" data-diff="Beginner" aria-pressed="false">
+                    🟢 Beginner
+                  </button>
+                  <button class="pm-diff-chip" data-diff="Intermediate" aria-pressed="false">
+                    🟡 Intermediate
+                  </button>
+                  <button class="pm-diff-chip" data-diff="Advanced" aria-pressed="false">
+                    🔴 Advanced
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="pm-results-bar">
               <span>Showing <strong class="pm-count" id="pm-count">0</strong> prompts</span>
