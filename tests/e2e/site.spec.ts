@@ -5,12 +5,12 @@ test("hero navigation and starter steps respond", async ({ page }) => {
 
   await expect(page.getByRole("heading", { name: /AI field notes for real work/i })).toBeVisible();
   await page.getByRole("link", { name: /Start Learning AI/i }).click();
-  await expect(page.getByRole("heading", { name: /Start with one tiny AI habit/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Your 5-step AI starter guide/i })).toBeVisible();
 
   const secondStep = page.getByRole("tab").nth(1);
   await secondStep.click();
   await expect(secondStep).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel")).toContainText(/Ask it to improve/i);
+  await expect(page.getByRole("tabpanel")).toContainText(/tasks involving language/i);
 });
 
 test("prompt library filters and opens generated prompt cards", async ({ page }) => {
