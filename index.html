@@ -1650,42 +1650,118 @@
         gap: 64px;
         align-items: start;
       }
+      .learning-path-resume {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 18px;
+        padding: 8px 14px;
+        border-radius: 100px;
+        background: var(--teal-bg);
+        color: var(--teal-dark);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition:
+          background var(--transition),
+          border-color var(--transition),
+          transform var(--transition);
+      }
+      [data-theme="dark"] .learning-path-resume {
+        color: var(--teal);
+      }
+      .learning-path-resume:hover,
+      .learning-path-resume:focus-visible {
+        background: var(--surface);
+        border-color: var(--teal);
+        transform: translateY(-1px);
+      }
+      .learning-path-resume[hidden] {
+        display: none;
+      }
+      .learning-path-resume-icon {
+        font-size: 0.95rem;
+        line-height: 1;
+      }
       .steps-list {
         display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: 4px;
+        position: relative;
+      }
+      /* The connected vertical "thread" runs through every step number.
+         Sits behind the numbers (z-index: 0) and is overlaid by a
+         coral progress fill scaled via --thread-progress (0..1). */
+      .steps-list::before,
+      .steps-list::after {
+        content: "";
+        position: absolute;
+        left: 36px;
+        top: 36px;
+        bottom: 36px;
+        width: 2px;
+        border-radius: 2px;
+        pointer-events: none;
+      }
+      .steps-list::before {
+        background: var(--border);
+      }
+      .steps-list::after {
+        background: linear-gradient(180deg, var(--teal), var(--coral));
+        transform: scaleY(var(--thread-progress, 0));
+        transform-origin: top;
+        transition: transform var(--transition-slow);
       }
       .step-item {
         display: flex;
         gap: 20px;
         cursor: pointer;
-        padding: 20px 16px;
+        padding: 18px 16px;
         border-radius: var(--radius-sm);
-        transition: background var(--transition);
+        background: transparent;
+        border: 1px solid transparent;
+        transition:
+          background var(--transition),
+          border-color var(--transition),
+          transform var(--transition);
         position: relative;
+        outline: none;
       }
       .step-item:hover {
-        background: var(--surface3);
-      }
-      .step-item.active {
         background: var(--surface2);
       }
-      .step-connector {
-        position: absolute;
-        left: 36px;
-        top: 68px;
-        bottom: -20px;
-        width: 2px;
-        background: var(--border);
+      .step-item:focus-visible {
+        outline: 2px solid var(--teal);
+        outline-offset: 2px;
       }
-      .step-item:last-child .step-connector {
+      .step-item[data-status="active"] {
+        background: var(--surface);
+        border-color: var(--coral);
+        box-shadow: var(--shadow-sm);
+      }
+      .step-item[data-status="done"] {
+        opacity: 0.78;
+      }
+      .step-item[data-status="done"]:hover {
+        opacity: 1;
+      }
+      .step-item[data-status="future"] {
+        opacity: 0.7;
+      }
+      .step-item[data-status="future"]:hover {
+        opacity: 1;
+      }
+      /* Legacy connector element — kept in DOM but no longer drawn,
+         the thread now lives on .steps-list. */
+      .step-connector {
         display: none;
       }
       .step-num {
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: var(--surface3);
+        background: var(--surface);
         border: 2px solid var(--border);
         display: flex;
         align-items: center;
@@ -1698,22 +1774,37 @@
         transition:
           background var(--transition),
           border-color var(--transition),
-          color var(--transition);
+          color var(--transition),
+          transform var(--transition-spring),
+          box-shadow var(--transition);
         position: relative;
         z-index: 1;
       }
-      .step-item.active .step-num,
-      .step-item.done .step-num {
+      .step-item[data-status="active"] .step-num {
+        background: var(--coral);
+        border-color: var(--coral);
+        color: #fff;
+        transform: scale(1.08);
+        box-shadow: 0 0 0 4px var(--coral-bg);
+      }
+      .step-item[data-status="done"] .step-num {
         background: var(--teal);
         border-color: var(--teal);
         color: #fff;
       }
-      .step-item.done .step-num::after {
+      .step-item[data-status="done"] .step-num::after {
         content: "✓";
-        font-size: 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 700;
       }
-      .step-item.done .step-num span {
+      .step-item[data-status="done"] .step-num span {
         display: none;
+      }
+      .step-item[data-status="future"] .step-num {
+        background: var(--surface);
+        border-color: var(--border);
+        border-style: dashed;
+        color: var(--muted);
       }
       .step-content {
         flex: 1;
@@ -1723,11 +1814,32 @@
         font-size: 0.9375rem;
         font-weight: 700;
         margin-bottom: 4px;
+        color: var(--ink);
+      }
+      .step-item[data-status="future"] .step-title {
+        color: var(--ink2);
       }
       .step-desc {
         font-size: 0.8125rem;
         color: var(--muted);
         line-height: 1.6;
+      }
+      .step-status-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 8px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+      .step-item[data-status="active"] .step-status-tag {
+        color: var(--coral);
+      }
+      .step-item[data-status="done"] .step-status-tag {
+        color: var(--teal);
       }
       .step-detail-panel {
         background: var(--surface);
@@ -1736,6 +1848,28 @@
         padding: 36px;
         position: sticky;
         top: 88px;
+        animation: stepDetailFade var(--transition-slow) ease-out;
+      }
+      @keyframes stepDetailFade {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .step-detail-panel {
+          animation: none;
+        }
+        .steps-list::after {
+          transition: none;
+        }
+        .step-item[data-status="active"] .step-num {
+          transform: none;
+        }
       }
       .step-detail-icon {
         width: 64px;
@@ -1786,11 +1920,38 @@
         display: flex;
         gap: 10px;
         margin-top: 28px;
+        flex-wrap: wrap;
+      }
+      .step-mark-done {
+        margin-left: auto;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 6px 12px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          color var(--transition),
+          border-color var(--transition),
+          background var(--transition);
+      }
+      .step-mark-done:hover,
+      .step-mark-done:focus-visible {
+        color: var(--teal);
+        border-color: var(--teal);
+        background: var(--teal-bg);
+      }
+      .step-mark-done[data-done="true"] {
+        color: var(--teal);
+        border-color: var(--teal);
+        background: var(--teal-bg);
       }
       .step-progress {
         display: flex;
         gap: 6px;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
       }
       .step-progress-dot {
         height: 4px;
@@ -1805,13 +1966,27 @@
       .step-progress-dot.active {
         background: var(--coral);
       }
+      .step-progress-label {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-bottom: 22px;
+      }
+      .step-progress-label strong {
+        color: var(--ink);
+      }
 
       @media (max-width: 900px) {
         .learning-path-wrap {
           grid-template-columns: 1fr;
+          gap: 32px;
         }
         .step-detail-panel {
           position: static;
+        }
+        /* On mobile keep the thread on the left side as required. */
+        .steps-list::before,
+        .steps-list::after {
+          left: 36px;
         }
       }
 
@@ -7124,6 +7299,10 @@
               Never used AI before? Start here. These five steps take you from zero to confident in
               the time it takes to have a coffee.
             </p>
+            <a id="learning-path-resume" class="learning-path-resume" href="#learning-path" hidden>
+              <span class="learning-path-resume-icon" aria-hidden="true">↵</span>
+              <span id="learning-path-resume-label">Continue where you left off</span>
+            </a>
           </div>
           <div class="learning-path-wrap">
             <div class="steps-list reveal" id="steps-list">
@@ -21264,6 +21443,7 @@
 
       const CHECKLIST_STORAGE_KEY = "ai-spark-beginner-checklist";
       const FAVORITE_PROMPTS_STORAGE_KEY = "AI_SPARK_FAVORITE_PROMPTS";
+      const LEARNING_PATH_PROGRESS_KEY = "ai-spark:learning-path-progress";
       const CHECKLIST_ITEMS = [
         "try-prompt-builder",
         "copy-safe-prompt",
@@ -21789,34 +21969,95 @@
       });
 
       // ── Learning path ──
+      function loadLearningPathProgress() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(LEARNING_PATH_PROGRESS_KEY) || "[]");
+          if (!Array.isArray(saved)) return;
+          completedSteps = new Set(
+            saved
+              .map((n) => Number(n))
+              .filter((n) => Number.isInteger(n) && n >= 0 && n < STEPS.length),
+          );
+        } catch (error) {
+          completedSteps = new Set();
+        }
+      }
+
+      function saveLearningPathProgress() {
+        try {
+          localStorage.setItem(
+            LEARNING_PATH_PROGRESS_KEY,
+            JSON.stringify([...completedSteps].sort((a, b) => a - b)),
+          );
+        } catch (error) {
+          /* localStorage unavailable; ignore */
+        }
+      }
+
+      function getStepStatus(i) {
+        if (i === activeStep) return "active";
+        if (completedSteps.has(i)) return "done";
+        return "future";
+      }
+
+      function getStatusTag(status) {
+        if (status === "active") return "In progress";
+        if (status === "done") return "Completed";
+        return "Up next";
+      }
+
+      function getThreadProgress() {
+        if (STEPS.length <= 1) return 0;
+        let furthest = activeStep;
+        completedSteps.forEach((i) => {
+          if (i > furthest) furthest = i;
+        });
+        return Math.min(1, furthest / (STEPS.length - 1));
+      }
+
       function renderSteps() {
         const list = document.getElementById("steps-list");
-        list.innerHTML = STEPS.map(
-          (s, i) => `
-    <div class="step-item ${i === activeStep ? "active" : ""} ${completedSteps.has(i) ? "done" : ""}"
+        if (!list) return;
+        list.style.setProperty("--thread-progress", getThreadProgress().toFixed(3));
+        list.innerHTML = STEPS.map((s, i) => {
+          const status = getStepStatus(i);
+          return `
+    <div class="step-item" data-status="${status}" data-step-index="${i}"
          onclick="selectStep(${i})" tabindex="0" role="button"
-         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectStep(${i})}">
+         aria-label="Step ${s.num}: ${s.title}. ${getStatusTag(status)}."
+         aria-current="${status === "active" ? "step" : "false"}"
+         aria-expanded="${status === "active" ? "true" : "false"}"
+         aria-controls="step-detail">
       <div class="step-num"><span>${s.num}</span></div>
       <div class="step-content">
         <div class="step-title">${s.title}</div>
         <div class="step-desc">${s.desc}</div>
+        <div class="step-status-tag">${getStatusTag(status)}</div>
       </div>
-      <div class="step-connector"></div>
+      <div class="step-connector" aria-hidden="true"></div>
     </div>
-  `,
-        ).join("");
+  `;
+        }).join("");
       }
 
       function renderStepDetail() {
         const s = STEPS[activeStep];
         const panel = document.getElementById("step-detail");
+        if (!panel) return;
         const progress = STEPS.map(
           (_, i) => `
     <div class="step-progress-dot ${completedSteps.has(i) ? "done" : ""} ${i === activeStep ? "active" : ""}"></div>
   `,
         ).join("");
+        const doneCount = completedSteps.size;
+        const totalCount = STEPS.length;
+        const isDone = completedSteps.has(activeStep);
+        panel.setAttribute("aria-live", "polite");
         panel.innerHTML = `
-    <div class="step-progress">${progress}</div>
+    <div class="step-progress" aria-hidden="true">${progress}</div>
+    <div class="step-progress-label">
+      Progress: <strong>${doneCount} of ${totalCount}</strong> steps completed
+    </div>
     <div class="step-detail-icon" style="background:${s.iconBg}">${s.icon}</div>
     <h3 class="step-detail-title">${s.title}</h3>
     <p class="step-detail-body">${s.detail}</p>
@@ -21839,43 +22080,158 @@
           ? '<button class="btn btn-teal btn-sm" onclick="nextStep()">Next step →</button>'
           : '<button class="btn btn-primary btn-sm" onclick="completeAll()">🎉 Complete!</button>'
       }
+      <button
+        class="step-mark-done"
+        type="button"
+        data-done="${isDone ? "true" : "false"}"
+        aria-pressed="${isDone ? "true" : "false"}"
+        onclick="toggleStepDone(${activeStep})"
+      >
+        ${isDone ? "✓ Marked complete" : "Mark this step complete"}
+      </button>
     </div>
   `;
       }
 
-      function selectStep(i) {
-        activeStep = i;
+      function renderResumeLink() {
+        const link = document.getElementById("learning-path-resume");
+        const labelEl = document.getElementById("learning-path-resume-label");
+        if (!link || !labelEl) return;
+        if (completedSteps.size === 0) {
+          link.hidden = true;
+          link.removeAttribute("data-resume-step");
+          return;
+        }
+        let resumeIndex = STEPS.findIndex((_, i) => !completedSteps.has(i));
+        if (resumeIndex === -1) resumeIndex = STEPS.length - 1;
+        const target = STEPS[resumeIndex];
+        labelEl.textContent =
+          completedSteps.size >= STEPS.length
+            ? "Review the final step"
+            : `Continue with step ${target.num}: ${target.title}`;
+        link.hidden = false;
+        link.setAttribute("data-resume-step", String(resumeIndex));
+      }
+
+      function renderLearningPath() {
         renderSteps();
         renderStepDetail();
+        renderResumeLink();
+      }
+
+      function selectStep(i) {
+        if (typeof i !== "number" || i < 0 || i >= STEPS.length) return;
+        activeStep = i;
+        renderLearningPath();
       }
 
       function nextStep() {
         completedSteps.add(activeStep);
+        saveLearningPathProgress();
         if (activeStep < STEPS.length - 1) {
           activeStep++;
-          renderSteps();
-          renderStepDetail();
         }
+        renderLearningPath();
       }
 
       function prevStep() {
         if (activeStep > 0) {
           activeStep--;
-          renderSteps();
-          renderStepDetail();
+          renderLearningPath();
         }
+      }
+
+      function toggleStepDone(i) {
+        if (typeof i !== "number" || i < 0 || i >= STEPS.length) return;
+        if (completedSteps.has(i)) {
+          completedSteps.delete(i);
+        } else {
+          completedSteps.add(i);
+        }
+        saveLearningPathProgress();
+        renderLearningPath();
       }
 
       function completeAll() {
         completedSteps.add(activeStep);
-        renderSteps();
-        renderStepDetail();
+        saveLearningPathProgress();
+        renderLearningPath();
         showToast("🎉 You finished the beginner path! Try the Prompt Library next.");
         launchConfetti();
       }
 
-      renderSteps();
-      renderStepDetail();
+      (function attachLearningPathKeyboard() {
+        const list = document.getElementById("steps-list");
+        if (!list) return;
+        list.addEventListener("keydown", (event) => {
+          const target = event.target.closest(".step-item");
+          if (!target) return;
+          const idx = Number(target.dataset.stepIndex);
+          if (Number.isNaN(idx)) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            selectStep(idx);
+            return;
+          }
+          if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+            event.preventDefault();
+            const next = Math.min(STEPS.length - 1, idx + 1);
+            selectStep(next);
+            const el = list.querySelector(`[data-step-index="${next}"]`);
+            if (el) el.focus();
+            return;
+          }
+          if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+            event.preventDefault();
+            const prev = Math.max(0, idx - 1);
+            selectStep(prev);
+            const el = list.querySelector(`[data-step-index="${prev}"]`);
+            if (el) el.focus();
+            return;
+          }
+          if (event.key === "Home") {
+            event.preventDefault();
+            selectStep(0);
+            const el = list.querySelector('[data-step-index="0"]');
+            if (el) el.focus();
+            return;
+          }
+          if (event.key === "End") {
+            event.preventDefault();
+            const last = STEPS.length - 1;
+            selectStep(last);
+            const el = list.querySelector(`[data-step-index="${last}"]`);
+            if (el) el.focus();
+          }
+        });
+      })();
+
+      (function attachLearningPathResume() {
+        const link = document.getElementById("learning-path-resume");
+        if (!link) return;
+        link.addEventListener("click", (event) => {
+          const idx = Number(link.dataset.resumeStep);
+          if (Number.isNaN(idx)) return;
+          event.preventDefault();
+          selectStep(idx);
+          const section = document.getElementById("learning-path");
+          if (section) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          requestAnimationFrame(() => {
+            const el = document.querySelector(`#steps-list [data-step-index="${idx}"]`);
+            if (el) el.focus({ preventScroll: true });
+          });
+        });
+      })();
+
+      loadLearningPathProgress();
+      if (completedSteps.size > 0) {
+        let resumeIndex = STEPS.findIndex((_, i) => !completedSteps.has(i));
+        if (resumeIndex === -1) resumeIndex = STEPS.length - 1;
+        activeStep = resumeIndex;
+      }
+      renderLearningPath();
 
       // ── Beginner task decision helper ──
       function getDecisionRecommendation(goal, risk) {
