@@ -80,3 +80,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `811692f` (`feat: add prompt builder helper tips`).
 - Next suggested slice: Add an accessible “AI confidence quiz” with immediate feedback that teaches safe beginner habits without storing personal data.
+
+## 2026-05-09 14:35:32 SGT
+- Chosen slice: Add an accessible AI confidence quiz that gives immediate feedback on safe beginner habits without storing personal data.
+- Files changed:
+  - `index.html`
+  - `tests/ai-confidence-quiz.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/ai-confidence-quiz.test.js` failed before implementation because `#ai-confidence-quiz` did not exist.
+  - GREEN targeted: `node --test tests/ai-confidence-quiz.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `3f22fb1` (`feat: add beginner AI confidence quiz`).
+- Next suggested slice: Add a lightweight “AI output review checklist” accordion that helps beginners verify facts, tone, assumptions, and confidentiality before sending.
