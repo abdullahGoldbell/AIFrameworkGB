@@ -1205,6 +1205,91 @@
       .comparison-pair { grid-template-columns: 1fr; }
     }
 
+    /* ── Safe Prompt Templates ── */
+    .risk-template-bg {
+      background: linear-gradient(135deg, var(--emerald-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr);
+      gap: 26px;
+      align-items: start;
+    }
+    .risk-template-tabs,
+    .risk-template-result {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .risk-template-tabs { display: grid; gap: 12px; }
+    .risk-template-tab {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      background: var(--surface2);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      text-align: left;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+    .risk-template-tab:hover { transform: translateY(-2px); border-color: var(--teal); }
+    .risk-template-tab[aria-selected="true"] {
+      background: color-mix(in srgb, var(--emerald-bg) 68%, var(--surface));
+      border-color: var(--emerald);
+      box-shadow: 4px 4px 0 color-mix(in srgb, var(--emerald) 20%, transparent);
+    }
+    .risk-template-tab:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+    .risk-template-kicker {
+      display: inline-flex;
+      width: max-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--amber-bg);
+      color: var(--amber);
+      font-size: .78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+    .risk-template-result h3 { font-size: 1.55rem; margin-bottom: 10px; }
+    .risk-template-guidance {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .risk-template-guidance-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--surface2);
+    }
+    .risk-template-guidance-card strong { color: var(--ink); display: block; margin-bottom: 6px; }
+    .risk-template-prompt {
+      background: #121713;
+      color: #f6efe0;
+      border: 1px solid #38413a;
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      font-family: var(--font-mono);
+      font-size: .84rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      margin: 16px 0;
+    }
+    .risk-template-status { color: var(--muted); font-size: .9rem; margin-top: 10px; }
+    @media (max-width: 820px) {
+      .risk-template-bg,
+      .risk-template-guidance { grid-template-columns: 1fr; }
+    }
+
     /* ── Beginner Checklist ── */
     .checklist-bg {
       background: linear-gradient(135deg, var(--teal-bg), var(--surface));
@@ -2511,6 +2596,7 @@
         <li><a href="#beginner-glossary">Glossary</a></li>
         <li><a href="#first-prompt-builder">Builder</a></li>
         <li><a href="#prompt-comparison-tool">Compare</a></li>
+        <li><a href="#safe-prompt-templates">Templates</a></li>
         <li><a href="#beginner-checklist">Checklist</a></li>
         <li><a href="#beginner-scenarios">Scenarios</a></li>
         <li><a href="#ai-confidence-quiz">Quiz</a></li>
@@ -2545,6 +2631,7 @@
   <a href="#beginner-glossary" class="mobile-link">Glossary</a>
   <a href="#first-prompt-builder" class="mobile-link">Builder</a>
   <a href="#prompt-comparison-tool" class="mobile-link">Compare</a>
+  <a href="#safe-prompt-templates" class="mobile-link">Templates</a>
   <a href="#beginner-checklist" class="mobile-link">Checklist</a>
   <a href="#beginner-scenarios" class="mobile-link">Scenarios</a>
   <a href="#ai-confidence-quiz" class="mobile-link">Quiz</a>
@@ -2964,6 +3051,37 @@
           </div>
         </div>
         <ul class="comparison-notes" id="comparison-notes"></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── Safe Prompt Templates ── -->
+<section class="section" id="safe-prompt-templates">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">🛡️ Safe Templates</div>
+      <h2 class="section-title">Safe prompt templates by risk level</h2>
+      <p class="section-subtitle">Beginners can choose low, medium, or high sensitivity and see what to include, what to avoid, and a copy-ready prompt shape.</p>
+    </div>
+    <div class="risk-template-bg reveal">
+      <div class="risk-template-tabs" role="tablist" aria-label="Choose a prompt safety level">
+        <button class="risk-template-tab" type="button" id="risk-template-tab-low" role="tab" data-risk-template="low" aria-selected="true" aria-controls="risk-template-panel" onclick="selectRiskTemplate('low')">🟢 Low risk<br><span>Public or general information</span></button>
+        <button class="risk-template-tab" type="button" id="risk-template-tab-medium" role="tab" data-risk-template="medium" aria-selected="false" aria-controls="risk-template-panel" tabindex="-1" onclick="selectRiskTemplate('medium')">🟡 Medium risk<br><span>Internal details with placeholders</span></button>
+        <button class="risk-template-tab" type="button" id="risk-template-tab-high" role="tab" data-risk-template="high" aria-selected="false" aria-controls="risk-template-panel" tabindex="-1" onclick="selectRiskTemplate('high')">🔴 High risk<br><span>Confidential or regulated content</span></button>
+      </div>
+      <article class="risk-template-result" id="risk-template-panel" role="tabpanel" aria-labelledby="risk-template-tab-low" aria-live="polite">
+        <div class="risk-template-kicker" id="risk-template-kicker">Low risk</div>
+        <h3 id="risk-template-title">Practice with public information</h3>
+        <p id="risk-template-summary">Use AI freely for public, non-sensitive topics, but still fact-check the answer before sharing.</p>
+        <div class="risk-template-guidance">
+          <div class="risk-template-guidance-card"><strong>Do</strong><p id="risk-template-do">Ask for structure, examples, and plain-English explanations.</p></div>
+          <div class="risk-template-guidance-card"><strong>Don't</strong><p id="risk-template-dont">Do not assume a polished answer is automatically true.</p></div>
+        </div>
+        <strong>Copy-ready starter shape</strong>
+        <div class="risk-template-prompt" id="risk-template-prompt">You are a patient workplace coach. Explain [public topic] in beginner-friendly language. Return: 3 key points, 1 example, and 2 things to verify before using.</div>
+        <button class="btn btn-primary btn-sm" type="button" onclick="copyRiskTemplate(this)">📋 Copy safe template</button>
+        <p class="risk-template-status" id="risk-template-status" aria-live="polite">Choose a risk level before you paste work into AI.</p>
       </article>
     </div>
   </div>
@@ -3633,6 +3751,33 @@ const AI_CONFIDENCE_QUIZ = {
   }
 };
 
+const RISK_PROMPT_TEMPLATES = {
+  low: {
+    kicker: 'Low risk',
+    title: 'Practice with public information',
+    summary: 'Use AI freely for public, non-sensitive topics, but still fact-check the answer before sharing.',
+    doText: 'Ask for structure, examples, plain-English explanations, and options you can compare.',
+    dontText: 'Do not assume a polished answer is automatically true; verify facts, links, and numbers.',
+    prompt: 'You are a patient workplace coach. Explain [public topic] in beginner-friendly language. Return: 3 key points, 1 example, and 2 things to verify before using.'
+  },
+  medium: {
+    kicker: 'Medium risk',
+    title: 'Use placeholders before AI sees the work',
+    summary: 'For internal work details, replace names, amounts, project codes, and customer references before asking AI to help.',
+    doText: 'Use [client], [project], [amount], and [deadline] placeholders, then review assumptions against your source material.',
+    dontText: 'Do not paste raw internal notes, screenshots, contracts, or system exports into public AI tools.',
+    prompt: 'You are a careful workplace assistant. Help me improve this anonymized draft. Keep placeholders exactly as written, mark assumptions, and return: revised draft, open questions, and facts I must verify.\n\nDraft:\n[paste anonymized draft with placeholders here]'
+  },
+  high: {
+    kicker: 'High risk',
+    title: 'Do not paste confidential data',
+    summary: 'High-risk content needs approved tools, policy checks, or a human owner before AI is involved.',
+    doText: 'Use AI only for a generic checklist or question list that does not include the sensitive content itself.',
+    dontText: 'Do not paste customer, HR, finance, legal, or personal data into public AI tools.',
+    prompt: 'You are a cautious AI safety coach. Without seeing any confidential details, give me a checklist for reviewing [type of high-risk work]. Include: what data must stay private, who should approve it, and questions to ask the human owner before using any AI tool.'
+  }
+};
+
 const DECISION_RECOMMENDATIONS = {
   draft: {
     low: { kicker: 'Best first stop', title: 'Start with the prompt builder', body: 'Use the builder to turn a simple goal into a clear role, task, tone, and format prompt.', link: '#first-prompt-builder', linkText: 'Open prompt builder', steps: ['Pick a role and task.', 'Keep examples short and specific.', 'Copy the prompt, then edit the answer before using it.'] },
@@ -3659,6 +3804,7 @@ let activeGlossaryTerm = 'prompt';
 let completedChecklistItems = new Set();
 let activeScenario = 'email';
 let selectedQuizAnswer = '';
+let activeRiskTemplate = 'low';
 let pmCategory = 'all';
 let pmDifficulty = 'all';
 let pmSearch = '';
@@ -4006,6 +4152,50 @@ function copyBuiltPrompt(btn) {
       input.addEventListener('change', updatePromptComparison);
     });
     updatePromptComparison();
+
+    // ── Safe prompt templates ──
+    function renderRiskTemplate() {
+      const template = RISK_PROMPT_TEMPLATES[activeRiskTemplate] || RISK_PROMPT_TEMPLATES.low;
+      const panel = document.getElementById('risk-template-panel');
+      const setText = (id, value) => {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
+      };
+      setText('risk-template-kicker', template.kicker);
+      setText('risk-template-title', template.title);
+      setText('risk-template-summary', template.summary);
+      setText('risk-template-do', template.doText);
+      setText('risk-template-dont', template.dontText);
+      setText('risk-template-prompt', template.prompt);
+      setText('risk-template-status', 'Choose a risk level before you paste work into AI.');
+      document.querySelectorAll('[data-risk-template]').forEach(tab => {
+        const selected = tab.dataset.riskTemplate === activeRiskTemplate;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        if (selected && panel) panel.setAttribute('aria-labelledby', tab.id);
+      });
+    }
+
+    function selectRiskTemplate(level) {
+      activeRiskTemplate = RISK_PROMPT_TEMPLATES[level] ? level : 'low';
+      renderRiskTemplate();
+    }
+
+    function copyRiskTemplate(btn) {
+      const template = RISK_PROMPT_TEMPLATES[activeRiskTemplate] || RISK_PROMPT_TEMPLATES.low;
+      const status = document.getElementById('risk-template-status');
+      writeClipboardText(template.prompt).then(() => {
+        btn.textContent = '✅ Copied!';
+        if (status) status.textContent = `${template.kicker} template copied. Replace placeholders and review before using.`;
+        showToast('✅ Safe prompt template copied. Keep placeholders anonymized.');
+        setTimeout(() => { btn.textContent = '📋 Copy safe template'; }, 2200);
+      }).catch(() => {
+        if (status) status.textContent = 'Copy failed. Select the template text and copy it manually.';
+        showToast('Copy did not work — select the template text and copy manually.');
+      });
+    }
+
+    renderRiskTemplate();
     
     // ── Beginner checklist ──
 function loadChecklistProgress() {
