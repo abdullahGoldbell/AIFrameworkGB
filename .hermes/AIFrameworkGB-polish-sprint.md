@@ -52,3 +52,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `843d87f` (`feat: add beginner workflow scenario tabs`).
 - Next suggested slice: Add copy-to-clipboard buttons for the scenario starter prompts with a fallback textarea copy path and beginner-safe success messaging.
+
+## 2026-05-09 13:25:12 SGT
+- Chosen slice: Add accessible copy-to-clipboard controls for beginner scenario starter prompts, with fallback copy support and beginner-safe status messaging.
+- Files changed:
+  - `index.html`
+  - `tests/scenario-copy.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/scenario-copy.test.js` failed before implementation because `data-scenario-copy` controls did not exist.
+  - GREEN targeted: `node --test tests/scenario-copy.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `1ce4718` (`feat: add scenario prompt copy controls`).
+- Next suggested slice: Add inline helper tips or mini “why this works” notes to the prompt builder so beginners understand role, task, tone, format, and safe context choices.
