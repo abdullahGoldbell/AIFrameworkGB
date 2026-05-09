@@ -150,3 +150,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `e5def07` (`feat: add beginner prompt practice mode`).
 - Next suggested slice: Add beginner-friendly empty-state coaching for searches/filters so zero-result prompt searches suggest safe beginner queries and reset paths.
+
+## 2026-05-09 17:35:20 SGT
+- Chosen slice: Add beginner-friendly empty-state coaching for prompt library searches and filters so zero-result searches suggest safe beginner queries and reset paths.
+- Files changed:
+  - `index.html`
+  - `tests/prompt-empty-state-coaching.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/prompt-empty-state-coaching.test.js` failed before implementation because `#pm-empty` did not expose polite coaching, safe search suggestions, or `applyEmptySearchSuggestion`.
+  - GREEN targeted: `node --test tests/prompt-empty-state-coaching.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `75d5831` (`feat: add prompt empty state coaching`).
+- Next suggested slice: Add a beginner-friendly “what changed?” prompt comparison tool that shows how adding role, context, and format improves a weak prompt.
