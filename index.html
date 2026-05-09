@@ -1245,6 +1245,17 @@
       box-shadow: 4px 4px 0 color-mix(in srgb, var(--emerald) 20%, transparent);
     }
     .risk-template-tab:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+    .risk-template-helper {
+      border: 1px dashed var(--border2);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      background: color-mix(in srgb, var(--amber-bg) 56%, var(--surface));
+      color: var(--ink2);
+      font-size: .92rem;
+    }
+    .risk-template-helper strong { color: var(--ink); display: block; margin-bottom: 6px; }
+    .risk-template-helper ul { margin: 8px 0 0 18px; }
+    .risk-template-helper li + li { margin-top: 4px; }
     .risk-template-kicker {
       display: inline-flex;
       width: max-content;
@@ -3065,10 +3076,18 @@
       <p class="section-subtitle">Beginners can choose low, medium, or high sensitivity and see what to include, what to avoid, and a copy-ready prompt shape.</p>
     </div>
     <div class="risk-template-bg reveal">
-      <div class="risk-template-tabs" role="tablist" aria-label="Choose a prompt safety level">
-        <button class="risk-template-tab" type="button" id="risk-template-tab-low" role="tab" data-risk-template="low" aria-selected="true" aria-controls="risk-template-panel" onclick="selectRiskTemplate('low')">🟢 Low risk<br><span>Public or general information</span></button>
-        <button class="risk-template-tab" type="button" id="risk-template-tab-medium" role="tab" data-risk-template="medium" aria-selected="false" aria-controls="risk-template-panel" tabindex="-1" onclick="selectRiskTemplate('medium')">🟡 Medium risk<br><span>Internal details with placeholders</span></button>
-        <button class="risk-template-tab" type="button" id="risk-template-tab-high" role="tab" data-risk-template="high" aria-selected="false" aria-controls="risk-template-panel" tabindex="-1" onclick="selectRiskTemplate('high')">🔴 High risk<br><span>Confidential or regulated content</span></button>
+      <div class="risk-template-tabs" role="tablist" aria-label="Choose a prompt safety level" aria-describedby="risk-template-choice-helper">
+        <div class="risk-template-helper" id="risk-template-choice-helper">
+          <strong>Which risk level should I choose?</strong>
+          <ul>
+            <li><strong>Low = public learning:</strong> topics, examples, and drafts with no internal details.</li>
+            <li><strong>Medium = internal work after placeholders:</strong> replace names, amounts, projects, and customer details first.</li>
+            <li><strong>High = confidential, regulated, or personal data:</strong> do not paste it into public AI tools; ask for a generic checklist instead.</li>
+          </ul>
+        </div>
+        <button class="risk-template-tab" type="button" id="risk-template-tab-low" role="tab" data-risk-template="low" aria-selected="true" aria-controls="risk-template-panel" onclick="selectRiskTemplate('low')" onkeydown="handleRiskTemplateKeydown(event)">🟢 Low risk<br><span>Public or general information</span></button>
+        <button class="risk-template-tab" type="button" id="risk-template-tab-medium" role="tab" data-risk-template="medium" aria-selected="false" aria-controls="risk-template-panel" tabindex="-1" onclick="selectRiskTemplate('medium')" onkeydown="handleRiskTemplateKeydown(event)">🟡 Medium risk<br><span>Internal details with placeholders</span></button>
+        <button class="risk-template-tab" type="button" id="risk-template-tab-high" role="tab" data-risk-template="high" aria-selected="false" aria-controls="risk-template-panel" tabindex="-1" onclick="selectRiskTemplate('high')" onkeydown="handleRiskTemplateKeydown(event)">🔴 High risk<br><span>Confidential or regulated content</span></button>
       </div>
       <article class="risk-template-result" id="risk-template-panel" role="tabpanel" aria-labelledby="risk-template-tab-low" aria-live="polite">
         <div class="risk-template-kicker" id="risk-template-kicker">Low risk</div>
@@ -4179,6 +4198,21 @@ function copyBuiltPrompt(btn) {
     function selectRiskTemplate(level) {
       activeRiskTemplate = RISK_PROMPT_TEMPLATES[level] ? level : 'low';
       renderRiskTemplate();
+    }
+
+    function handleRiskTemplateKeydown(event) {
+      const tabs = [...document.querySelectorAll('[data-risk-template]')];
+      const currentIndex = Math.max(0, tabs.findIndex(tab => tab.dataset.riskTemplate === activeRiskTemplate));
+      let nextIndex = currentIndex;
+      if (['ArrowRight', 'ArrowDown'].includes(event.key)) nextIndex = (currentIndex + 1) % tabs.length;
+      else if (['ArrowLeft', 'ArrowUp'].includes(event.key)) nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+      else if (event.key === 'Home') nextIndex = 0;
+      else if (event.key === 'End') nextIndex = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      const nextTab = tabs[nextIndex];
+      selectRiskTemplate(nextTab.dataset.riskTemplate);
+      nextTab.focus();
     }
 
     function copyRiskTemplate(btn) {
