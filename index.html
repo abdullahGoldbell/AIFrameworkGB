@@ -1010,6 +1010,30 @@
     }
     .builder-field select:focus,
     .builder-field input:focus { outline: 3px solid color-mix(in srgb, var(--teal) 25%, transparent); border-color: var(--teal); }
+    .builder-helper {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+    .builder-helper strong { color: var(--ink); }
+    .builder-helper-tips {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+      padding: 16px;
+      background: color-mix(in srgb, var(--surface) 78%, var(--amber-bg));
+      border: 1px dashed var(--border2);
+      border-radius: var(--radius-sm);
+    }
+    .builder-helper-tips h3 {
+      font-family: var(--font-body);
+      font-size: .98rem;
+      margin-bottom: 2px;
+    }
     .builder-preview {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -2362,45 +2386,56 @@
       <div class="builder-controls" aria-label="Prompt builder choices">
         <div class="builder-field">
           <label for="builder-role">1. Choose the AI role</label>
-          <select id="builder-role" data-builder-field="role">
+          <select id="builder-role" aria-describedby="builder-role-help" data-builder-field="role">
             <option value="helpful workplace assistant">Helpful workplace assistant</option>
             <option value="friendly HR assistant">Friendly HR assistant</option>
             <option value="clear project coordinator">Clear project coordinator</option>
             <option value="patient spreadsheet coach">Patient spreadsheet coach</option>
           </select>
+          <p id="builder-role-help" class="builder-helper"><span aria-hidden="true">🎭</span><span><strong>Role</strong> tells AI which perspective to use, so the answer feels more relevant.</span></p>
         </div>
         <div class="builder-field">
           <label for="builder-task">2. Choose the task</label>
-          <select id="builder-task" data-builder-field="task">
+          <select id="builder-task" aria-describedby="builder-task-help" data-builder-field="task">
             <option value="rewrite my draft so it is clearer and easier to understand">Rewrite a draft clearly</option>
             <option value="summarize my notes into key points and action items">Summarize notes</option>
             <option value="brainstorm practical next steps for a work problem">Brainstorm next steps</option>
             <option value="explain this topic in simple beginner-friendly language">Explain a topic simply</option>
           </select>
+          <p id="builder-task-help" class="builder-helper"><span aria-hidden="true">🎯</span><span><strong>Task</strong> makes the expected action explicit, reducing vague or off-topic answers.</span></p>
         </div>
         <div class="builder-field">
           <label for="builder-tone">3. Choose the tone</label>
-          <select id="builder-tone" data-builder-field="tone">
+          <select id="builder-tone" aria-describedby="builder-tone-help" data-builder-field="tone">
             <option value="warm, professional, and concise">Warm and professional</option>
             <option value="simple, encouraging, and jargon-free">Simple and encouraging</option>
             <option value="direct, structured, and action-oriented">Direct and structured</option>
             <option value="polite, calm, and customer-friendly">Polite and customer-friendly</option>
           </select>
+          <p id="builder-tone-help" class="builder-helper"><span aria-hidden="true">💬</span><span><strong>Tone</strong> controls how the answer should sound before you spend time editing.</span></p>
         </div>
         <div class="builder-field">
           <label for="builder-format">4. Choose the format</label>
-          <select id="builder-format" data-builder-field="format">
+          <select id="builder-format" aria-describedby="builder-format-help" data-builder-field="format">
             <option value="a short email draft with a subject line">Short email with subject</option>
             <option value="5 bullet points with owners and next steps">Bullets with next steps</option>
             <option value="a table with columns for issue, recommendation, and action">Simple table</option>
             <option value="a checklist I can review before sending">Review checklist</option>
           </select>
+          <p id="builder-format-help" class="builder-helper"><span aria-hidden="true">🧱</span><span><strong>Format</strong> reduces rework by asking for the shape you need upfront.</span></p>
         </div>
         <div class="builder-field">
           <label for="builder-context">Optional context placeholder</label>
           <input id="builder-context" data-builder-field="context" type="text" value="[paste anonymized notes or draft here]" aria-describedby="builder-context-help">
           <p id="builder-context-help" class="builder-safe-note"><span aria-hidden="true">🛡️</span><span>Use placeholders like [client], [project], or [amount] for anything sensitive.</span></p>
         </div>
+        <aside class="builder-helper-tips" aria-label="Why each prompt choice matters">
+          <h3>Why this prompt recipe works</h3>
+          <p><strong>Role</strong> tells AI which perspective to use.</p>
+          <p><strong>Task</strong> makes the expected action explicit.</p>
+          <p><strong>Tone</strong> controls how the answer should sound.</p>
+          <p><strong>Format</strong> reduces rework by asking for the shape you need.</p>
+        </aside>
       </div>
       <article class="builder-preview" aria-label="Generated starter prompt">
         <h3>Your starter prompt</h3>
