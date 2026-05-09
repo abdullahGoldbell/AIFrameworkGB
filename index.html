@@ -1138,6 +1138,73 @@
       .builder-bg { grid-template-columns: 1fr; padding: 28px 20px; box-shadow: 4px 4px 0 var(--ink); }
     }
 
+    /* ── Prompt Comparison Tool ── */
+    .comparison-bg {
+      background: linear-gradient(135deg, var(--violet-bg), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(260px, .85fr) minmax(0, 1.15fr);
+      gap: 26px;
+      align-items: start;
+    }
+    .comparison-controls,
+    .comparison-result {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .comparison-controls { display: grid; gap: 14px; }
+    .comparison-toggle {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: color-mix(in srgb, var(--surface) 82%, var(--violet-bg));
+      cursor: pointer;
+    }
+    .comparison-toggle input { margin-top: 5px; accent-color: var(--violet); }
+    .comparison-toggle strong { display: block; color: var(--ink); }
+    .comparison-toggle span:last-child { color: var(--muted); font-size: .9rem; }
+    .comparison-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .comparison-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      background: var(--surface2);
+    }
+    .comparison-card.improved { background: color-mix(in srgb, var(--emerald-bg) 62%, var(--surface)); border-color: var(--emerald); }
+    .comparison-card h4 { font-family: var(--font-body); font-size: .95rem; margin-bottom: 8px; }
+    .comparison-prompt-output {
+      font-family: var(--font-mono);
+      font-size: .86rem;
+      white-space: pre-wrap;
+      line-height: 1.65;
+      color: var(--ink2);
+    }
+    .comparison-notes {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+      padding-left: 18px;
+      color: var(--ink2);
+    }
+    @media (max-width: 820px) {
+      .comparison-bg,
+      .comparison-pair { grid-template-columns: 1fr; }
+    }
+
     /* ── Beginner Checklist ── */
     .checklist-bg {
       background: linear-gradient(135deg, var(--teal-bg), var(--surface));
@@ -2443,6 +2510,7 @@
         <li><a href="#task-decision-helper">Start</a></li>
         <li><a href="#beginner-glossary">Glossary</a></li>
         <li><a href="#first-prompt-builder">Builder</a></li>
+        <li><a href="#prompt-comparison-tool">Compare</a></li>
         <li><a href="#beginner-checklist">Checklist</a></li>
         <li><a href="#beginner-scenarios">Scenarios</a></li>
         <li><a href="#ai-confidence-quiz">Quiz</a></li>
@@ -2476,6 +2544,7 @@
   <a href="#task-decision-helper" class="mobile-link">Start</a>
   <a href="#beginner-glossary" class="mobile-link">Glossary</a>
   <a href="#first-prompt-builder" class="mobile-link">Builder</a>
+  <a href="#prompt-comparison-tool" class="mobile-link">Compare</a>
   <a href="#beginner-checklist" class="mobile-link">Checklist</a>
   <a href="#beginner-scenarios" class="mobile-link">Scenarios</a>
   <a href="#ai-confidence-quiz" class="mobile-link">Quiz</a>
@@ -2854,6 +2923,47 @@
         <div class="builder-output" id="prompt-builder-output" aria-live="polite"></div>
         <button class="btn btn-primary" type="button" onclick="copyBuiltPrompt(this)">📋 Copy starter prompt</button>
         <p class="builder-safe-note"><span aria-hidden="true">✅</span><span><strong>Review before using:</strong> remove confidential details and fact-check important claims.</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── Prompt Comparison Tool ── -->
+<section class="section" id="prompt-comparison-tool" aria-live="polite">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">🔁 Prompt Comparison</div>
+      <h2 class="section-title">What changed? Prompt comparison</h2>
+      <p class="section-subtitle">Turn a vague beginner prompt into a safer, more useful request by toggling role, context, and format details.</p>
+    </div>
+    <div class="comparison-bg reveal">
+      <div class="comparison-controls" aria-label="Prompt improvement choices">
+        <h3>Add prompt ingredients</h3>
+        <label class="comparison-toggle">
+          <input type="checkbox" data-comparison-toggle="role" checked onchange="updatePromptComparison()">
+          <span><strong>Role</strong><span>Role adds the point of view, so AI answers like a helpful workplace coach.</span></span>
+        </label>
+        <label class="comparison-toggle">
+          <input type="checkbox" data-comparison-toggle="context" checked onchange="updatePromptComparison()">
+          <span><strong>Context</strong><span>Context narrows the situation without exposing private details or real names.</span></span>
+        </label>
+        <label class="comparison-toggle">
+          <input type="checkbox" data-comparison-toggle="format" checked onchange="updatePromptComparison()">
+          <span><strong>Format</strong><span>Format tells AI what shape to return, which makes the answer easier to review.</span></span>
+        </label>
+      </div>
+      <article class="comparison-result" aria-label="Weak and improved prompt comparison">
+        <div class="comparison-pair">
+          <div class="comparison-card">
+            <h4>Weak prompt</h4>
+            <div class="comparison-prompt-output">Make this better.</div>
+          </div>
+          <div class="comparison-card improved">
+            <h4>Improved prompt</h4>
+            <div class="comparison-prompt-output" id="comparison-prompt-output"></div>
+          </div>
+        </div>
+        <ul class="comparison-notes" id="comparison-notes"></ul>
       </article>
     </div>
   </div>
@@ -3857,13 +3967,47 @@ function copyBuiltPrompt(btn) {
   afterCopy();
 }
 
-document.querySelectorAll('[data-builder-field]').forEach(field => {
-  field.addEventListener('input', updatePromptBuilder);
-  field.addEventListener('change', updatePromptBuilder);
-});
-updatePromptBuilder();
+    document.querySelectorAll('[data-builder-field]').forEach(field => {
+      field.addEventListener('input', updatePromptBuilder);
+      field.addEventListener('change', updatePromptBuilder);
+    });
+    updatePromptBuilder();
 
-// ── Beginner checklist ──
+    // ── Prompt comparison tool ──
+    function updatePromptComparison() {
+      const output = document.getElementById('comparison-prompt-output');
+      const notes = document.getElementById('comparison-notes');
+      if (!output || !notes) return;
+      const enabled = name => {
+        const input = document.querySelector(`[data-comparison-toggle="${name}"]`);
+        return input ? input.checked : false;
+      };
+      const parts = [];
+      const explanations = [];
+      if (enabled('role')) {
+        parts.push('You are a patient workplace writing coach.');
+        explanations.push('Role adds the point of view so the response matches the kind of help you need.');
+      }
+      parts.push('Please improve this short update.');
+      if (enabled('context')) {
+        parts.push('Context: it is for a weekly team update about [project], and all names, amounts, and customer details are replaced with placeholders.');
+        explanations.push('Context narrows the situation without exposing private details.');
+      }
+      if (enabled('format')) {
+        parts.push('Format: return a concise subject line, 3 bullet points, and one question for anything unclear.');
+        explanations.push('Format tells AI what shape to return so the answer is easier to scan and review.');
+      }
+      parts.push('Before finalizing, mark assumptions and remind me to fact-check names, dates, and numbers.');
+      output.textContent = parts.join('\n\n');
+      notes.innerHTML = explanations.map(item => `<li>${item}</li>`).join('') || '<li>Try adding one ingredient to see why stronger prompts get safer, clearer answers.</li>';
+    }
+
+    document.querySelectorAll('[data-comparison-toggle]').forEach(input => {
+      input.addEventListener('change', updatePromptComparison);
+    });
+    updatePromptComparison();
+    
+    // ── Beginner checklist ──
 function loadChecklistProgress() {
   try {
     const saved = JSON.parse(localStorage.getItem(CHECKLIST_STORAGE_KEY) || '[]');
