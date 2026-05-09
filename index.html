@@ -1743,7 +1743,7 @@
       }
       .glossary-term-list {
         display: grid;
-        gap: 10px;
+        gap: 12px;
         align-content: start;
       }
       .glossary-term-btn {
@@ -1751,7 +1751,8 @@
         background: var(--surface);
         color: var(--ink);
         border-radius: var(--radius-sm);
-        padding: 14px 16px;
+        padding: 16px 18px;
+        min-height: 56px;
         text-align: left;
         cursor: pointer;
         display: flex;
@@ -1759,6 +1760,7 @@
         align-items: center;
         gap: 12px;
         font-family: var(--font-body);
+        font-size: 1.0625rem;
         font-weight: 700;
         transition:
           transform var(--transition-spring),
@@ -1769,73 +1771,186 @@
       .glossary-term-btn:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-sm);
+        border-color: var(--border2);
       }
       .glossary-term-btn[aria-pressed="true"] {
         border-color: var(--teal);
         background: var(--surface);
+        color: var(--teal-dark);
+        box-shadow:
+          inset 0 0 0 1px var(--teal),
+          var(--shadow-sm);
+      }
+      .glossary-term-btn[aria-pressed="true"] .glossary-term-pill {
         color: var(--teal);
-        box-shadow: inset 0 0 0 1px var(--teal);
+        background: var(--teal-bg);
+        border-color: var(--teal);
       }
       .glossary-term-btn:focus-visible {
         outline: 3px solid var(--teal);
         outline-offset: 3px;
       }
       .glossary-term-pill {
-        font-size: 0.68rem;
+        font-size: 0.7rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: var(--muted);
+        color: var(--ink2);
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 4px 10px;
         white-space: nowrap;
       }
+
+      /* Hand-drawn paper card feel */
       .glossary-panel {
+        position: relative;
         background: var(--surface);
-        border: 1px solid var(--border);
+        border: 2px solid var(--ink);
         border-radius: var(--radius);
-        padding: 30px;
+        padding: 32px 30px;
         min-height: 320px;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 6px 6px 0 color-mix(in srgb, var(--ink) 82%, transparent);
+      }
+      .glossary-panel::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border: 1px dashed color-mix(in srgb, var(--ink) 18%, transparent);
+        border-radius: calc(var(--radius) - 6px);
+        pointer-events: none;
       }
       .glossary-panel-kicker {
+        font-family: var(--font-editorial);
         font-size: 0.72rem;
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--coral);
         margin-bottom: 10px;
       }
       .glossary-panel h3 {
-        font-size: 1.7rem;
-        margin-bottom: 12px;
+        font-family: var(--font-display);
+        font-size: clamp(1.85rem, 3vw, 2.25rem);
+        font-weight: 800;
+        line-height: 1.15;
+        color: var(--ink);
+        margin-bottom: 22px;
       }
-      .glossary-plain {
+
+      /* The 3-part split: What it is / Why it matters / Try this */
+      .gloss-parts {
+        display: grid;
+        gap: 14px;
+      }
+      .gloss-part {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 14px 16px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+      }
+      .gloss-part-icon {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        font-size: 1rem;
+        flex-shrink: 0;
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+      }
+      .gloss-part-body {
+        display: grid;
+        gap: 4px;
+      }
+      .gloss-part-label {
+        font-family: var(--font-editorial);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .gloss-part-text {
+        color: var(--ink2);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+      .gloss-part-what {
+        background: color-mix(in srgb, var(--teal-bg) 60%, var(--surface));
+        border-left: 4px solid var(--teal);
+      }
+      .gloss-part-what .gloss-part-icon {
+        border-color: var(--teal);
+        color: var(--teal);
+      }
+      .gloss-part-why {
+        background: color-mix(in srgb, var(--amber-bg) 55%, var(--surface));
+        border-left: 4px solid var(--amber);
+      }
+      .gloss-part-why .gloss-part-icon {
+        border-color: var(--amber);
+        color: var(--amber);
+      }
+      .gloss-part-try {
+        background: color-mix(in srgb, var(--coral-bg) 55%, var(--surface));
+        border-left: 4px solid var(--coral);
+      }
+      .gloss-part-try .gloss-part-icon {
+        border-color: var(--coral);
+        color: var(--coral);
+      }
+
+      /* Legacy classes retained for backward compatibility. The selectors are
+         scoped so they don't interfere with the new .gloss-part-* layout. */
+      .glossary-plain:not(.gloss-part-text) {
         color: var(--ink2);
         font-size: 1rem;
         line-height: 1.75;
         margin-bottom: 18px;
       }
-      .glossary-example {
+      .glossary-example:not(.gloss-part-text) {
         background: var(--surface2);
         border-left: 4px solid var(--teal);
         border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
         padding: 16px 18px;
         margin-bottom: 18px;
       }
-      .glossary-example strong {
+      .glossary-example:not(.gloss-part-text) strong {
         display: block;
         margin-bottom: 6px;
         color: var(--ink);
       }
-      .glossary-safe-tip {
+      /* Inside the new gloss-part the lead-in <strong> stays inline. */
+      .gloss-part-text strong {
+        color: var(--ink);
+      }
+      .glossary-safe-tip:not(.gloss-part-text) {
         display: flex;
         gap: 10px;
         align-items: flex-start;
-        color: var(--muted);
-        font-size: 0.9rem;
+        color: var(--ink2);
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
       @media (max-width: 820px) {
         .glossary-bg {
           grid-template-columns: 1fr;
           padding: 28px 20px;
+        }
+        .glossary-panel {
+          padding: 26px 22px;
+          box-shadow: 4px 4px 0 var(--ink);
+        }
+        .glossary-term-btn {
+          min-height: 52px;
+          padding: 14px 16px;
         }
       }
 
@@ -1867,50 +1982,176 @@
         display: grid;
         gap: 10px;
       }
+      .flashcards-guide kbd {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        background: var(--surface2);
+        border: 1px solid var(--border2);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 6px;
+        color: var(--ink);
+      }
+      .flashcards-kbd-hint {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px dashed var(--border);
+        color: var(--ink2);
+        font-size: 0.88rem;
+        line-height: 1.6;
+      }
       .flashcard-practice {
         background: var(--surface);
         border: 2px solid var(--ink);
         border-radius: var(--radius);
         padding: 30px;
-        min-height: 360px;
+        min-height: 380px;
         box-shadow: 8px 8px 0 color-mix(in srgb, var(--ink) 82%, transparent);
         display: grid;
+        grid-template-rows: auto 1fr auto auto;
         gap: 18px;
       }
       .flashcard-progress {
+        font-family: var(--font-editorial);
         font-size: 0.78rem;
         font-weight: 800;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--violet);
       }
+
+      /* Flip stage + flipper (3D rotation) */
+      .flashcard-stage {
+        perspective: 1400px;
+        min-height: 220px;
+        display: grid;
+      }
+      .flashcard-flipper {
+        position: relative;
+        display: grid;
+        transform-style: preserve-3d;
+        transition: transform 520ms cubic-bezier(0.4, 0.05, 0.2, 1);
+        will-change: transform;
+      }
+      .flashcard-flipper.is-flipped {
+        transform: rotateY(180deg);
+      }
       .flashcard-face {
+        grid-area: 1 / 1;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
         background: var(--surface2);
-        border: 1px solid var(--border);
+        border: 1.5px solid var(--border);
         border-radius: var(--radius);
-        padding: 26px;
-        min-height: 190px;
+        padding: 28px 26px;
+        min-height: 220px;
         display: grid;
         align-content: center;
         gap: 12px;
+        text-align: center;
       }
-      .flashcard-face h3 {
-        font-size: 2rem;
+      .flashcard-face[data-side="back"] {
+        transform: rotateY(180deg);
+        background: color-mix(in srgb, var(--violet-bg) 65%, var(--surface));
+        border-color: var(--violet);
+        text-align: left;
       }
-      .flashcard-face p {
+      .flashcard-face[aria-hidden="true"] {
+        pointer-events: none;
+      }
+      .flashcard-face .flashcard-kicker {
+        font-family: var(--font-editorial);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--violet);
+      }
+      .flashcard-term {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--ink);
+        margin: 6px 0;
+      }
+      .flashcard-prompt {
         color: var(--ink2);
+        font-size: 1.0625rem;
+        line-height: 1.6;
       }
+      .flashcard-back-term {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--ink);
+        margin-bottom: 4px;
+      }
+      .flashcard-definition {
+        color: var(--ink2);
+        font-size: 1.0625rem;
+        line-height: 1.6;
+      }
+      .flashcard-meta {
+        margin-top: 8px;
+        display: grid;
+        gap: 8px;
+      }
+      .flashcard-meta-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        align-items: start;
+        color: var(--ink2);
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
+      .flashcard-meta-row strong {
+        color: var(--ink);
+      }
+
+      /* Reduced motion: replace flip with crossfade */
+      @media (prefers-reduced-motion: reduce) {
+        .flashcard-flipper {
+          transform: none !important;
+          transition: none !important;
+        }
+        .flashcard-face {
+          transition: opacity 200ms ease;
+        }
+        .flashcard-face[data-side="back"] {
+          transform: none;
+        }
+        .flashcard-face[aria-hidden="true"] {
+          opacity: 0;
+        }
+        .flashcard-face[aria-hidden="false"] {
+          opacity: 1;
+        }
+      }
+
       .flashcard-safe-reminder {
         display: flex;
         gap: 10px;
         align-items: flex-start;
-        color: var(--muted);
+        color: var(--ink2);
         font-size: 0.92rem;
+        line-height: 1.55;
+        padding: 10px 12px;
+        background: var(--surface2);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
       }
       .flashcard-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
+      }
+      .flashcard-actions .btn {
+        min-height: 44px;
+      }
+      .flashcard-actions [hidden] {
+        display: none !important;
       }
       @media (max-width: 820px) {
         .flashcards-bg {
@@ -1919,6 +2160,15 @@
         }
         .flashcard-practice {
           box-shadow: 4px 4px 0 var(--ink);
+          padding: 24px 22px;
+        }
+        .flashcard-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .flashcard-actions .btn {
+          width: 100%;
+          min-height: 48px;
         }
       }
 
@@ -6844,20 +7094,44 @@
             <aside class="flashcards-guide" aria-label="How to use AI terms flashcards">
               <h3>Three-minute practice</h3>
               <ol>
-                <li>Read the front of the card and say the meaning in your own words.</li>
-                <li>Flip to check the plain-English definition and example.</li>
-                <li>Notice the safe habit before using the term in a real prompt.</li>
+                <li>Read the term on the front and say the meaning in your own words.</li>
+                <li>Tap <strong>Show answer</strong> to reveal the plain-English definition.</li>
+                <li>
+                  Mark <strong>Got it</strong> or <strong>Practice again</strong>, then move on.
+                </li>
               </ol>
+              <p class="flashcards-kbd-hint">
+                <strong>Keyboard:</strong> press <kbd>Space</kbd> or <kbd>↑</kbd>/<kbd>↓</kbd> to
+                flip, <kbd>→</kbd> for next term, <kbd>←</kbd> to repeat.
+              </p>
             </aside>
             <article
               class="flashcard-practice"
               id="flashcard-practice-card"
               aria-live="polite"
               aria-labelledby="flashcard-progress"
+              tabindex="0"
             >
               <div class="flashcard-progress" id="flashcard-progress">Card 1 of 4</div>
-              <div class="flashcard-face" id="flashcard-face">
-                <!-- Flashcard content injected by JS -->
+              <div class="flashcard-stage">
+                <div class="flashcard-flipper" id="flashcard-flipper">
+                  <div
+                    class="flashcard-face"
+                    id="flashcard-face"
+                    data-side="front"
+                    aria-hidden="false"
+                  >
+                    <!-- Flashcard front content injected by JS -->
+                  </div>
+                  <div
+                    class="flashcard-face"
+                    id="flashcard-face-back"
+                    data-side="back"
+                    aria-hidden="true"
+                  >
+                    <!-- Flashcard back content injected by JS -->
+                  </div>
+                </div>
               </div>
               <p class="flashcard-safe-reminder">
                 <span aria-hidden="true">🛡️</span
@@ -6871,14 +7145,36 @@
                   class="btn btn-primary"
                   type="button"
                   data-flashcard-action="flip"
+                  id="flashcard-flip-btn"
                   onclick="flipFlashcard()"
                 >
-                  Flip card
+                  Show answer
                 </button>
                 <button
                   class="btn btn-teal"
                   type="button"
+                  data-flashcard-action="got-it"
+                  id="flashcard-got-it-btn"
+                  onclick="gotItFlashcard()"
+                  hidden
+                >
+                  Got it
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  data-flashcard-action="practice-again"
+                  id="flashcard-practice-again-btn"
+                  onclick="practiceAgainFlashcard()"
+                  hidden
+                >
+                  Practice again
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
                   data-flashcard-action="next"
+                  id="flashcard-next-btn"
                   onclick="nextFlashcard()"
                 >
                   Next term
@@ -21442,14 +21738,28 @@
         panel.innerHTML = `
     <div class="glossary-panel-kicker">${term.level}</div>
     <h3>${term.term}</h3>
-    <p class="glossary-plain">${term.plain}</p>
-    <div class="glossary-example">
-      <strong>Beginner example</strong>
-      <p>${term.example}</p>
-    </div>
-    <div class="glossary-safe-tip">
-      <span aria-hidden="true">🛡️</span>
-      <span><strong>Safe habit:</strong> ${term.safeTip}</span>
+    <div class="gloss-parts">
+      <div class="gloss-part gloss-part-what">
+        <span class="gloss-part-icon" aria-hidden="true">📘</span>
+        <div class="gloss-part-body">
+          <span class="gloss-part-label">What it is</span>
+          <p class="gloss-part-text glossary-plain">${term.plain}</p>
+        </div>
+      </div>
+      <div class="gloss-part gloss-part-why">
+        <span class="gloss-part-icon" aria-hidden="true">💡</span>
+        <div class="gloss-part-body">
+          <span class="gloss-part-label">Why it matters</span>
+          <p class="gloss-part-text glossary-example"><strong>Beginner example.</strong> ${term.example}</p>
+        </div>
+      </div>
+      <div class="gloss-part gloss-part-try">
+        <span class="gloss-part-icon" aria-hidden="true">🛡️</span>
+        <div class="gloss-part-body">
+          <span class="gloss-part-label">Try this safely</span>
+          <p class="gloss-part-text glossary-safe-tip"><strong>Safe habit:</strong> ${term.safeTip}</p>
+        </div>
+      </div>
     </div>
   `;
       }
@@ -21466,24 +21776,39 @@
       // ── AI terms flashcards ──
       function renderFlashcard() {
         const card = GLOSSARY_TERMS[activeFlashcardIndex % GLOSSARY_TERMS.length];
-        const face = document.getElementById("flashcard-face");
+        const front = document.getElementById("flashcard-face");
+        const back = document.getElementById("flashcard-face-back");
+        const flipper = document.getElementById("flashcard-flipper");
         const progress = document.getElementById("flashcard-progress");
-        if (!card || !face) return;
+        const flipBtn = document.getElementById("flashcard-flip-btn");
+        const gotItBtn = document.getElementById("flashcard-got-it-btn");
+        const practiceAgainBtn = document.getElementById("flashcard-practice-again-btn");
+        if (!card || !front) return;
         if (progress)
           progress.textContent = `Card ${activeFlashcardIndex + 1} of ${GLOSSARY_TERMS.length}`;
-        face.innerHTML = isFlashcardFlipped
-          ? `
-    <div class="glossary-panel-kicker">${card.level}</div>
-    <h3>${card.term}</h3>
-    <p>${card.plain}</p>
-    <p><strong>Example:</strong> ${card.example}</p>
-    <p><strong>Safe habit:</strong> ${card.safeTip}</p>
-  `
-          : `
-    <div class="glossary-panel-kicker">Term to remember</div>
-    <h3>${card.term}</h3>
-    <p>What does this mean in everyday workplace AI use?</p>
+
+        front.innerHTML = `
+    <div class="flashcard-kicker">Term to remember</div>
+    <h3 class="flashcard-term">${card.term}</h3>
+    <p class="flashcard-prompt">What does this mean in everyday workplace AI use?</p>
   `;
+        back.innerHTML = `
+    <div class="flashcard-kicker">${card.level}</div>
+    <div class="flashcard-back-term">${card.term}</div>
+    <p class="flashcard-definition">${card.plain}</p>
+    <div class="flashcard-meta">
+      <p class="flashcard-meta-row"><span aria-hidden="true">💡</span><span><strong>Example:</strong> ${card.example}</span></p>
+      <p class="flashcard-meta-row"><span aria-hidden="true">🛡️</span><span><strong>Safe habit:</strong> ${card.safeTip}</span></p>
+    </div>
+  `;
+
+        if (flipper) flipper.classList.toggle("is-flipped", isFlashcardFlipped);
+        front.setAttribute("aria-hidden", isFlashcardFlipped ? "true" : "false");
+        back.setAttribute("aria-hidden", isFlashcardFlipped ? "false" : "true");
+
+        if (flipBtn) flipBtn.hidden = isFlashcardFlipped;
+        if (gotItBtn) gotItBtn.hidden = !isFlashcardFlipped;
+        if (practiceAgainBtn) practiceAgainBtn.hidden = !isFlashcardFlipped;
       }
 
       function flipFlashcard() {
@@ -21496,6 +21821,36 @@
         isFlashcardFlipped = false;
         renderFlashcard();
       }
+
+      function gotItFlashcard() {
+        nextFlashcard();
+      }
+
+      function practiceAgainFlashcard() {
+        isFlashcardFlipped = false;
+        renderFlashcard();
+        const card = document.getElementById("flashcard-practice-card");
+        if (card && typeof card.focus === "function") card.focus();
+      }
+
+      (function attachFlashcardKeyboard() {
+        const card = document.getElementById("flashcard-practice-card");
+        if (!card) return;
+        card.addEventListener("keydown", function (event) {
+          const key = event.key;
+          if (key === "ArrowRight") {
+            event.preventDefault();
+            nextFlashcard();
+          } else if (key === "ArrowLeft") {
+            event.preventDefault();
+            practiceAgainFlashcard();
+          } else if (key === "ArrowUp" || key === "ArrowDown" || key === " " || key === "Enter") {
+            if (event.target && event.target.tagName === "BUTTON" && key === "Enter") return;
+            event.preventDefault();
+            flipFlashcard();
+          }
+        });
+      })();
 
       renderFlashcard();
 
