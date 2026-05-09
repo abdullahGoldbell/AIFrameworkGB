@@ -950,9 +950,9 @@
 
       /* ── Monthly Newsletter ── */
       .newsletter-bg {
-        background: linear-gradient(135deg, var(--surface2), var(--surface));
+        background: linear-gradient(150deg, var(--surface2), var(--surface) 65%);
         border-radius: var(--radius-lg);
-        padding: 56px;
+        padding: 64px 56px 72px;
         border: 1px solid var(--border);
         position: relative;
         overflow: hidden;
@@ -960,10 +960,10 @@
       .newsletter-bg::before {
         content: "";
         position: absolute;
-        top: -60px;
-        right: -60px;
-        width: 240px;
-        height: 240px;
+        top: -80px;
+        right: -80px;
+        width: 280px;
+        height: 280px;
         background: radial-gradient(circle, var(--amber-bg), transparent 70%);
         pointer-events: none;
       }
@@ -974,30 +974,37 @@
         background: var(--amber);
         color: #fff;
         border-radius: 100px;
-        padding: 6px 16px;
+        padding: 7px 18px;
         font-size: 0.8125rem;
         font-weight: 700;
-        margin-bottom: 20px;
+        margin-bottom: 22px;
+        letter-spacing: 0.02em;
       }
       .newsletter-title {
-        font-size: clamp(1.5rem, 3vw, 2.25rem);
-        margin-bottom: 12px;
+        font-family: var(--font-display);
+        font-size: clamp(1.85rem, 3.4vw, 2.6rem);
+        line-height: 1.15;
+        margin-bottom: 14px;
+        color: var(--ink);
       }
       .newsletter-subtitle {
         color: var(--muted);
-        margin-bottom: 40px;
+        margin-bottom: 56px;
         font-size: 1.0625rem;
+        max-width: 60ch;
+        line-height: 1.55;
       }
       .newsletter-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 22px;
       }
       .nl-card {
+        --nl-accent: var(--amber);
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        padding: 24px;
+        padding: 28px 26px 22px;
         cursor: pointer;
         transition:
           transform var(--transition-spring),
@@ -1005,70 +1012,228 @@
           border-color var(--transition);
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        color: var(--ink);
       }
       .nl-card:hover {
-        transform: translateY(-4px) scale(1.01);
-        box-shadow: var(--shadow);
+        transform: translateY(-3px);
+        box-shadow: 6px 6px 0 color-mix(in srgb, var(--nl-accent) 22%, transparent);
+        border-color: color-mix(in srgb, var(--nl-accent) 55%, var(--border));
       }
       .nl-card:focus-visible {
         outline: 3px solid var(--teal);
         outline-offset: 3px;
       }
       .nl-card-type {
+        font-family: var(--font-editorial);
         font-size: 0.7rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
         display: flex;
         align-items: center;
         gap: 6px;
       }
       .nl-card h4 {
-        font-size: 0.9375rem;
-        font-weight: 700;
-        margin-bottom: 8px;
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 10px;
+        color: var(--ink);
       }
-      .nl-card p {
-        font-size: 0.8125rem;
-        color: var(--muted);
+      .nl-card > p {
+        font-size: 0.9375rem;
+        color: var(--ink2);
         line-height: 1.6;
       }
       .nl-card-expand {
-        display: none;
-        margin-top: 16px;
-        padding-top: 16px;
-        border-top: 1px solid var(--border);
-        font-size: 0.8125rem;
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition:
+          grid-template-rows var(--transition-slow),
+          opacity var(--transition-slow),
+          margin-top var(--transition-slow);
+        font-size: 0.9375rem;
         color: var(--ink2);
         line-height: 1.7;
+        margin-top: 0;
+      }
+      .nl-card-expand > .nl-card-expand-inner {
+        overflow: hidden;
+        min-height: 0;
+        padding-top: 0;
+        border-top: 1px solid transparent;
+        transition:
+          padding-top var(--transition-slow),
+          border-top-color var(--transition-slow);
       }
       .nl-card.expanded .nl-card-expand {
-        display: block;
+        grid-template-rows: 1fr;
+        opacity: 1;
+        margin-top: 18px;
+      }
+      .nl-card.expanded .nl-card-expand > .nl-card-expand-inner {
+        padding-top: 18px;
+        border-top-color: color-mix(in srgb, var(--nl-accent) 28%, var(--border));
+      }
+      .nl-card-expand strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .nl-card-expand em {
+        color: var(--ink);
+      }
+      .nl-card-cta {
+        margin-top: 20px;
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-editorial);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--nl-accent);
+        padding: 8px 14px;
+        border: 1.5px solid color-mix(in srgb, var(--nl-accent) 60%, var(--border));
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--nl-accent) 8%, transparent);
+        pointer-events: none;
+        transition:
+          background var(--transition),
+          border-color var(--transition),
+          color var(--transition);
+      }
+      .nl-card:hover .nl-card-cta {
+        background: color-mix(in srgb, var(--nl-accent) 16%, transparent);
+        border-color: var(--nl-accent);
+      }
+      .nl-card-cta-arrow {
+        transition: transform var(--transition);
+      }
+      .nl-card.expanded .nl-card-cta-arrow {
+        transform: rotate(90deg);
+      }
+      .nl-card-cta-label-collapsed {
+        display: inline;
+      }
+      .nl-card-cta-label-expanded {
+        display: none;
+      }
+      .nl-card.expanded .nl-card-cta-label-collapsed {
+        display: none;
+      }
+      .nl-card.expanded .nl-card-cta-label-expanded {
+        display: inline;
       }
       .nl-card-caret {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 22px;
+        right: 22px;
         font-size: 0.75rem;
         color: var(--muted);
         transition: transform var(--transition);
+        pointer-events: none;
       }
       .nl-card.expanded .nl-card-caret {
         transform: rotate(180deg);
+        color: var(--nl-accent);
       }
       .nl-card-accent {
         position: absolute;
         top: 0;
         left: 0;
-        width: 4px;
-        height: 100%;
-        border-radius: 4px 0 0 4px;
+        right: 0;
+        width: 100%;
+        height: 5px;
+        border-radius: var(--radius) var(--radius) 0 0;
+        background: var(--nl-accent);
+      }
+
+      /* Featured (first/dark) card — explicit colors so all text reads on dark */
+      .nl-card--featured {
+        grid-row: span 2;
+        background: linear-gradient(165deg, #1f2826 0%, #141c1a 100%);
+        border-color: #2c3a37;
+        color: #f3eedf;
+      }
+      [data-theme="dark"] .nl-card--featured {
+        background: linear-gradient(165deg, #0c1614 0%, #060b0a 100%);
+        border-color: #1f2c29;
+      }
+      .nl-card--featured h4,
+      .nl-card--featured > p {
+        color: #f6efe0;
+      }
+      .nl-card--featured > p {
+        color: #d6cfbe;
+      }
+      .nl-card--featured .nl-card-expand,
+      .nl-card--featured .nl-card-expand strong,
+      .nl-card--featured .nl-card-expand em {
+        color: #efe8d7;
+      }
+      .nl-card--featured.expanded .nl-card-expand > .nl-card-expand-inner {
+        border-top-color: color-mix(in srgb, var(--nl-accent) 60%, #3a4744);
+      }
+      .nl-card--featured .nl-card-type {
+        color: #ffc84a;
+      }
+      .nl-card--featured .nl-card-caret {
+        color: #c2bba9;
+      }
+      .nl-card--featured .nl-card-cta {
+        color: #fff;
+        background: color-mix(in srgb, var(--nl-accent) 22%, transparent);
+        border-color: color-mix(in srgb, var(--nl-accent) 70%, #4a5552);
+      }
+      .nl-card--featured:hover .nl-card-cta {
+        background: color-mix(in srgb, var(--nl-accent) 36%, transparent);
+        border-color: var(--nl-accent);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .nl-card-expand,
+        .nl-card-expand > .nl-card-expand-inner,
+        .nl-card-caret,
+        .nl-card-cta-arrow {
+          transition: none;
+        }
+        .nl-card-expand {
+          opacity: 1;
+        }
+        .nl-card:not(.expanded) .nl-card-expand {
+          display: none;
+        }
+        .nl-card.expanded .nl-card-expand {
+          display: block;
+          margin-top: 18px;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .nl-card--featured {
+          grid-row: auto;
+        }
       }
 
       @media (max-width: 600px) {
         .newsletter-bg {
-          padding: 28px 20px;
+          padding: 36px 22px 44px;
+        }
+        .newsletter-subtitle {
+          margin-bottom: 32px;
+        }
+        .newsletter-cards {
+          gap: 16px;
+        }
+        .nl-card {
+          padding: 24px 22px 20px;
         }
       }
 
@@ -3552,24 +3717,14 @@
         grid-column: span 6;
       }
       .newsletter-bg {
-        border-radius: 0;
+        border-radius: var(--radius-lg);
         border: 2px solid var(--ink);
-        box-shadow: 8px 8px 0 var(--ink);
+        box-shadow: 10px 10px 0 var(--ink);
         background: var(--surface);
       }
       .newsletter-cards {
         grid-template-columns: 1.3fr 1fr 1fr;
-        align-items: start;
-      }
-      .nl-card:first-child {
-        grid-row: span 2;
-        min-height: 100%;
-        background: var(--ink);
-        color: var(--bg);
-      }
-      .nl-card:first-child h4,
-      .nl-card:first-child p {
-        color: var(--bg);
+        align-items: stretch;
       }
       .prompt-master-bg {
         border: 2px solid var(--ink);
@@ -3989,35 +4144,43 @@
     </section>
 
     <!-- ── Monthly Newsletter ── -->
-    <section class="section-sm" id="newsletter">
+    <section class="section" id="newsletter">
       <div class="container">
         <div class="newsletter-bg reveal">
           <div class="newsletter-issue-badge">📬 May 2026 Issue</div>
           <h2 class="newsletter-title">This Month in AI</h2>
           <p class="newsletter-subtitle">
-            Click any card to read more — each one is a quick, practical insight you can use today.
+            Five quick, practical insights you can use today. Click any card to read the full story.
           </p>
           <div class="newsletter-cards">
             <div
-              class="nl-card"
+              class="nl-card nl-card--featured"
               tabindex="0"
               role="button"
               aria-expanded="false"
               onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--amber)"
             >
-              <div class="nl-card-accent" style="background: var(--amber)"></div>
-              <div class="nl-card-type" style="color: var(--amber)">⚡ Tip of the Month</div>
+              <div class="nl-card-accent"></div>
+              <div class="nl-card-type">⚡ Tip of the Month</div>
               <h4>The "Role + Task + Format" Formula</h4>
               <p>The single most effective way to get better AI results — every time.</p>
               <div class="nl-card-expand">
-                <strong>Try this structure:</strong> "You are a [role]. [Task description]. Output
-                as [format]."<br /><br />
-                <strong>Example:</strong> "You are a senior HR manager. Write a professional email
-                declining a job applicant. Keep it warm, brief, and under 100 words."<br /><br />
-                This simple formula works for almost any task and consistently produces more useful,
-                on-target results than vague requests.
+                <div class="nl-card-expand-inner">
+                  <strong>Try this structure:</strong> "You are a [role]. [Task description].
+                  Output as [format]."<br /><br />
+                  <strong>Example:</strong> "You are a senior HR manager. Write a professional
+                  email declining a job applicant. Keep it warm, brief, and under 100 words."<br /><br />
+                  This simple formula works for almost any task and consistently produces more
+                  useful, on-target results than vague requests.
+                </div>
               </div>
-              <span class="nl-card-caret">▼</span>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
             </div>
 
             <div
@@ -4026,22 +4189,30 @@
               role="button"
               aria-expanded="false"
               onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--teal)"
             >
-              <div class="nl-card-accent" style="background: var(--teal)"></div>
+              <div class="nl-card-accent"></div>
               <div class="nl-card-type" style="color: var(--teal)">🔦 Tool Spotlight</div>
               <h4>ChatGPT for Everyday Work</h4>
               <p>
                 The tool most of your colleagues are already quietly using — and how to get started.
               </p>
               <div class="nl-card-expand">
-                <strong>What it is:</strong> ChatGPT is a free AI assistant you can talk to like a
-                colleague. Ask it to write, summarize, explain, or brainstorm anything.<br /><br />
-                <strong>Best for:</strong> Drafting emails, summarizing documents, generating ideas,
-                explaining complex topics in plain English.<br /><br />
-                <strong>Get started:</strong> Visit chat.openai.com — no special skills needed. Just
-                type what you need as if asking a knowledgeable colleague.
+                <div class="nl-card-expand-inner">
+                  <strong>What it is:</strong> ChatGPT is a free AI assistant you can talk to like a
+                  colleague. Ask it to write, summarize, explain, or brainstorm anything.<br /><br />
+                  <strong>Best for:</strong> Drafting emails, summarizing documents, generating
+                  ideas, explaining complex topics in plain English.<br /><br />
+                  <strong>Get started:</strong> Visit chat.openai.com — no special skills needed.
+                  Just type what you need as if asking a knowledgeable colleague.
+                </div>
               </div>
-              <span class="nl-card-caret">▼</span>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
             </div>
 
             <div
@@ -4050,21 +4221,30 @@
               role="button"
               aria-expanded="false"
               onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--coral)"
             >
-              <div class="nl-card-accent" style="background: var(--coral)"></div>
+              <div class="nl-card-accent"></div>
               <div class="nl-card-type" style="color: var(--coral)">💼 Real Work Use Case</div>
               <h4>Finance Team Cuts Report Time by 60%</h4>
               <p>How one team used AI to transform their monthly reporting process.</p>
               <div class="nl-card-expand">
-                <strong>The challenge:</strong> The finance team spent 3 hours every month manually
-                formatting and writing the management summary for their financial reports.<br /><br />
-                <strong>The solution:</strong> They paste their raw numbers into ChatGPT with a
-                simple prompt: "Summarize these figures for a non-finance executive audience.
-                Highlight key trends and flag anything unusual."<br /><br />
-                <strong>The result:</strong> First draft in 5 minutes. Total time saved: ~2.5 hours
-                per month.
+                <div class="nl-card-expand-inner">
+                  <strong>The challenge:</strong> The finance team spent 3 hours every month
+                  manually formatting and writing the management summary for their financial
+                  reports.<br /><br />
+                  <strong>The solution:</strong> They paste their raw numbers into ChatGPT with a
+                  simple prompt: "Summarize these figures for a non-finance executive audience.
+                  Highlight key trends and flag anything unusual."<br /><br />
+                  <strong>The result:</strong> First draft in 5 minutes. Total time saved: ~2.5
+                  hours per month.
+                </div>
               </div>
-              <span class="nl-card-caret">▼</span>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
             </div>
 
             <div
@@ -4073,21 +4253,29 @@
               role="button"
               aria-expanded="false"
               onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--rose)"
             >
-              <div class="nl-card-accent" style="background: var(--rose)"></div>
+              <div class="nl-card-accent"></div>
               <div class="nl-card-type" style="color: var(--rose)">⚠️ Common Mistake</div>
               <h4>Treating AI Output as Final</h4>
               <p>The most common mistake beginners make — and how to avoid it.</p>
               <div class="nl-card-expand">
-                <strong>The mistake:</strong> Copying AI output directly without reviewing it. AI
-                can be confidently wrong — it doesn't know your company, your context, or the latest
-                facts.<br /><br />
-                <strong>The fix:</strong> Always treat AI output as a first draft. Read it. Edit it.
-                Check any facts it mentions. Add your own judgment before sending or using it.<br /><br />
-                <strong>Remember:</strong> AI is a powerful assistant, not a replacement for your
-                expertise and accountability.
+                <div class="nl-card-expand-inner">
+                  <strong>The mistake:</strong> Copying AI output directly without reviewing it. AI
+                  can be confidently wrong — it doesn't know your company, your context, or the
+                  latest facts.<br /><br />
+                  <strong>The fix:</strong> Always treat AI output as a first draft. Read it. Edit
+                  it. Check any facts it mentions. Add your own judgment before sending or using it.<br /><br />
+                  <strong>Remember:</strong> AI is a powerful assistant, not a replacement for your
+                  expertise and accountability.
+                </div>
               </div>
-              <span class="nl-card-caret">▼</span>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
             </div>
 
             <div
@@ -4096,22 +4284,30 @@
               role="button"
               aria-expanded="false"
               onclick="toggleNlCard(this)"
+              style="--nl-accent: var(--violet)"
             >
-              <div class="nl-card-accent" style="background: var(--violet)"></div>
+              <div class="nl-card-accent"></div>
               <div class="nl-card-type" style="color: var(--violet)">🎯 Try This Today</div>
               <h4>The 5-Minute Email Makeover</h4>
               <p>A prompt you can use right now to improve any email you've written.</p>
               <div class="nl-card-expand">
-                <strong>Copy this prompt:</strong><br /><br />
-                <em
-                  >"Review this email and improve it. Make it clearer, more professional, and more
-                  concise. Keep the same meaning but remove any unnecessary words. Here is the
-                  email: [paste your email]"</em
-                ><br /><br />
-                <strong>Why it works:</strong> This is one of the highest-value uses of AI for
-                everyday work. You keep control of the message; AI just makes it better.
+                <div class="nl-card-expand-inner">
+                  <strong>Copy this prompt:</strong><br /><br />
+                  <em
+                    >"Review this email and improve it. Make it clearer, more professional, and
+                    more concise. Keep the same meaning but remove any unnecessary words. Here is
+                    the email: [paste your email]"</em
+                  ><br /><br />
+                  <strong>Why it works:</strong> This is one of the highest-value uses of AI for
+                  everyday work. You keep control of the message; AI just makes it better.
+                </div>
               </div>
-              <span class="nl-card-caret">▼</span>
+              <button class="nl-card-cta" type="button" tabindex="-1" aria-hidden="true">
+                <span class="nl-card-cta-label-collapsed">Read more</span>
+                <span class="nl-card-cta-label-expanded">Show less</span>
+                <span class="nl-card-cta-arrow" aria-hidden="true">→</span>
+              </button>
+              <span class="nl-card-caret" aria-hidden="true">▼</span>
             </div>
           </div>
         </div>

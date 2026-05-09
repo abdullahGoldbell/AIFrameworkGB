@@ -263,7 +263,7 @@ document.querySelectorAll(".nl-card").forEach((card, index) => {
   const details = card.querySelector(".nl-card-expand");
   if (!details) return;
   details.id ||= `newsletter-card-${index + 1}`;
-  details.hidden = true;
+  details.setAttribute("aria-hidden", "true");
   card.setAttribute("aria-controls", details.id);
 });
 
@@ -272,12 +272,12 @@ function toggleNlCard(card) {
   document.querySelectorAll(".nl-card").forEach((c) => {
     c.classList.remove("expanded");
     c.setAttribute("aria-expanded", "false");
-    c.querySelector(".nl-card-expand")?.setAttribute("hidden", "");
+    c.querySelector(".nl-card-expand")?.setAttribute("aria-hidden", "true");
   });
   if (!isExpanded) {
     card.classList.add("expanded");
     card.setAttribute("aria-expanded", "true");
-    card.querySelector(".nl-card-expand")?.removeAttribute("hidden");
+    card.querySelector(".nl-card-expand")?.setAttribute("aria-hidden", "false");
   }
 }
 
