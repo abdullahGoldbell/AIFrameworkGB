@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes beginner safe prompt templates by risk level', () => {
+test("homepage includes beginner safe prompt templates by risk level", () => {
   assert.match(html, /id="safe-prompt-templates"/);
   assert.match(html, /Safe prompt templates by risk level/);
   assert.match(html, /role="tablist"[^>]*aria-label="Choose a prompt safety level"/);

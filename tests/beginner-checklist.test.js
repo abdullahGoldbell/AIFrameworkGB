@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes a persistent beginner progress checklist', () => {
+test("homepage includes a persistent beginner progress checklist", () => {
   assert.match(html, /<section class="section" id="beginner-checklist"/);
   assert.match(html, /<li><a href="#beginner-checklist">Checklist<\/a><\/li>/);
   assert.match(html, /<a href="#beginner-checklist" class="mobile-link">Checklist<\/a>/);

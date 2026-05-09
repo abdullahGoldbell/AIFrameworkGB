@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes accessible beginner AI terms flashcards practice mode', () => {
+test("homepage includes accessible beginner AI terms flashcards practice mode", () => {
   assert.match(html, /<section class="section" id="ai-terms-flashcards"/);
   assert.match(html, /<li><a href="#ai-terms-flashcards">Flashcards<\/a><\/li>/);
   assert.match(html, /<a href="#ai-terms-flashcards" class="mobile-link">Flashcards<\/a>/);

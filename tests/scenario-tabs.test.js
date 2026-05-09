@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes keyboard-accessible beginner workflow scenario tabs', () => {
+test("homepage includes keyboard-accessible beginner workflow scenario tabs", () => {
   assert.match(html, /<section class="section" id="beginner-scenarios"/);
   assert.match(html, /<li><a href="#beginner-scenarios">Scenarios<\/a><\/li>/);
   assert.match(html, /<a href="#beginner-scenarios" class="mobile-link">Scenarios<\/a>/);

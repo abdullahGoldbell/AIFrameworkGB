@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('prompt builder explains each choice with beginner helper tips', () => {
+test("prompt builder explains each choice with beginner helper tips", () => {
   assert.match(html, /class="builder-helper-tips"[^>]*aria-label="Why each prompt choice matters"/);
   assert.match(html, /id="builder-role-help"/);
   assert.match(html, /id="builder-task-help"/);

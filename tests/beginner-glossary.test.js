@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes an accessible beginner AI glossary explorer', () => {
+test("homepage includes an accessible beginner AI glossary explorer", () => {
   assert.match(html, /<section class="section" id="beginner-glossary"/);
   assert.match(html, /<li><a href="#beginner-glossary">Glossary<\/a><\/li>/);
   assert.match(html, /<a href="#beginner-glossary" class="mobile-link">Glossary<\/a>/);

@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes an accessible AI output review checklist accordion', () => {
+test("homepage includes an accessible AI output review checklist accordion", () => {
   assert.match(html, /<section class="section" id="output-review-checklist"/);
   assert.match(html, /<li><a href="#output-review-checklist">Review<\/a><\/li>/);
   assert.match(html, /<a href="#output-review-checklist" class="mobile-link">Review<\/a>/);

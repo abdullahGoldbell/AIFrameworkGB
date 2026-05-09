@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('beginner scenario prompts include accessible copy controls with fallback messaging', () => {
+test("beginner scenario prompts include accessible copy controls with fallback messaging", () => {
   assert.match(html, /data-scenario-copy/);
   assert.match(html, /onclick="copyScenarioPrompt\(this\)"/);
   assert.match(html, /aria-describedby="scenario-copy-status"/);

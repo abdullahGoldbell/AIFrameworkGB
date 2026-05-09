@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('safe prompt template tabs explain risk choice and support keyboard navigation', () => {
+test("safe prompt template tabs explain risk choice and support keyboard navigation", () => {
   assert.match(html, /id="risk-template-choice-helper"/);
   assert.match(html, /Which risk level should I choose\?/);
   assert.match(html, /Low = public learning/);

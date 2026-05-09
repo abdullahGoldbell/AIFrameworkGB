@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('homepage includes a beginner AI task decision helper', () => {
+test("homepage includes a beginner AI task decision helper", () => {
   assert.match(html, /<section class="section" id="task-decision-helper"/);
   assert.match(html, /<li><a href="#task-decision-helper">Start<\/a><\/li>/);
   assert.match(html, /<a href="#task-decision-helper" class="mobile-link">Start<\/a>/);

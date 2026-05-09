@@ -1,11 +1,11 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 
-test('prompt library empty state coaches beginners toward safe searches and reset paths', () => {
+test("prompt library empty state coaches beginners toward safe searches and reset paths", () => {
   assert.match(html, /id="pm-empty"[^>]*aria-live="polite"/);
   assert.match(html, /No prompts found yet — let’s get you unstuck/);
   assert.match(html, /Try beginner-safe searches/);
