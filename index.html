@@ -4354,6 +4354,307 @@
       main:focus-visible {
         outline: none;
       }
+      /* ── Try It in 30s widget ── */
+      .tryit-bg {
+        background: linear-gradient(135deg, var(--coral-bg), var(--surface));
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius-lg);
+        box-shadow: 18px 22px 0 rgba(23, 21, 19, 0.1);
+        padding: 44px;
+        position: relative;
+      }
+      .tryit-stage {
+        display: grid;
+        gap: 28px;
+      }
+      .tryit-step {
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity 320ms cubic-bezier(0.4, 0, 0.2, 1),
+          transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+        display: none;
+      }
+      .tryit-step.is-active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .tryit-step-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-editorial);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--coral);
+        background: var(--coral-bg);
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1.5px solid var(--ink);
+        margin-bottom: 14px;
+      }
+      .tryit-step-title {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+        line-height: 1.2;
+        margin-bottom: 8px;
+        color: var(--ink);
+      }
+      .tryit-step-help {
+        color: var(--ink2);
+        margin-bottom: 18px;
+        font-size: 0.98rem;
+        max-width: 60ch;
+      }
+      .tryit-chips {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-bottom: 4px;
+      }
+      .tryit-chip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 18px;
+        background: var(--surface);
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-align: left;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ink);
+        box-shadow: 6px 7px 0 rgba(23, 21, 19, 0.1);
+        transition:
+          transform 180ms cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 180ms cubic-bezier(0.4, 0, 0.2, 1),
+          background 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .tryit-chip:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 9px 10px 0 rgba(23, 21, 19, 0.14);
+        background: var(--amber-bg);
+      }
+      .tryit-chip:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 3px;
+      }
+      .tryit-chip[aria-pressed="true"] {
+        background: var(--amber-bg);
+        transform: translate(-2px, -2px);
+        box-shadow: 9px 10px 0 rgba(23, 21, 19, 0.16);
+      }
+      .tryit-chip-emoji {
+        font-size: 1.6rem;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .tryit-prompt-card,
+      .tryit-output-card {
+        background: var(--surface);
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: 8px 10px 0 rgba(23, 21, 19, 0.1);
+      }
+      .tryit-prompt-textarea {
+        width: 100%;
+        min-height: 220px;
+        background: #121713;
+        color: #f6efe0;
+        border: 1px solid #38413a;
+        border-radius: var(--radius-sm);
+        padding: 18px;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        resize: vertical;
+        margin: 14px 0 18px;
+      }
+      .tryit-prompt-textarea:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 2px;
+      }
+      .tryit-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+      .tryit-copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 22px;
+        background: var(--coral);
+        color: #fff;
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 4px 5px 0 rgba(23, 21, 19, 0.18);
+        transition:
+          transform 160ms cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 160ms cubic-bezier(0.4, 0, 0.2, 1),
+          background 160ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .tryit-copy-btn:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 6px 7px 0 rgba(23, 21, 19, 0.22);
+      }
+      .tryit-copy-btn:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 3px;
+      }
+      .tryit-copy-btn.is-copied {
+        background: var(--emerald);
+      }
+      .tryit-secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 12px 18px;
+        background: transparent;
+        color: var(--ink);
+        border: 1.5px solid var(--ink);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 160ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .tryit-secondary-btn:hover {
+        background: var(--surface3);
+      }
+      .tryit-secondary-btn:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 3px;
+      }
+      .tryit-output-card {
+        background: linear-gradient(180deg, var(--teal-bg), var(--surface));
+        margin-top: 22px;
+      }
+      .tryit-output-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-editorial);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--teal-dark);
+        margin-bottom: 10px;
+      }
+      .tryit-output-body {
+        background: var(--surface);
+        border: 1px dashed var(--border2);
+        border-radius: var(--radius-sm);
+        padding: 18px 20px;
+        color: var(--ink2);
+        font-size: 0.97rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
+      .tryit-output-body strong {
+        color: var(--ink);
+      }
+      .tryit-cta {
+        margin-top: 18px;
+        padding: 14px 16px;
+        background: var(--amber-bg);
+        border: 1px dashed var(--amber);
+        border-radius: var(--radius-sm);
+        color: var(--ink);
+        font-size: 0.95rem;
+      }
+      .tryit-cta-links {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: 6px;
+      }
+      .tryit-cta-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        background: var(--surface);
+        border: 1.5px solid var(--ink);
+        border-radius: 999px;
+        font-weight: 700;
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 0.85rem;
+      }
+      .tryit-cta-link:hover {
+        background: var(--coral-bg);
+        text-decoration: none;
+        color: var(--ink);
+      }
+      .tryit-cta-link:focus-visible {
+        outline: 3px solid var(--teal);
+        outline-offset: 2px;
+      }
+      .tryit-status {
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      .tryit-progress {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 22px;
+      }
+      .tryit-progress-dot {
+        width: 28px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--surface3);
+        border: 1px solid var(--border2);
+      }
+      .tryit-progress-dot.is-active {
+        background: var(--coral);
+        border-color: var(--ink);
+      }
+      .tryit-progress-dot.is-done {
+        background: var(--emerald);
+        border-color: var(--ink);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .tryit-step,
+        .tryit-chip,
+        .tryit-copy-btn {
+          transition: none;
+        }
+      }
+      @media (max-width: 720px) {
+        .tryit-bg {
+          padding: 26px 20px;
+          box-shadow: 8px 10px 0 rgba(23, 21, 19, 0.1);
+        }
+        .tryit-chips {
+          grid-template-columns: 1fr;
+        }
+        .tryit-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .tryit-copy-btn,
+        .tryit-secondary-btn {
+          justify-content: center;
+        }
+      }
+
+
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -4771,6 +5072,195 @@
           </div>
         </div>
       </section>
+
+      <!-- ── Try It in 30s ── -->
+      <section class="section" id="try-it-now" aria-labelledby="tryit-heading">
+        <div class="container">
+          <div class="section-header reveal">
+            <div class="section-label">⚡ Try It in 30 Seconds</div>
+            <h2 class="section-title" id="tryit-heading">
+              See what AI can do — without leaving the page
+            </h2>
+            <p class="section-subtitle">
+              Three quick steps. Pick a goal, grab the prompt, see what a useful answer looks like. No
+              login, no install, no scary blank box. Then paste it into your AI tool and review.
+            </p>
+          </div>
+          <div class="tryit-bg reveal" data-tryit-root>
+            <div class="tryit-progress" aria-hidden="true">
+              <div class="tryit-progress-dot is-active" data-tryit-progress="0"></div>
+              <div class="tryit-progress-dot" data-tryit-progress="1"></div>
+              <div class="tryit-progress-dot" data-tryit-progress="2"></div>
+            </div>
+            <div class="tryit-stage">
+              <div class="tryit-step is-active" data-tryit-step="1" id="tryit-step-1">
+                <span class="tryit-step-label">Step 1 of 3</span>
+                <h3 class="tryit-step-title">What do you want to do today?</h3>
+                <p class="tryit-step-help">
+                  Pick the goal closest to your real task. Each one comes with a ready-made prompt you
+                  can copy and try.
+                </p>
+                <div class="tryit-chips" role="radiogroup" aria-label="Pick a goal">
+                  <button
+                    type="button"
+                    class="tryit-chip"
+                    role="radio"
+                    aria-checked="false"
+                    aria-pressed="false"
+                    data-tryit-goal="reply"
+                    tabindex="0"
+                  >
+                    <span class="tryit-chip-emoji" aria-hidden="true">✉️</span>
+                    <span>Write a polite reply</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="tryit-chip"
+                    role="radio"
+                    aria-checked="false"
+                    aria-pressed="false"
+                    data-tryit-goal="summary"
+                    tabindex="0"
+                  >
+                    <span class="tryit-chip-emoji" aria-hidden="true">📊</span>
+                    <span>Summarize a report</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="tryit-chip"
+                    role="radio"
+                    aria-checked="false"
+                    aria-pressed="false"
+                    data-tryit-goal="brainstorm"
+                    tabindex="0"
+                  >
+                    <span class="tryit-chip-emoji" aria-hidden="true">💡</span>
+                    <span>Brainstorm ideas</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="tryit-chip"
+                    role="radio"
+                    aria-checked="false"
+                    aria-pressed="false"
+                    data-tryit-goal="meeting"
+                    tabindex="0"
+                  >
+                    <span class="tryit-chip-emoji" aria-hidden="true">🗓</span>
+                    <span>Plan a meeting</span>
+                  </button>
+                </div>
+              </div>
+  
+              <div class="tryit-step" data-tryit-step="2" id="tryit-step-2" hidden>
+                <span class="tryit-step-label" data-tryit-goal-label>Step 2 of 3</span>
+                <h3 class="tryit-step-title">Here's your ready-to-paste prompt</h3>
+                <p class="tryit-step-help">
+                  This is a complete prompt you can copy and use. It tells the AI who to act as, what
+                  to do, and what to give back. Edit anything in [brackets] before sending.
+                </p>
+                <div class="tryit-prompt-card">
+                  <label for="tryit-prompt" class="tryit-step-label" style="margin-bottom: 8px">
+                    Your prompt
+                  </label>
+                  <textarea
+                    id="tryit-prompt"
+                    class="tryit-prompt-textarea"
+                    data-tryit-prompt
+                    readonly
+                    aria-describedby="tryit-copy-status"
+                  ></textarea>
+                  <div class="tryit-actions">
+                    <button
+                      type="button"
+                      class="tryit-copy-btn"
+                      data-tryit-action="copy"
+                      aria-describedby="tryit-copy-status"
+                    >
+                      <span aria-hidden="true">📋</span>
+                      <span data-tryit-copy-label>Copy prompt</span>
+                    </button>
+                    <button type="button" class="tryit-secondary-btn" data-tryit-action="show-output">
+                      See example answer →
+                    </button>
+                    <button type="button" class="tryit-secondary-btn" data-tryit-action="reset">
+                      ↺ Start over
+                    </button>
+                  </div>
+                  <p id="tryit-copy-status" class="tryit-status" aria-live="polite"></p>
+                </div>
+              </div>
+  
+              <div class="tryit-step" data-tryit-step="3" id="tryit-step-3" hidden>
+                <span class="tryit-step-label">Step 3 of 3 — Example answer</span>
+                <h3 class="tryit-step-title">Here's what a useful AI reply looks like</h3>
+                <p class="tryit-step-help">
+                  This is a hand-crafted example so you know what good output should feel like. Real
+                  AI may phrase things differently — that's fine. Always review before sending.
+                </p>
+                <div class="tryit-prompt-card">
+                  <textarea
+                    class="tryit-prompt-textarea"
+                    data-tryit-prompt-echo
+                    readonly
+                    aria-label="The prompt you copied"
+                  ></textarea>
+                  <div class="tryit-actions">
+                    <button
+                      type="button"
+                      class="tryit-copy-btn"
+                      data-tryit-action="copy"
+                      aria-describedby="tryit-copy-status-2"
+                    >
+                      <span aria-hidden="true">📋</span>
+                      <span data-tryit-copy-label>Copy prompt</span>
+                    </button>
+                    <button type="button" class="tryit-secondary-btn" data-tryit-action="reset">
+                      ↺ Try a different goal
+                    </button>
+                  </div>
+                  <p id="tryit-copy-status-2" class="tryit-status" aria-live="polite"></p>
+                </div>
+                <div class="tryit-output-card">
+                  <div class="tryit-output-header">
+                    <span aria-hidden="true">🤖</span>
+                    <span>Example AI response</span>
+                  </div>
+                  <div class="tryit-output-body" data-tryit-output></div>
+                  <div class="tryit-cta">
+                    <span aria-hidden="true">💡</span>
+                    <strong>Try this in your AI tool now:</strong>
+                    <span class="tryit-cta-links">
+                      <a
+                        class="tryit-cta-link"
+                        href="https://chatgpt.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >ChatGPT</a
+                      >
+                      <a
+                        class="tryit-cta-link"
+                        href="https://copilot.microsoft.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Copilot</a
+                      >
+                      <a
+                        class="tryit-cta-link"
+                        href="https://claude.ai"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Claude</a
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
 
       <!-- ── Monthly Newsletter ── -->
       <section class="section-sm" id="newsletter">
@@ -20630,6 +21120,223 @@
 
       const statEl = document.getElementById("stat-prompts");
       if (statEl) statEl.textContent = (875).toLocaleString();
+
+      // ── Try It in 30 Seconds widget ──
+      const TRYIT_DATA = {
+        reply: {
+          emoji: "✉️",
+          label: "Write a polite reply",
+          stepLabel: "Step 2 of 3 — Polite reply",
+          prompt:
+            "You are a thoughtful, professional colleague helping me draft an email reply.\n\nContext:\n[Paste the email I received here, or briefly describe the situation. Example: a client is asking for an update on a project that is two days late.]\n\nMy goals for the reply:\n- Acknowledge what they said and any frustration without being defensive\n- Be honest about the current status without overpromising\n- Offer a clear next step with a date or owner\n- Keep it warm but professional, around 4–6 short sentences\n\nFormat your answer as:\n1. Suggested subject line\n2. The full email reply\n3. One alternative shorter version (2–3 sentences) for chat or SMS\n\nIf anything is unclear, ask me up to 2 short questions before drafting. Do not invent names, dates, or numbers — use [placeholders] for anything I have not given you.",
+          output:
+            "Subject: Quick update on [project name]\n\nHi [Name],\n\nThanks for the nudge — and apologies for the delay. You're right that I owed you an update on Tuesday, and I should have flagged sooner that we needed two extra days.\n\nHere's where we are: the [draft / report / build] is now in final review with [team]. I'll have the completed version in your inbox by [Friday 4pm SGT], along with a short note on what changed and why.\n\nIf there's anything you'd like me to prioritise in the meantime, just reply and I'll move it up.\n\nThanks again for the patience,\n[Your name]\n\n— Shorter chat version —\nApologies for the delay on [project] — final review now, you'll have it by Fri 4pm. Anything you'd like prioritised first?",
+        },
+        summary: {
+          emoji: "📊",
+          label: "Summarize a report",
+          stepLabel: "Step 2 of 3 — Report summary",
+          prompt:
+            'You are an experienced business analyst who is excellent at turning long, dense documents into clear briefings for busy leaders.\n\nI will paste the contents of a report below. Your job is to summarise it for someone who has 90 seconds to read.\n\nReport content:\n[Paste the report text here. Replace any client names, customer data, or financial figures with placeholders before sharing.]\n\nReturn the summary in this exact structure:\n1. The headline — one sentence, what a leader would want to know first\n2. Three key findings — bullet points, each one fact + why it matters\n3. Numbers worth noting — only if they appear in the report, never invented\n4. Risks or open questions — what is unclear, missing, or worth pushing back on\n5. Suggested next step — one specific action, with an owner placeholder if needed\n\nKeep the tone neutral and concrete. Do not add opinions that are not supported by the text. If the report does not contain enough information for a section, write "Not in source" rather than guessing.',
+          output:
+            'Headline: Q1 churn rose 18% in the SMB segment, driven mostly by onboarding friction in the first 14 days.\n\nKey findings:\n• 62% of churned SMB accounts dropped off before their first successful workflow run — onboarding, not product fit, looks like the bigger problem.\n• Enterprise retention held at 96%, suggesting the issue is segment-specific rather than systemic.\n• Support ticket volume from SMB doubled in March, with "set-up" and "integration" tags accounting for 71% of cases.\n\nNumbers worth noting:\n• 18% Q-over-Q SMB churn increase\n• 14-day median time-to-first-value\n• 71% of new tickets tagged onboarding-related\n\nRisks / open questions:\n• The report doesn\'t break churn down by acquisition channel — paid vs organic could behave very differently.\n• No mention of whether the new onboarding flow (shipped Feb) was A/B tested.\n\nSuggested next step:\nAsk [Product] to share the onboarding funnel data for the last 60 days so we can see exactly where SMB users drop off.',
+        },
+        brainstorm: {
+          emoji: "💡",
+          label: "Brainstorm ideas",
+          stepLabel: "Step 2 of 3 — Brainstorm",
+          prompt:
+            "You are a creative strategist who is great at generating wide, varied options before narrowing in.\n\nThe topic I need ideas on:\n[Describe the problem or opportunity in one or two sentences. Example: ways to make our weekly team stand-ups more useful for a hybrid team of 12.]\n\nWhat I have already tried (so don't repeat these):\n[List anything you've tried, or write \"nothing yet\".]\n\nConstraints I care about:\n- Audience or users: [who]\n- Time / budget: [any limits]\n- Tone or style: [serious, playful, etc.]\n\nPlease give me 10 ideas in this format:\n- Idea name (4–6 words, memorable)\n- One-sentence description of how it works\n- Effort to try: Low / Medium / High\n- Why it might work\n\nMix safe and bold ideas. Include at least 2 unusual or counter-intuitive ones. Do not pre-rank them — just generate. After the list, suggest the 3 you'd start with and why.",
+          output:
+            '1. Two-Question Standup — Each person answers only "What\'s blocking you?" and "Where do you need a second pair of eyes?". Effort: Low. Why: cuts status theatre, surfaces help fast.\n\n2. Async-First, Live-On-Demand — Everyone posts a 3-line update by 9am; the live call only happens if someone flags a topic. Effort: Low. Why: respects time zones, makes the meeting opt-in.\n\n3. Rotating Host — A different teammate runs each standup, choosing the format. Effort: Low. Why: builds ownership, keeps things fresh.\n\n4. The Demo Slot — Replace one standup a week with a 5-min screen-share of something someone shipped. Effort: Medium. Why: turns status into learning.\n\n5. Customer of the Week — Open with a 60-second snippet from a real customer call or ticket. Effort: Medium. Why: keeps the team grounded in user reality.\n\n6. Standup Bingo — Light card with phrases like "circle back" or "low-hanging fruit"; first to fill it wins coffee. Effort: Low. Why: makes meta-language visible and funny.\n\n7. Silent Standup — First 4 minutes everyone reads each other\'s written updates; remaining 6 minutes is questions only. Effort: Low. Why: introverts actually contribute.\n\n8. Risk Radar — Each person names one thing they\'re worried about, even small. Effort: Low. Why: catches issues before they\'re crises.\n\n9. The Robot Co-Host — An AI summary bot posts a digest to the channel after every meeting. Effort: Medium. Why: anyone who missed it stays caught up.\n\n10. Walking Standup — On-site folks walk while remote folks join from headphones. Effort: Low. Why: shorter, more honest, less screen fatigue.\n\nWhere I\'d start: #2 (lowest cost change with biggest time-saving), #4 (turns the meeting into something people actually want to attend), and #8 (cheap insurance against blind spots).',
+        },
+        meeting: {
+          emoji: "🗓",
+          label: "Plan a meeting",
+          stepLabel: "Step 2 of 3 — Meeting plan",
+          prompt:
+            'You are a calm, organised chief of staff who plans meetings that actually accomplish something.\n\nMeeting context:\n- Purpose: [Why this meeting exists in one sentence. Example: align on the launch date for Project Spark.]\n- Attendees: [Roles or names — e.g., Product lead, Eng manager, Marketing lead]\n- Total time available: [e.g., 30 minutes]\n- Decision needed by end: [yes/no — if yes, what is the decision?]\n- Any pre-reads or context: [link or paste here, or write "none"]\n\nPlease produce:\n1. A meeting title that is clear and outcome-focused (no "sync" or "catchup")\n2. A 3-bullet objective so attendees know why they\'re there\n3. A timed agenda that adds up exactly to the available time, with each block labelled by purpose (Inform / Discuss / Decide)\n4. A pre-read prompt — what attendees should review or think about before showing up\n5. A short "how we\'ll capture decisions" line\n6. Two questions you\'d recommend asking partway through to keep things on track\n\nKeep it human and direct. If something I gave you is too vague to plan around, ask me one specific clarifying question first.',
+          output:
+            'Title: Decide the Project Spark launch date — go / no-go\n\nObjective:\n• Confirm whether engineering, marketing, and support are ready to commit to a public launch on [target date]\n• Surface any blockers we cannot resolve in this meeting and assign owners\n• Leave with one decision and a clear next-step list\n\nAgenda (30 minutes):\n• 0:00–0:03  Frame the decision (Inform) — host restates the question and what "yes" requires\n• 0:03–0:12  Readiness round (Discuss) — Product, Eng, Marketing each give a 3-min status: green / yellow / red and why\n• 0:12–0:22  Open issues (Discuss) — work through any reds or yellows; capture anything we can\'t solve here\n• 0:22–0:27  Decide (Decide) — go / no-go vote, and if no-go, the new target date\n• 0:27–0:30  Wrap (Inform) — owner reads back decisions and assigned next steps\n\nPre-read prompt:\nBefore the meeting, please skim the [readiness doc] and come ready to answer: "Is your area green, yellow, or red — and what would it take to move to green?" Two minutes of prep is enough.\n\nHow we\'ll capture decisions:\nThe host will type decisions live in the [shared doc] under "Decisions made [date]"; anything unresolved goes under "Open follow-ups" with an owner and date.\n\nMid-meeting check-in questions:\n• "We\'re 15 minutes in — is anyone leaning toward a no-go that we haven\'t heard from yet?"\n• "Of the open issues we\'ve raised, which one is the actual blocker for the launch date, and which are nice-to-fix?"',
+        },
+      };
+
+      function tryitState() {
+        if (!window.__tryitState) {
+          window.__tryitState = { goal: null, step: 1 };
+        }
+        return window.__tryitState;
+      }
+
+      function tryitWriteClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve, reject) => {
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.top = "-9999px";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        });
+      }
+
+      function tryitShowStep(stepNum) {
+        const root = document.querySelector("[data-tryit-root]");
+        if (!root) return;
+        tryitState().step = stepNum;
+        root.querySelectorAll("[data-tryit-step]").forEach((stepEl) => {
+          const isActive = Number(stepEl.dataset.tryitStep) === stepNum;
+          stepEl.classList.toggle("is-active", isActive);
+          stepEl.hidden = !isActive;
+        });
+        root.querySelectorAll("[data-tryit-progress]").forEach((dot) => {
+          const idx = Number(dot.dataset.tryitProgress);
+          dot.classList.toggle("is-active", idx === stepNum - 1);
+          dot.classList.toggle("is-done", idx < stepNum - 1);
+        });
+      }
+
+      function tryitSelectGoal(goal) {
+        const data = TRYIT_DATA[goal];
+        if (!data) return;
+        tryitState().goal = goal;
+
+        document.querySelectorAll("[data-tryit-goal]").forEach((chip) => {
+          const isMatch = chip.dataset.tryitGoal === goal;
+          chip.setAttribute("aria-checked", String(isMatch));
+          chip.setAttribute("aria-pressed", String(isMatch));
+        });
+
+        const goalLabel = document.querySelector("[data-tryit-goal-label]");
+        if (goalLabel) goalLabel.textContent = data.stepLabel;
+
+        const promptEls = document.querySelectorAll(
+          "[data-tryit-prompt], [data-tryit-prompt-echo]",
+        );
+        promptEls.forEach((el) => {
+          el.value = data.prompt;
+        });
+
+        const outputEl = document.querySelector("[data-tryit-output]");
+        if (outputEl) outputEl.textContent = data.output;
+
+        tryitShowStep(2);
+      }
+
+      function tryitCopy(btn) {
+        const data = TRYIT_DATA[tryitState().goal];
+        if (!data) return;
+        const labelEl = btn.querySelector("[data-tryit-copy-label]");
+        const statusEl = btn.closest(".tryit-prompt-card")?.querySelector(".tryit-status");
+        const setLabel = (text) => {
+          if (labelEl) labelEl.textContent = text;
+        };
+        const setStatus = (text) => {
+          if (statusEl) statusEl.textContent = text;
+        };
+        tryitWriteClipboard(data.prompt)
+          .then(() => {
+            btn.classList.add("is-copied");
+            setLabel("✓ Copied");
+            setStatus(
+              "Prompt copied — paste it into ChatGPT, Copilot, or Claude. Review the answer before sending it on.",
+            );
+            setTimeout(() => {
+              btn.classList.remove("is-copied");
+              setLabel("Copy prompt");
+            }, 2200);
+          })
+          .catch(() => {
+            setStatus("Copy failed — select the text and copy manually.");
+          });
+      }
+
+      function tryitReset() {
+        tryitState().goal = null;
+        document.querySelectorAll("[data-tryit-goal]").forEach((chip) => {
+          chip.setAttribute("aria-checked", "false");
+          chip.setAttribute("aria-pressed", "false");
+        });
+        document.querySelectorAll("[data-tryit-prompt], [data-tryit-prompt-echo]").forEach((el) => {
+          el.value = "";
+        });
+        const outputEl = document.querySelector("[data-tryit-output]");
+        if (outputEl) outputEl.textContent = "";
+        document.querySelectorAll(".tryit-status").forEach((el) => {
+          el.textContent = "";
+        });
+        tryitShowStep(1);
+        const firstChip = document.querySelector("[data-tryit-goal]");
+        if (firstChip) firstChip.focus();
+      }
+
+      function tryitInit() {
+        const root = document.querySelector("[data-tryit-root]");
+        if (!root) return;
+
+        root.addEventListener("click", (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
+
+          const chip = target.closest("[data-tryit-goal]");
+          if (chip) {
+            tryitSelectGoal(chip.dataset.tryitGoal);
+            return;
+          }
+
+          const action = target.closest("[data-tryit-action]");
+          if (!action) return;
+          const kind = action.dataset.tryitAction;
+          if (kind === "copy") tryitCopy(action);
+          else if (kind === "show-output") tryitShowStep(3);
+          else if (kind === "reset") tryitReset();
+        });
+
+        root.addEventListener("keydown", (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
+          const chip = target.closest("[data-tryit-goal]");
+          if (!chip) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            tryitSelectGoal(chip.dataset.tryitGoal);
+            return;
+          }
+          if (
+            ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)
+          ) {
+            const chips = Array.from(root.querySelectorAll("[data-tryit-goal]"));
+            const currentIdx = chips.indexOf(chip);
+            const last = chips.length - 1;
+            let nextIdx = currentIdx;
+            if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+              nextIdx = currentIdx === last ? 0 : currentIdx + 1;
+            } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+              nextIdx = currentIdx === 0 ? last : currentIdx - 1;
+            } else if (event.key === "Home") {
+              nextIdx = 0;
+            } else if (event.key === "End") {
+              nextIdx = last;
+            }
+            event.preventDefault();
+            chips[nextIdx]?.focus();
+          }
+        });
+      }
+
+      tryitInit();
+
     </script>
   </body>
 </html>
