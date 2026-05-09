@@ -1,4 +1,5 @@
 import "../styles/main.css";
+import { initTryIt } from "./try-it.js";
 
 // Prompt data is fetched from a static JSON asset only when the library is near use.
 let PROMPTS = [];
@@ -918,3 +919,6 @@ function handleActionKeydown(event) {
 
 document.addEventListener("click", handleActionClick);
 document.addEventListener("keydown", handleActionKeydown);
+
+// Try-It-in-30-Seconds widget — bootstrap if its root is present.
+initTryIt();

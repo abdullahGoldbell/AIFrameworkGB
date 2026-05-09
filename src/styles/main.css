@@ -1317,9 +1317,12 @@ a:focus-visible {
   color: var(--muted);
 }
 .pm-search:focus {
-  outline: none;
   border-color: var(--teal);
   box-shadow: 0 0 0 3px rgb(15, 123, 118, 0.15);
+}
+.pm-search:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
 }
 .pm-sort {
   padding: 12px 16px;
@@ -1333,8 +1336,11 @@ a:focus-visible {
   transition: border-color var(--transition);
 }
 .pm-sort:focus {
-  outline: none;
   border-color: var(--teal);
+}
+.pm-sort:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
 }
 .pm-cats {
   display: flex;
@@ -1725,7 +1731,11 @@ a:focus-visible {
 .subscribe-row input:focus {
   border-color: var(--teal);
   box-shadow: 0 0 0 3px rgb(15, 123, 118, 0.15);
-  outline: none;
+}
+.showcase-input:focus-visible,
+.subscribe-row input:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
 }
 .playground-context {
   min-height: 108px;
@@ -2064,6 +2074,7 @@ a:focus-visible {
   line-height: 1.7;
   margin-bottom: 20px;
 }
+.footer-col h3,
 .footer-col h4 {
   font-size: 0.875rem;
   font-weight: 700;
@@ -2649,5 +2660,623 @@ body {
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* === A11y === */
+
+/*
+ * WCAG 2.1 AA accessibility additions.
+ * - Universal :focus-visible fallback (in case any control was missed)
+ * - Slight muted-text contrast bump for AAA-comfort
+ * - Skip-link visible-on-focus reinforcement
+ */
+
+/* Universal focus fallback: any focusable element gets a visible ring
+   if no more specific :focus-visible style applies. */
+:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 2px;
+}
+
+/* Strip default focus rings only when keyboard focus is NOT in play. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Muted text contrast bumps. Both themes now meet AA comfortably. */
+[data-theme="light"] {
+  --muted: #5e564c;
+}
+[data-theme="dark"] {
+  --muted: #c2d1cc;
+}
+
+/* Re-affirm skip-link prominence (in coral when focused). */
+.skip-link:focus,
+.skip-link:focus-visible {
+  background: var(--coral);
+  color: #fff;
+  border-color: #fff;
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Ensure <main> behaves as a block landmark (older UAs). */
+main {
+  display: block;
+}
+/* === Try-It Widget === */
+
+/* Mirror of the inline styles applied to #try-it-now in index.html. */
+
+/* Kept here so the source-of-truth stylesheet stays parallel to the inline rendering. */
+.tryit-bg {
+  background: linear-gradient(135deg, var(--coral-bg), var(--surface));
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 18px 22px 0 rgb(23, 21, 19, 0.1);
+  padding: 44px;
+  position: relative;
+}
+.tryit-stage {
+  display: grid;
+  gap: 28px;
+}
+.tryit-step {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 320ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: none;
+}
+.tryit-step.is-active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.tryit-step-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-editorial);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--coral);
+  background: var(--coral-bg);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  margin-bottom: 14px;
+}
+.tryit-step-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.tryit-step-help {
+  color: var(--ink2);
+  margin-bottom: 18px;
+  font-size: 0.98rem;
+  max-width: 60ch;
+}
+.tryit-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.tryit-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  box-shadow: 6px 7px 0 rgb(23, 21, 19, 0.1);
+  transition:
+    transform 180ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 180ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tryit-chip:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 10px 0 rgb(23, 21, 19, 0.14);
+  background: var(--amber-bg);
+}
+.tryit-chip:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+.tryit-chip[aria-pressed="true"] {
+  background: var(--amber-bg);
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 10px 0 rgb(23, 21, 19, 0.16);
+}
+.tryit-chip-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.tryit-prompt-card,
+.tryit-output-card {
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 8px 10px 0 rgb(23, 21, 19, 0.1);
+}
+.tryit-prompt-textarea {
+  width: 100%;
+  min-height: 220px;
+  background: #121713;
+  color: #f6efe0;
+  border: 1px solid #38413a;
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  resize: vertical;
+  margin: 14px 0 18px;
+}
+.tryit-prompt-textarea:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+.tryit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.tryit-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  background: var(--coral);
+  color: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 4px 5px 0 rgb(23, 21, 19, 0.18);
+  transition:
+    transform 160ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 160ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 160ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tryit-copy-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 7px 0 rgb(23, 21, 19, 0.22);
+}
+.tryit-copy-btn:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+.tryit-copy-btn.is-copied {
+  background: var(--emerald);
+}
+.tryit-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 160ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tryit-secondary-btn:hover {
+  background: var(--surface3);
+}
+.tryit-secondary-btn:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+}
+.tryit-output-card {
+  background: linear-gradient(180deg, var(--teal-bg), var(--surface));
+  margin-top: 22px;
+}
+.tryit-output-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-editorial);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teal-dark);
+  margin-bottom: 10px;
+}
+.tryit-output-body {
+  background: var(--surface);
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  color: var(--ink2);
+  font-size: 0.97rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.tryit-output-body strong {
+  color: var(--ink);
+}
+.tryit-cta {
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: var(--amber-bg);
+  border: 1px dashed var(--amber);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.tryit-cta-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: 6px;
+}
+.tryit-cta-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+.tryit-cta-link:hover {
+  background: var(--coral-bg);
+  text-decoration: none;
+  color: var(--ink);
+}
+.tryit-cta-link:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+.tryit-status {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.tryit-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.tryit-progress-dot {
+  width: 28px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+}
+.tryit-progress-dot.is-active {
+  background: var(--coral);
+  border-color: var(--ink);
+}
+.tryit-progress-dot.is-done {
+  background: var(--emerald);
+  border-color: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tryit-step,
+  .tryit-chip,
+  .tryit-copy-btn {
+    transition: none;
+  }
+}
+@media (max-width: 720px) {
+  .tryit-bg {
+    padding: 26px 20px;
+    box-shadow: 8px 10px 0 rgb(23, 21, 19, 0.1);
+  }
+  .tryit-chips {
+    grid-template-columns: 1fr;
+  }
+  .tryit-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .tryit-copy-btn,
+  .tryit-secondary-btn {
+    justify-content: center;
+  }
+}
+/* === Mobile UX === */
+
+/* Tap target audit: ensure all interactive elements >= 44x44 on touch.
+   Sticky bottom CTA bar for phones. Collapsible long sections.
+   Hero compaction. Horizontal-scroll defenses. Form font >= 16px so iOS
+   does not zoom on focus. Match existing cream/coral/teal palette. */
+
+/* ---- Tap targets (touch + phone widths) ---- */
+@media (hover: none) and (pointer: coarse), (max-width: 720px) {
+  .btn,
+  .btn-sm {
+    min-height: 44px;
+  }
+  .theme-toggle,
+  .nav-mobile-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .pm-expand-btn,
+  .pm-copy-btn {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+  .pm-cat-chip,
+  .pm-diff-chip,
+  .risk-template-tab,
+  .review-trigger {
+    min-height: 44px;
+  }
+  .scroll-top {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Footer links: comfortable hit area on touch. */
+  .footer-links a {
+    display: inline-block;
+    padding: 6px 0;
+    min-height: 36px;
+  }
+}
+
+/* ---- Form fields >= 16px on phones (avoid iOS auto-zoom) ---- */
+@media (max-width: 720px) {
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea,
+  .pm-search,
+  .pm-sort,
+  .showcase-input,
+  .subscribe-row input,
+  .builder-field select,
+  .builder-field input,
+  .builder-field textarea {
+    font-size: 16px;
+  }
+}
+
+/* ---- Hero compaction on small phones ---- */
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 32px;
+  }
+  .hero-inner {
+    gap: 28px;
+  }
+  .hero-visual {
+    min-height: 320px;
+  }
+  .hero-illustration {
+    max-width: 320px;
+  }
+  .hero-paper {
+    inset: 10px 6px 18px 6px;
+    padding: 18px;
+  }
+  .hero-paper-title {
+    font-size: 2.4rem;
+  }
+  .hero-mascot {
+    width: 102px;
+    height: 102px;
+  }
+}
+
+/* ---- Horizontal-scroll patrol ---- */
+@media (max-width: 720px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  .container,
+  .hero-inner,
+  .hero-content,
+  .hero-visual,
+  .pm-controls,
+  .pm-search-wrap,
+  .pm-card,
+  .pm-card-meta,
+  .footer-inner {
+    min-width: 0;
+  }
+  .pm-card-title,
+  .pm-card-desc,
+  .pm-prompt-box,
+  .review-panel,
+  .story-card,
+  .nl-card {
+    overflow-wrap: anywhere;
+  }
+  pre,
+  code,
+  .pm-prompt-box {
+    max-width: 100%;
+  }
+}
+
+/* ---- Collapsible long sections (mobile only) ---- */
+
+/* On desktop the wrapper is transparent for layout (no chevron, no card),
+   and a small inline script adds [open] so all content renders.
+   On mobile the wrapper becomes a card with a friendly summary; the same
+   script removes [open] so it collapses. */
+.m-collapsible {
+  display: contents;
+}
+.m-collapsible > summary {
+  display: none;
+}
+@media (max-width: 720px) {
+  .m-collapsible {
+    display: block;
+    margin-top: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .m-collapsible > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--surface2);
+    color: var(--ink);
+    font-family: var(--font-editorial);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    list-style: none;
+    min-height: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .m-collapsible > summary::-webkit-details-marker {
+    display: none;
+  }
+  .m-collapsible > summary::after {
+    content: "›";
+    color: var(--coral);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
+    transform: rotate(90deg);
+    transition: transform var(--transition);
+  }
+  .m-collapsible[open] > summary::after {
+    transform: rotate(-90deg);
+  }
+  .m-collapsible > summary:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: -3px;
+  }
+  .m-collapsible:not([open]) > summary {
+    border-bottom: 0;
+  }
+  .m-collapsible[open] > summary {
+    background: color-mix(in srgb, var(--coral-bg) 70%, var(--surface2));
+  }
+
+  /* Tame inner padding so the wrapper card reads cleanly on mobile. */
+  .m-collapsible > .container,
+  .m-collapsible > div {
+    padding-top: 8px;
+    padding-bottom: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-collapsible > summary::after {
+    transition: none;
+  }
+}
+
+/* ---- Sticky bottom CTA bar (mobile only, <=720px) ---- */
+.m-cta-bar {
+  display: none;
+}
+@media (max-width: 720px) {
+  body {
+    /* leave room for the sticky bar so footer/last section is reachable */
+    padding-bottom: 84px;
+  }
+  .m-cta-bar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    gap: 10px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-top: 1.5px solid var(--border);
+    box-shadow: 0 -10px 28px rgb(45 36 27 / 10%);
+    transform: translateY(0);
+    transition:
+      transform var(--transition),
+      opacity var(--transition);
+  }
+  .m-cta-bar[data-hidden="true"] {
+    transform: translateY(110%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .m-cta-bar a {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    white-space: nowrap;
+  }
+  .m-cta-bar .m-cta-secondary {
+    background: var(--surface);
+    color: var(--ink);
+    border-color: var(--border2);
+  }
+  .m-cta-bar .m-cta-primary {
+    background: var(--coral);
+    color: #fff;
+    box-shadow: 0 4px 14px rgb(184 79 54 / 30%);
+  }
+  .m-cta-bar a:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 2px;
+  }
+
+  /* Lift the floating "scroll-top" button above the CTA bar on phones. */
+  .scroll-top {
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-cta-bar {
+    transition: none;
   }
 }
