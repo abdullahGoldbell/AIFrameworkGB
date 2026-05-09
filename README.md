@@ -109,14 +109,58 @@ flowchart LR
   H --> J[GitHub Pages]
 ```
 
-## Customizing the hero
+## Positioning
 
-- Animation colors and timing: `remotion-hero/src/HeroAmbient.tsx`
-- Hero copy and markup: `<section id="hero">` in `index.html`
-- Hero visual styling: `src/styles/main.css`
-- Hero and page interactions: `src/js/main.js`
+**AI Spark** is the friendly employee-facing layer of the AI Framework GB enablement kit. It combines a monthly newsletter, a beginner learning path, safe-use reminders, and a searchable prompt library so non-technical teams can adopt AI without turning the site into a generic tool directory.
 
-Keep the Remotion video as a static asset; do not embed it as base64.
+## Hero interaction preview
+
+The Remotion ambient hero remains a static deploy artifact, not an inline/base64 asset.
+
+- Generated hero video: [`remotion-hero/out/hero-ambient.mp4`](remotion-hero/out/hero-ambient.mp4)
+- Hero source composition: [`remotion-hero/src/HeroAmbient.tsx`](remotion-hero/src/HeroAmbient.tsx)
+- Social preview artwork: [`public/og-image.svg`](public/og-image.svg)
+
+## Customization guide
+
+### Hero copy and content
+
+- Update the visible hero copy in `<section id="hero">` inside `index.html`.
+- Keep the short, warm, employee-first tone: practical examples, low jargon, and one clear call to action.
+- Update footer and meta copy together so search/social snippets match the on-page positioning.
+
+### Colors and visual language
+
+- Page tokens live near the top of `src/styles/main.css` as CSS custom properties.
+- Preserve the pastel warmth by changing variables rather than hard-coding one-off colors in sections.
+- Keep the dark theme values paired with light theme values under `[data-theme="dark"]`.
+
+### Motion and timing
+
+- Remotion animation timing and ambient shapes: `remotion-hero/src/HeroAmbient.tsx`.
+- Browser micro-interactions and reduced-motion behavior: `src/js/main.js` plus the `prefers-reduced-motion` block in `src/styles/main.css`.
+- Keep the Remotion video as a static asset; do not embed it as base64.
+
+### Prompt library content
+
+- Add or edit markdown prompt packs in `Scraped Prompts/`.
+- Run `npm run build:prompts` to regenerate `public/data/prompts.json`.
+- Keep prompt titles action-oriented so the filters remain easy to scan.
+
+## Contribution guidelines
+
+1. Create a feature branch from the active base branch.
+2. Run `npm install` if dependencies changed, then use `npm run dev:web` for site-only development.
+3. Before committing, run the relevant quality checks: `npm run lint`, `npm run lint:styles`, `npm run format:check`, and `npm run typecheck`.
+4. Use conventional commits such as `feat:`, `fix:`, `perf:`, `docs:`, or `test:`.
+5. Do not commit generated `dist/` output, secrets, local environment files, or base64-embedded media.
+6. Keep Railway and GitHub Pages workflows backward-compatible unless a deployment change is intentional and documented.
+
+## SEO files
+
+- `public/sitemap.xml` advertises the canonical GitHub Pages URL and key content anchors.
+- `public/robots.txt` allows indexing and points crawlers to the sitemap.
+- `public/og-image.svg` provides a lightweight social preview image that matches the pastel aesthetic.
 
 ## What's New
 
@@ -124,4 +168,6 @@ Keep the Remotion video as a static asset; do not embed it as base64.
 - Prompt data is now regenerated from the markdown source library instead of living inline in the page.
 - Deployment workflows now publish the built `dist/` artifact while preserving Railway and GitHub Pages compatibility.
 - Build output is minified with stable hashed asset names, the prompt library loads only near interaction, celebratory confetti is split into an on-demand chunk, Railway uses npm cache-aware installs, and GitHub Pages runs Lighthouse CI budgets.
+- Accessibility now includes skip navigation, semantic sections, ARIA state management, keyboard-friendly starter steps, reduced-motion support, and mobile layout refinements.
+- SEO now includes canonical metadata, Open Graph/Twitter cards, JSON-LD structured data, sitemap/robots files, and matching social preview artwork.
 - ESLint, Prettier, Stylelint, TypeScript checks, lint-staged, and Husky are configured for maintainable changes.
