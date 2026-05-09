@@ -25,3 +25,16 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `85831d7` (`feat: add beginner prompt builder`).
 - Next suggested slice: Add a persistent beginner progress checklist with localStorage so users can tick off first actions across visits.
+
+## 2026-05-09 12:13:49 SGT
+- Chosen slice: Add a persistent beginner progress checklist so first-time users can tick off safe starter AI actions across visits.
+- Files changed:
+  - `index.html`
+  - `tests/beginner-checklist.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - RED: `node --test tests/beginner-checklist.test.js` failed before implementation because `#beginner-checklist` did not exist.
+  - GREEN targeted: `node --test tests/beginner-checklist.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `e02e3fc` (`feat: add beginner progress checklist`).
+- Next suggested slice: Add keyboard-accessible scenario tabs that show beginner sample workflows for email, meetings, spreadsheets, and policy-safe reviews.
