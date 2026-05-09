@@ -1021,63 +1021,158 @@
       .why-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
+        gap: 22px;
       }
       .why-card {
         background: var(--surface);
-        border: 1px solid var(--border);
+        border: 1.5px solid var(--ink);
         border-radius: var(--radius);
-        padding: 28px;
+        padding: 30px 28px 26px;
+        box-shadow: 6px 8px 0 color-mix(in srgb, var(--ink) 8%, transparent);
         transition:
           transform var(--transition-spring),
           box-shadow var(--transition);
         cursor: default;
+        position: relative;
       }
       .why-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow);
+        transform: translate(-2px, -4px);
+        box-shadow: 18px 22px 0 color-mix(in srgb, var(--ink) 10%, transparent);
+      }
+      [data-theme="dark"] .why-card {
+        border-color: var(--border2);
+        box-shadow: 6px 8px 0 rgb(0, 0, 0, 0.32);
+      }
+      [data-theme="dark"] .why-card:hover {
+        box-shadow: 18px 22px 0 rgb(0, 0, 0, 0.4);
       }
       .why-card-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: var(--radius-sm);
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
-        margin-bottom: 16px;
+        font-size: 1.85rem;
+        margin-bottom: 18px;
+        position: relative;
+        border: 1.5px solid var(--ink);
+        box-shadow:
+          3px 3px 0 color-mix(in srgb, var(--ink) 14%, transparent),
+          inset 0 0 0 4px var(--surface),
+          inset 0 0 0 5px color-mix(in srgb, var(--ink) 12%, transparent);
+      }
+      .why-card-icon::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 1.5px dashed color-mix(in srgb, var(--ink) 22%, transparent);
+        pointer-events: none;
+        transform: rotate(-4deg);
+      }
+      .why-card:nth-child(even) .why-card-icon::after {
+        transform: rotate(5deg);
+      }
+      [data-theme="dark"] .why-card-icon {
+        border-color: var(--ink);
+        box-shadow:
+          3px 3px 0 rgb(0, 0, 0, 0.5),
+          inset 0 0 0 4px var(--surface),
+          inset 0 0 0 5px color-mix(in srgb, var(--ink) 18%, transparent);
+      }
+      [data-theme="dark"] .why-card-icon::after {
+        border-color: color-mix(in srgb, var(--ink) 32%, transparent);
       }
       .why-card h3 {
-        font-size: 1rem;
+        font-family: var(--font-display);
+        font-size: 1.35rem;
         font-weight: 700;
-        margin-bottom: 8px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+        color: var(--ink);
       }
       .why-card p {
-        font-size: 0.875rem;
-        color: var(--muted);
+        font-size: 0.95rem;
+        color: var(--ink2);
         line-height: 1.6;
       }
       .why-card .before-after {
         display: flex;
-        gap: 8px;
-        margin-top: 16px;
-        font-size: 0.8125rem;
+        align-items: stretch;
+        gap: 0;
+        margin-top: 22px;
+        font-size: 0.95rem;
+        border: 1.5px solid var(--ink);
+        border-radius: 999px;
+        overflow: hidden;
+        background: var(--surface);
+        box-shadow: 3px 4px 0 color-mix(in srgb, var(--ink) 10%, transparent);
+        width: fit-content;
+        max-width: 100%;
+      }
+      .why-card .before-after > span:not(.ba-label) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--ink);
+        background: var(--surface2);
+        border-left: 1.5px solid var(--ink);
+        border-right: 1.5px solid var(--ink);
+      }
+      [data-theme="dark"] .why-card .before-after {
+        border-color: var(--border2);
+        box-shadow: 3px 4px 0 rgb(0, 0, 0, 0.3);
+      }
+      [data-theme="dark"] .why-card .before-after > span:not(.ba-label) {
+        border-left-color: var(--border2);
+        border-right-color: var(--border2);
+        background: var(--surface3);
+        color: var(--ink);
       }
       .ba-label {
-        padding: 3px 8px;
-        border-radius: 6px;
+        padding: 8px 14px;
         font-weight: 700;
+        font-family: var(--font-editorial);
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
       }
       .ba-before {
         background: var(--rose-bg);
         color: #a8304f;
       }
       [data-theme="dark"] .ba-before {
+        background: var(--rose-bg);
         color: var(--rose);
       }
       .ba-after {
         background: var(--emerald-bg);
         color: var(--emerald);
+      }
+      [data-theme="dark"] .ba-after {
+        background: var(--emerald-bg);
+        color: var(--emerald);
+      }
+      @media (max-width: 380px) {
+        .why-card {
+          padding: 24px 20px 22px;
+        }
+        .why-card .before-after {
+          font-size: 0.85rem;
+        }
+        .why-card .before-after > span:not(.ba-label) {
+          padding: 0 8px;
+          font-size: 0.95rem;
+        }
+        .ba-label {
+          padding: 7px 11px;
+        }
       }
 
       /* ── Monthly Newsletter ── */
@@ -7808,8 +7903,8 @@
                   <div class="story-solution">
                     <div class="story-solution-label">The AI solution</div>
                     <p>
-                      Used a structured prompt to generate customized review templates for each
-                      role in under an hour.
+                      Used a structured prompt to generate customized review templates for each role
+                      in under an hour.
                     </p>
                   </div>
                 </div>
@@ -7833,8 +7928,8 @@
                   <div class="story-solution">
                     <div class="story-solution-label">The AI solution</div>
                     <p>
-                      AI generates the narrative section from raw data in minutes, with a
-                      consistent professional tone.
+                      AI generates the narrative section from raw data in minutes, with a consistent
+                      professional tone.
                     </p>
                   </div>
                 </div>
