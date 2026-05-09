@@ -1,4 +1,5 @@
 const colors = ["#e8614a", "#0f7b76", "#e8960f", "#6b4fbb", "#1a7a4a", "#c4416a", "#1a6fa8"];
+let activeFrame;
 
 export function launchConfetti() {
   const canvas = document.getElementById("confetti-canvas");
@@ -20,7 +21,6 @@ export function launchConfetti() {
     alpha: 1,
   }));
 
-  let frame;
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let alive = false;
@@ -41,10 +41,13 @@ export function launchConfetti() {
         ctx.restore();
       }
     });
-    if (alive) frame = requestAnimationFrame(draw);
-    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (alive) activeFrame = requestAnimationFrame(draw);
+    else {
+      activeFrame = undefined;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
   }
 
-  cancelAnimationFrame(frame);
-  draw();
+  cancelAnimationFrame(activeFrame);
+  activeFrame = requestAnimationFrame(draw);
 }
