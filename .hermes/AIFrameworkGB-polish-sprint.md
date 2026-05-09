@@ -164,3 +164,17 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `75d5831` (`feat: add prompt empty state coaching`).
 - Next suggested slice: Add a beginner-friendly “what changed?” prompt comparison tool that shows how adding role, context, and format improves a weak prompt.
+
+## 2026-05-09 18:10:49 SGT
+- Chosen slice: Add a beginner-friendly “what changed?” prompt comparison tool that lets users toggle role, context, and format ingredients to see a weak prompt become safer and clearer.
+- Files changed:
+  - `index.html`
+  - `tests/prompt-comparison-tool.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/prompt-comparison-tool.test.js` failed before implementation because `#prompt-comparison-tool` did not exist.
+  - GREEN targeted: `node --test tests/prompt-comparison-tool.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `08e93d2` (`feat: add prompt comparison tool`).
+- Next suggested slice: Add beginner-friendly “safe prompt templates by risk level” cards that show low/medium/high sensitivity examples with do/don’t guidance.
