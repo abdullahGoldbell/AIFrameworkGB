@@ -192,3 +192,18 @@
   - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
 - Commit hash: `d1efd64` (`feat: add safe prompt risk templates`).
 - Next suggested slice: Add keyboard support for the safe prompt template tabs (Arrow/Home/End) and a small “which risk level should I choose?” helper tip.
+
+## 2026-05-09 19:22:10 SGT
+- Chosen slice: Add keyboard support and beginner risk-choice guidance to the safe prompt template tabs so users can navigate Low/Medium/High levels with Arrow/Home/End keys and understand which safety level to choose.
+- Files changed:
+  - `index.html`
+  - `tests/risk-template-keyboard-helper.test.js`
+  - `.hermes/AIFrameworkGB-polish-sprint.md`
+- Verification:
+  - Baseline: `node --test tests/*.test.js` passed before the slice.
+  - RED: `node --test tests/risk-template-keyboard-helper.test.js` failed before implementation because `#risk-template-choice-helper` and `handleRiskTemplateKeydown` did not exist.
+  - GREEN targeted: `node --test tests/risk-template-keyboard-helper.test.js` passed.
+  - Regression/build: `node --test tests/*.test.js && npm run build` passed; generated `remotion-hero/out/hero-ambient.mp4` was reverted to avoid unrelated artifact churn.
+- Commit hash: `92f1026` (`feat: improve risk template keyboard guidance`).
+- Log commit hash: pending (`docs: log risk template keyboard guidance slice`).
+- Next suggested slice: Add a beginner-friendly “AI terms flashcards” mini-practice mode that quizzes glossary terms with accessible flip cards and safe-use reminders.
