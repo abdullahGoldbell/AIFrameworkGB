@@ -3734,8 +3734,14 @@
         color: var(--bg);
       }
       .nl-card:first-child h4,
-      .nl-card:first-child p {
+      .nl-card:first-child p,
+      .nl-card:first-child .nl-card-expand,
+      .nl-card:first-child .nl-card-expand strong,
+      .nl-card:first-child .nl-card-caret {
         color: var(--bg);
+      }
+      .nl-card:first-child .nl-card-expand {
+        border-top-color: color-mix(in srgb, var(--bg) 28%, transparent);
       }
       .prompt-master-bg {
         border: 2px solid var(--ink);
