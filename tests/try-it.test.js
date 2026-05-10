@@ -82,8 +82,10 @@ test("Try-It widget inline script implements selection, copy, reset, and keyboar
   assert.match(html, /event\.key === "Enter"/);
   assert.match(html, /\["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"\]/);
 
-  // Reduced-motion respected via CSS media query.
-  assert.match(html, /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.tryit-step/);
+  // Reduced-motion respected via CSS media query. Page styles live in
+  // src/styles/main.css now (extracted from inline `<style>` for caching),
+  // so the assertion targets the shared stylesheet rather than the HTML.
+  assert.match(mainCss, /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.tryit-step/);
 });
 
 test("Try-It widget src/js/try-it.js exposes initTryIt and the four prompt templates", () => {

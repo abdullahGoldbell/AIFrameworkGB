@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" role="img" aria-label="AI Spark">
+  <title>AI Spark</title>
+  <rect width="192" height="192" rx="34" fill="#171513"/>
+  <g fill="none" stroke="#faf8f2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 36 l16 32 32 16 -32 16 -16 32 -16 -32 -32 -16 32 -16z" fill="#bd7b13" stroke="#bd7b13"/>
+    <circle cx="46" cy="46" r="4" fill="#0c6b66" stroke="#0c6b66"/>
+    <circle cx="146" cy="146" r="5" fill="#b84f36" stroke="#b84f36"/>
+    <circle cx="156" cy="46" r="3" fill="#faf8f2" stroke="#faf8f2"/>
+    <circle cx="36" cy="156" r="3" fill="#faf8f2" stroke="#faf8f2"/>
+  </g>
+</svg>
