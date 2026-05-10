@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+node_modules
 .pnp/
 .pnp.js
 
@@ -7,6 +8,7 @@ node_modules/
 .DS_Store
 .idea/
 .vscode/
+.claude/worktrees/
 *.swp
 
 # Logs

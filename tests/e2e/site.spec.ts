@@ -10,7 +10,8 @@ test("hero navigation and starter steps respond", async ({ page }) => {
   const stepsList = page.locator("#steps-list");
   const secondStep = stepsList.locator(".step-item").nth(1);
   await secondStep.click();
-  await expect(secondStep).toHaveClass(/active/);
+  await expect(secondStep).toHaveAttribute("data-status", "active");
+  await expect(secondStep).toHaveAttribute("aria-current", "step");
   await expect(page.locator("#step-detail")).toContainText(/tasks involving language/i);
 });
 
@@ -30,7 +31,10 @@ test("prompt library filters and opens generated prompt cards", async ({ page })
 test("theme toggle persists across reloads", async ({ page }) => {
   await page.goto("/");
 
-  await page.getByRole("button", { name: /Toggle dark mode/i }).click();
+  await page
+    .getByRole("navigation", { name: "Main navigation" })
+    .getByRole("button", { name: /Toggle dark mode/i })
+    .click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
   await page.reload();

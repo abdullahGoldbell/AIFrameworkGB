@@ -5,6 +5,7 @@ export default tseslint.config(
   {
     ignores: [
       "dist/**",
+      ".claude/worktrees/**",
       "node_modules/**",
       "remotion-hero/node_modules/**",
       "remotion-hero/out/**",
