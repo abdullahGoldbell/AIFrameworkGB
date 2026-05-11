@@ -5,15 +5,17 @@ export default tseslint.config(
   {
     ignores: [
       "dist/**",
+      ".claude/worktrees/**",
       "node_modules/**",
       "remotion-hero/node_modules/**",
       "remotion-hero/out/**",
-      "public/data/prompts.json",
+      "public/data/prompt-library.json",
     ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // Browser-runtime modules: served to the page or run inside the SW.
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
@@ -38,11 +40,35 @@ export default tseslint.config(
         __filename: "readonly",
         setTimeout: "readonly",
         clearTimeout: "readonly",
+        // Standard browser APIs used by the new web-vitals + pwa modules.
+        addEventListener: "readonly",
+        performance: "readonly",
+        PerformanceObserver: "readonly",
+        Blob: "readonly",
+        URL: "readonly",
+        matchMedia: "readonly",
       },
     },
     rules: {
       "@typescript-eslint/no-require-imports": "off",
       "no-console": ["warn", { allow: ["warn", "error", "log"] }],
+    },
+  },
+  {
+    // Service worker context: Worker globals only.
+    files: ["public/sw.js"],
+    languageOptions: {
+      globals: {
+        self: "readonly",
+        caches: "readonly",
+        clients: "readonly",
+        Request: "readonly",
+        Response: "readonly",
+        URL: "readonly",
+        fetch: "readonly",
+        Promise: "readonly",
+        console: "readonly",
+      },
     },
   },
 );

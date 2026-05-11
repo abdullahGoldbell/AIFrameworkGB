@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="AI Spark">
+  <title>AI Spark</title>
+  <rect width="512" height="512" rx="92" fill="#171513"/>
+  <g stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+    <!-- Sparkle: 4-point star, amber -->
+    <path d="M256 96 l44 88 88 44 -88 44 -44 88 -44 -88 -88 -44 88 -44z" fill="#bd7b13" stroke="#bd7b13"/>
+    <!-- Subtle highlight on the sparkle -->
+    <path d="M256 144 l28 60 60 28 -60 28 -28 60 -28 -60 -60 -28 60 -28z" fill="#fff4d7" opacity="0.6" stroke="none"/>
+    <!-- Decorative orbiting dots -->
+    <circle cx="116" cy="116" r="11" fill="#0c6b66" stroke="#0c6b66"/>
+    <circle cx="396" cy="396" r="14" fill="#b84f36" stroke="#b84f36"/>
+    <circle cx="416" cy="116" r="8" fill="#faf8f2" stroke="#faf8f2"/>
+    <circle cx="96" cy="416" r="8" fill="#faf8f2" stroke="#faf8f2"/>
+  </g>
+</svg>

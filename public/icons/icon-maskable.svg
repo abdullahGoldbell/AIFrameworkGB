@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="AI Spark">
+  <title>AI Spark</title>
+  <!-- Maskable safe zone is a centered circle of radius 205 (per spec).
+       Background fills the full square so adaptive masks can crop freely. -->
+  <rect width="512" height="512" fill="#171513"/>
+  <g stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+    <!-- Sparkle is sized to stay inside the 205px safe circle -->
+    <path d="M256 156 l36 64 64 36 -64 36 -36 64 -36 -64 -64 -36 64 -36z" fill="#bd7b13" stroke="#bd7b13"/>
+    <path d="M256 196 l22 44 44 22 -44 22 -22 44 -22 -44 -44 -22 44 -22z" fill="#fff4d7" opacity="0.55" stroke="none"/>
+    <!-- A single accent dot inside the safe zone -->
+    <circle cx="180" cy="200" r="8" fill="#0c6b66" stroke="#0c6b66"/>
+    <circle cx="332" cy="332" r="8" fill="#b84f36" stroke="#b84f36"/>
+  </g>
+</svg>
