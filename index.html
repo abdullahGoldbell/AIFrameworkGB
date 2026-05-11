@@ -473,7 +473,6 @@
                     class="tryit-chip"
                     role="radio"
                     aria-checked="false"
-                    aria-pressed="false"
                     data-tryit-goal="reply"
                     tabindex="0"
                   >
@@ -485,7 +484,6 @@
                     class="tryit-chip"
                     role="radio"
                     aria-checked="false"
-                    aria-pressed="false"
                     data-tryit-goal="summary"
                     tabindex="0"
                   >
@@ -497,7 +495,6 @@
                     class="tryit-chip"
                     role="radio"
                     aria-checked="false"
-                    aria-pressed="false"
                     data-tryit-goal="brainstorm"
                     tabindex="0"
                   >
@@ -509,7 +506,6 @@
                     class="tryit-chip"
                     role="radio"
                     aria-checked="false"
-                    aria-pressed="false"
                     data-tryit-goal="meeting"
                     tabindex="0"
                   >
@@ -3418,7 +3414,6 @@
           return `
     <div class="step-item" data-status="${status}" data-step-index="${i}"
          onclick="selectStep(${i})" tabindex="0" role="button"
-         aria-label="Step ${s.num}: ${s.title}. ${getStatusTag(status)}."
          aria-current="${status === "active" ? "step" : "false"}"
          aria-expanded="${status === "active" ? "true" : "false"}"
          aria-controls="step-detail">
@@ -4672,7 +4667,7 @@
               data-cat="${cat}" aria-pressed="${cat === pmCategory}"
               onclick="setCat('${cat.replace(/'/g, "\\'")}')">
         ${meta.icon} ${cat === "all" ? "All Categories" : cat}
-        <span style="opacity:.6;font-size:.7rem">(${count})</span>
+        <span style="opacity:.8;font-size:.7rem">(${count})</span>
       </button>
     `;
           })
