@@ -4484,8 +4484,7 @@
         const safe = (s) =>
           String(s).replace(
             /[&<>"']/g,
-            (c) =>
-              ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
           );
         banner.hidden = false;
         banner.innerHTML = `
