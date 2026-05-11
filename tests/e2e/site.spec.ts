@@ -55,11 +55,11 @@ test("Try-It-in-30s widget: pick a goal, copy the prompt, see the example answer
 
   // Step 1: chips visible, none selected yet.
   const replyChip = widget.locator('[data-tryit-goal="reply"]');
-  await expect(replyChip).toHaveAttribute("aria-pressed", "false");
+  await expect(replyChip).toHaveAttribute("aria-checked", "false");
 
   // Click the "Write a polite reply" chip — Step 2 reveals the populated prompt.
   await replyChip.click();
-  await expect(replyChip).toHaveAttribute("aria-pressed", "true");
+  await expect(replyChip).toHaveAttribute("aria-checked", "true");
 
   const promptArea = widget.locator("#tryit-prompt");
   await expect(promptArea).toBeVisible();
