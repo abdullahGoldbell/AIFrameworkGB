@@ -2594,6 +2594,47 @@ a:focus-visible {
   white-space: pre-wrap;
   margin: 14px 0 18px;
 }
+
+/* Live tether: each builder-driven span in the dark prompt preview gets a
+   subtle underline and pulses when its dropdown changes, so users can see
+   exactly which part of the prompt their selection just rewrote. */
+.builder-output .bp-token {
+  display: inline;
+  border-radius: 4px;
+  padding: 0 3px;
+  margin: 0 -3px;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease;
+  background-color: rgb(246, 239, 224, 0.06);
+}
+.builder-output .bp-token.is-pulsing {
+  animation: bp-token-pulse 1100ms cubic-bezier(0.34, 1.56, 0.64, 1) 1;
+}
+@keyframes bp-token-pulse {
+  0% {
+    background-color: rgb(255, 207, 92, 0.55);
+    color: #1a1410;
+    box-shadow: 0 0 0 0 rgb(255, 207, 92, 0.5);
+  }
+  60% {
+    background-color: rgb(255, 207, 92, 0.32);
+    color: #f6efe0;
+    box-shadow: 0 0 0 8px rgb(255, 207, 92, 0);
+  }
+  100% {
+    background-color: rgb(246, 239, 224, 0.06);
+    color: #f6efe0;
+    box-shadow: 0 0 0 0 rgb(255, 207, 92, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .builder-output .bp-token.is-pulsing {
+    animation: none;
+    background-color: rgb(255, 207, 92, 0.32);
+  }
+}
 .builder-safe-note {
   display: flex;
   align-items: flex-start;
@@ -3501,6 +3542,79 @@ a:focus-visible {
     box-shadow var(--transition),
     transform var(--transition-spring);
   white-space: nowrap;
+}
+.pm-cat-banner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 18px 0 24px;
+  padding: 18px 24px;
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    var(--surface) 0%,
+    color-mix(in srgb, var(--coral-bg) 60%, var(--surface)) 100%
+  );
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.pm-cat-banner[hidden] {
+  display: none;
+}
+.pm-cat-banner-art {
+  flex: 0 0 120px;
+  width: 120px;
+  height: 120px;
+  border-radius: 14px;
+  object-fit: cover;
+  background: var(--bg);
+  border: 1px solid rgb(23, 21, 19, 0.08);
+  box-shadow:
+    6px 8px 0 rgb(23, 21, 19, 0.05),
+    inset 0 1px 0 rgb(255, 255, 255, 0.5);
+}
+.pm-cat-banner-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.pm-cat-banner-eyebrow {
+  font-family: var(--font-editorial);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.pm-cat-banner-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+  line-height: 1.15;
+}
+.pm-cat-banner-tagline {
+  font-size: 0.95rem;
+  color: var(--ink2);
+  margin: 0;
+  line-height: 1.4;
+}
+@media (max-width: 640px) {
+  .pm-cat-banner {
+    gap: 14px;
+    padding: 14px 16px;
+  }
+  .pm-cat-banner-art {
+    flex: 0 0 84px;
+    width: 84px;
+    height: 84px;
+  }
+  .pm-cat-banner-title {
+    font-size: 1.25rem;
+  }
 }
 .pm-cat-chip:hover {
   transform: translateY(-1px);
@@ -5371,16 +5485,11 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* The issue-strip in the right column of `.hero-inner` is now the hero's
+/* The issue-strip in the right column of `.hero-inner` is the hero's
    only visual element on every breakpoint, so the standalone full-width
-   illustration that used to render below is hidden everywhere. Keeping
-   the markup avoids breaking external selectors / tests that look for it. */
-.hero-visual {
-  display: none;
-}
-.hero-illustration {
-  display: none;
-}
+   illustration that used to render below stays hidden everywhere. */
+.hero-visual,
+.hero-illustration,
 .hero-blob {
   display: none;
 }
@@ -6680,5 +6789,157 @@ main:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .m-cta-bar {
     transition: none;
+  }
+}
+
+/* ── Keyboard shortcut overlay (press `?`) ── */
+.kbd-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  backdrop-filter: blur(6px) saturate(1.1);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+  animation: kbd-fade-in 180ms ease-out;
+}
+.kbd-overlay[hidden] {
+  display: none;
+}
+.kbd-overlay-card {
+  width: min(560px, 100%);
+  max-height: min(80vh, 720px);
+  overflow: auto;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 28px 30px;
+  box-shadow: var(--shadow-xl);
+  outline: none;
+  animation: kbd-pop-in 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.kbd-overlay-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.kbd-overlay-eyebrow {
+  font-family: var(--font-editorial);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.kbd-overlay-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--ink);
+}
+.kbd-overlay-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--ink2);
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color var(--transition),
+    transform var(--transition);
+}
+.kbd-overlay-close:hover {
+  background: var(--surface3);
+  transform: rotate(90deg);
+}
+.kbd-overlay-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  padding: 0;
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+}
+.kbd-overlay-list li {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
+  color: var(--ink2);
+}
+.kbd-overlay-list li:last-child {
+  border-bottom: none;
+}
+.kbd-overlay-list li > span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+.kbd-overlay kbd {
+  display: inline-flex;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+  box-shadow: 0 1px 0 rgb(0, 0, 0, 0.04);
+}
+.kbd-overlay-foot {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.kbd-overlay-foot kbd {
+  font-size: 0.72rem;
+  height: 20px;
+  min-width: 20px;
+}
+@keyframes kbd-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes kbd-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kbd-overlay,
+  .kbd-overlay-card {
+    animation: none;
+  }
+  .kbd-overlay-close:hover {
+    transform: none;
   }
 }

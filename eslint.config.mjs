@@ -9,7 +9,6 @@ export default tseslint.config(
       "node_modules/**",
       "remotion-hero/node_modules/**",
       "remotion-hero/out/**",
-      "public/data/prompts.json",
       "public/data/prompt-library.json",
     ],
   },

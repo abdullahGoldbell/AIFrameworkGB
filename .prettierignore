@@ -1,7 +1,6 @@
 node_modules
 remotion-hero/node_modules
 dist
-public/data/prompts.json
 public/data/prompt-library.json
 remotion-hero/out
 remotion-hero/src

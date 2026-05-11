@@ -333,23 +333,16 @@
               </div>
             </div>
             <div class="issue-strip reveal reveal-delay-4" aria-label="This issue at a glance">
-              <div><strong>01</strong><span>Learn one AI habit</span></div>
-              <div><strong>875</strong><span>Copy-ready prompts</span></div>
-              <div><strong>5 min</strong><span>Try-today workflow</span></div>
-              <div><strong>Safe</strong><span>Review before sharing</span></div>
+              <div><strong>Try</strong><span>30-second first prompt</span></div>
+              <div><strong>Build</strong><span>Role · task · tone · format</span></div>
+              <div><strong>Browse</strong><span>Filter the prompt library</span></div>
+              <div><strong>Stay safe</strong><span>Review before you share</span></div>
             </div>
           </div>
-          <div class="hero-visual reveal reveal-delay-2">
-            <div class="hero-illustration">
-              <div class="hero-blob hero-blob-1"></div>
-              <div class="hero-blob hero-blob-2"></div>
-              <div class="hero-card-float">📧 Draft email in 10 sec</div>
-              <div class="hero-card-float">📊 Summarize data instantly</div>
-              <div class="hero-card-float">🗓️ Meeting notes auto-done</div>
-              <div class="hero-card-float">💡 Brainstorm 20 ideas fast</div>
-              <div class="hero-center-icon">🤖</div>
-            </div>
-          </div>
+          <!-- hero-visual intentionally empty — the hero's video bg + issue-strip
+               in the right column carry the visual. The hero-spot.webp asset
+               in /public/hero/ is kept on disk for future reuse. -->
+          <div class="hero-visual" aria-hidden="true"></div>
         </div>
       </section>
 
@@ -2064,6 +2057,13 @@
               </div>
             </aside>
             <div
+              class="pm-cat-banner"
+              id="pm-cat-banner"
+              role="region"
+              aria-label="Active category"
+              hidden
+            ></div>
+            <div
               class="pm-grid"
               id="pm-grid"
               role="list"
@@ -2552,6 +2552,66 @@
       <span class="start-here-pill-dot" aria-hidden="true"></span>
       <span>Start here →</span>
     </a>
+
+    <!-- ── Keyboard shortcut overlay (press ?) ── -->
+    <div
+      class="kbd-overlay"
+      id="kbd-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="kbd-overlay-title"
+      hidden
+    >
+      <div class="kbd-overlay-card" tabindex="-1">
+        <div class="kbd-overlay-head">
+          <div>
+            <div class="kbd-overlay-eyebrow">Keyboard shortcuts</div>
+            <h2 id="kbd-overlay-title">Move around AI Spark faster</h2>
+          </div>
+          <button
+            type="button"
+            class="kbd-overlay-close"
+            id="kbd-overlay-close"
+            aria-label="Close shortcuts"
+          >
+            ✕
+          </button>
+        </div>
+        <ul class="kbd-overlay-list" role="list">
+          <li>
+            <span><kbd>/</kbd></span> Focus the prompt search
+          </li>
+          <li>
+            <span><kbd>g</kbd> <kbd>p</kbd></span> Jump to prompt library
+          </li>
+          <li>
+            <span><kbd>g</kbd> <kbd>l</kbd></span> Jump to learning path
+          </li>
+          <li>
+            <span><kbd>g</kbd> <kbd>b</kbd></span> Jump to prompt builder
+          </li>
+          <li>
+            <span><kbd>g</kbd> <kbd>t</kbd></span> Jump to try-it widget
+          </li>
+          <li>
+            <span><kbd>g</kbd> <kbd>n</kbd></span> Jump to this month's newsletter
+          </li>
+          <li>
+            <span><kbd>t</kbd></span> Toggle dark mode
+          </li>
+          <li>
+            <span><kbd>?</kbd></span> Show / hide this panel
+          </li>
+          <li>
+            <span><kbd>Esc</kbd></span> Close any open panel
+          </li>
+        </ul>
+        <p class="kbd-overlay-foot">
+          Shortcuts ignore typing inside form fields. Press <kbd>?</kbd> any time to bring this
+          back.
+        </p>
+      </div>
+    </div>
 
     <!-- ── Canvas for confetti ── -->
     <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
@@ -3751,10 +3811,40 @@
         return `You are a ${role}. Please ${task}.\n\nContext to use:\n${context}\n\nTone: ${tone}.\nFormat: ${format}.\n\nBefore answering, ask up to 3 focused questions if important information is missing. If you can proceed, mark assumptions clearly.\n\nReview before using: remove confidential details and fact-check important claims.`;
       }
 
-      function updatePromptBuilder() {
+      // Render the same prompt as the plain-text version above, but wrap each
+      // builder-driven span with a [data-field="X"] marker so we can pulse it
+      // when the matching dropdown changes — a live "tether" between the form
+      // and the preview.
+      function buildStarterPromptHtml() {
+        const role = escHtml(getBuilderValue("role"));
+        const task = escHtml(getBuilderValue("task"));
+        const tone = escHtml(getBuilderValue("tone"));
+        const format = escHtml(getBuilderValue("format"));
+        const contextRaw = getBuilderValue("context") || "[paste anonymized notes or draft here]";
+        const context = escHtml(contextRaw);
+        const w = (field, value) => `<span class="bp-token" data-field="${field}">${value}</span>`;
+        return (
+          `You are a ${w("role", role)}. Please ${w("task", task)}.\n\n` +
+          `Context to use:\n${w("context", context)}\n\n` +
+          `Tone: ${w("tone", tone)}.\nFormat: ${w("format", format)}.\n\n` +
+          `Before answering, ask up to 3 focused questions if important information is missing. If you can proceed, mark assumptions clearly.\n\n` +
+          `Review before using: remove confidential details and fact-check important claims.`
+        );
+      }
+
+      function updatePromptBuilder(changedField) {
         const output = document.getElementById("prompt-builder-output");
         if (!output) return;
-        output.textContent = buildStarterPrompt();
+        output.innerHTML = buildStarterPromptHtml();
+        if (changedField) {
+          const tok = output.querySelector(`.bp-token[data-field="${changedField}"]`);
+          if (tok) {
+            tok.classList.remove("is-pulsing");
+            // Force reflow so the animation restarts on rapid changes
+            void tok.offsetWidth;
+            tok.classList.add("is-pulsing");
+          }
+        }
       }
 
       function copyBuiltPrompt(btn) {
@@ -3795,8 +3885,9 @@
       }
 
       document.querySelectorAll("[data-builder-field]").forEach((field) => {
-        field.addEventListener("input", updatePromptBuilder);
-        field.addEventListener("change", updatePromptBuilder);
+        const handler = (ev) => updatePromptBuilder(ev.target.dataset.builderField);
+        field.addEventListener("input", handler);
+        field.addEventListener("change", handler);
       });
       updatePromptBuilder();
 
@@ -4140,18 +4231,98 @@
       // ── Prompt Master ──
       function getCategoryMeta(cat) {
         const map = {
-          Meetings: { icon: "🗓️", cls: "cat-blue" },
-          "Excel & Data": { icon: "📊", cls: "cat-green" },
-          "Customer Comms": { icon: "💬", cls: "cat-orange" },
-          Research: { icon: "🔍", cls: "cat-purple" },
-          "Email & Writing": { icon: "✍️", cls: "cat-coral" },
-          "CRM & Projects": { icon: "⚙️", cls: "cat-teal" },
-          Productivity: { icon: "⚡", cls: "cat-yellow" },
-          "Finance & Ops": { icon: "💰", cls: "cat-mint" },
-          "HR & Leadership": { icon: "👥", cls: "cat-rose" },
-          "Sales & Marketing": { icon: "📣", cls: "cat-indigo" },
+          Meetings: { icon: "🗓️", cls: "cat-blue", slug: "meetings" },
+          "Excel & Data": { icon: "📊", cls: "cat-green", slug: "excel-data" },
+          "Customer Comms": { icon: "💬", cls: "cat-orange", slug: "customer-comms" },
+          Research: { icon: "🔍", cls: "cat-purple", slug: "research" },
+          "Email & Writing": { icon: "✍️", cls: "cat-coral", slug: "email-writing" },
+          "CRM & Projects": { icon: "⚙️", cls: "cat-teal", slug: "crm-projects" },
+          Productivity: { icon: "⚡", cls: "cat-yellow", slug: "productivity" },
+          "Finance & Ops": { icon: "💰", cls: "cat-mint", slug: "finance-ops" },
+          "HR & Leadership": { icon: "👥", cls: "cat-rose", slug: "hr-leadership" },
+          "Sales & Marketing": { icon: "📣", cls: "cat-indigo", slug: "sales-marketing" },
         };
-        return map[cat] || { icon: "💡", cls: "cat-gray" };
+        return map[cat] || { icon: "💡", cls: "cat-gray", slug: null };
+      }
+
+      // Derive a per-prompt icon from its title so the grid stops rendering the
+      // same category emoji 200+ times. Falls back to the category icon when no
+      // keyword matches. Order matters: more specific keywords first.
+      const PROMPT_ICON_KEYWORDS = [
+        // Customer & service
+        [/\b(refund|return|chargeback|reimburs)\b/i, "💸"],
+        [/\b(complain|complaint|escalat|angry|frustrat|dissatisf)\b/i, "🚨"],
+        [/\b(apolog|sorry|regret)\b/i, "🙇"],
+        [/\b(thank|appreciat|gratitude)\b/i, "🙏"],
+        [/\b(welcome|onboard|intro)\b/i, "👋"],
+        [/\b(ship|deliver|tracking|courier|logistic)\b/i, "📦"],
+        [/\b(invoice|billing|payment|charge|receipt)\b/i, "🧾"],
+        [/\b(contract|agreement|terms|sla)\b/i, "📜"],
+        [/\b(quote|quotation|estimate|proposal)\b/i, "💼"],
+        // Email / writing
+        [/\b(email|reply|inbox|outreach)\b/i, "📧"],
+        [/\b(newsletter|announcement|broadcast)\b/i, "📰"],
+        [/\b(blog|article|post|caption|copywri)\b/i, "📝"],
+        [/\b(headline|subject line|tagline|slogan)\b/i, "🎯"],
+        [/\b(translate|translation|localiz)\b/i, "🌐"],
+        [/\b(summar|tl;dr|recap|abstract)\b/i, "🧷"],
+        [/\b(rewrite|rephras|polish|tone|edit)\b/i, "✨"],
+        // Data / analysis
+        [/\b(forecast|projection|trend|pipeline)\b/i, "📈"],
+        [/\b(report|dashboard|kpi|metric)\b/i, "📊"],
+        [/\b(budget|expense|cost|p&l|profit)\b/i, "💵"],
+        [/\b(spreadsheet|excel|formula|pivot|vlookup|xlookup)\b/i, "🧮"],
+        [/\b(audit|reconcil|variance|compli)\b/i, "🔎"],
+        [/\b(tax|gst|vat|withhold)\b/i, "🏛️"],
+        // Meetings / calendar
+        [/\b(agenda|minutes|standup|stand-up|kickoff|kick-off)\b/i, "📋"],
+        [/\b(schedule|calendar|appointment|reschedul)\b/i, "📅"],
+        [/\b(retrospective|retro|review meeting)\b/i, "🪞"],
+        [/\b(presentation|slide|deck|pitch)\b/i, "🎤"],
+        // CRM / projects
+        [/\b(task|todo|to-do|backlog|sprint)\b/i, "✅"],
+        [/\b(risk|issue|incident|blocker)\b/i, "⚠️"],
+        [/\b(roadmap|milestone|timeline|gantt)\b/i, "🗺️"],
+        [/\b(stakeholder|partner|vendor|supplier)\b/i, "🤝"],
+        [/\b(workflow|process|sop|playbook)\b/i, "🔁"],
+        [/\b(automation|integration|api|webhook)\b/i, "🔌"],
+        // People / HR
+        [/\b(interview|candidate|hiring|recruit)\b/i, "🧑‍💼"],
+        [/\b(feedback|1:1|one[- ]on[- ]one|review|appraisal)\b/i, "🗣️"],
+        [/\b(training|coach|mentor|develop)\b/i, "🎓"],
+        [/\b(policy|handbook|guideline)\b/i, "📚"],
+        // Sales / marketing
+        [/\b(lead|prospect|cold call|cold email)\b/i, "🎣"],
+        [/\b(campaign|ad|ads|promo|launch)\b/i, "🚀"],
+        [/\b(persona|audience|segment|icp)\b/i, "🎯"],
+        [/\b(seo|keyword|ranking|serp)\b/i, "🔑"],
+        [/\b(social|linkedin|twitter|instagram|tiktok)\b/i, "📱"],
+        [/\b(survey|nps|poll|feedback form)\b/i, "📮"],
+        // Research / learning
+        [/\b(research|literature|study|whitepaper)\b/i, "🔬"],
+        [/\b(competitor|benchmark|landscape|swot)\b/i, "🧭"],
+        [/\b(idea|brainstorm|ideation|creative)\b/i, "💡"],
+        // Productivity
+        [/\b(checklist|punch list|protocol)\b/i, "🗒️"],
+        [/\b(template|boilerplate|skeleton)\b/i, "🧱"],
+        [/\b(prioritis|prioritize|rank|sort|triage)\b/i, "🥇"],
+        [/\b(time|productivity|focus|deep work)\b/i, "⏱️"],
+        [/\b(decision|tradeoff|choose|matrix)\b/i, "⚖️"],
+        // Personal / wellness
+        [/\b(mindful|meditat|wellbeing|wellness|burnout)\b/i, "🌿"],
+        [/\b(goal|habit|journal|reflect)\b/i, "🌱"],
+      ];
+
+      function pickPromptIcon(p) {
+        if (p.icon && p.icon !== getCategoryMeta(p.category).icon) return p.icon;
+        // Title-only matching: explanations talk about generic things like
+        // "review before using" which would falsely match "review" → 🗣️ and
+        // dilute the signal. Title text is curated and intent-bearing.
+        const haystack = p.title || "";
+        for (const [rx, emoji] of PROMPT_ICON_KEYWORDS) {
+          if (rx.test(haystack)) return emoji;
+        }
+        return getCategoryMeta(p.category).icon;
       }
 
       function getFilteredPrompts() {
@@ -4188,7 +4359,7 @@
         return `
     <article class="pm-card ${meta.cls}" role="listitem" data-id="${p.id}">
       <div class="pm-card-header">
-        <div class="pm-card-icon">${p.icon || meta.icon}</div>
+        <div class="pm-card-icon" aria-hidden="true">${pickPromptIcon(p)}</div>
         <div class="pm-card-meta">
           <div class="pm-card-cat">${p.category}</div>
           <div class="pm-card-title" title="${escHtml(p.title)}">${escHtml(p.title)}</div>
@@ -4287,6 +4458,48 @@
           });
       }
 
+      function renderCategoryBanner() {
+        const banner = document.getElementById("pm-cat-banner");
+        if (!banner) return;
+        if (pmCategory === "all") {
+          banner.hidden = true;
+          banner.innerHTML = "";
+          return;
+        }
+        const meta = getCategoryMeta(pmCategory);
+        const count = PROMPTS.filter((p) => p.category === pmCategory).length;
+        const taglines = {
+          Meetings: "Notes, summaries, and action items.",
+          "Excel & Data": "Formulas, cleanup, and quick analysis.",
+          "Customer Comms": "Replies, follow-ups, and tricky messages.",
+          Research: "Read fast, compare, and synthesize.",
+          "Email & Writing": "Draft, polish, and shorten.",
+          "CRM & Projects": "Updates, status, and next steps.",
+          Productivity: "Plan the day, unblock yourself.",
+          "Finance & Ops": "Reports, checks, and reconciliation.",
+          "HR & Leadership": "Feedback, 1:1s, and team writing.",
+          "Sales & Marketing": "Pitches, outreach, and short copy.",
+        };
+        const tagline = taglines[pmCategory] || "";
+        const safe = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+          );
+        banner.hidden = false;
+        banner.innerHTML = `
+          <img class="pm-cat-banner-art" src="/icons/cat-${meta.slug}.webp"
+               width="120" height="120" loading="lazy" decoding="async" alt=""
+               onerror="this.style.display='none'">
+          <div class="pm-cat-banner-text">
+            <div class="pm-cat-banner-eyebrow">${safe(meta.icon)} ${count} prompts</div>
+            <h3 class="pm-cat-banner-title">${safe(pmCategory)}</h3>
+            ${tagline ? `<p class="pm-cat-banner-tagline">${safe(tagline)}</p>` : ""}
+          </div>
+        `;
+      }
+
       function renderPmGrid() {
         const filtered = getFilteredPrompts();
         const total = filtered.length;
@@ -4300,6 +4513,7 @@
         empty.classList.toggle("visible", total === 0);
         loadMore.style.display = shown.length < total ? "block" : "none";
 
+        renderCategoryBanner();
         const cards = shown.map(renderPromptCard).join("");
         grid.innerHTML = cards + grid.querySelector("#pm-empty").outerHTML;
       }
@@ -5035,6 +5249,139 @@
             delete el.dataset.userToggled;
           });
           syncCollapsibles();
+        });
+      })();
+
+      // ── Keyboard shortcuts (?, /, g+letter, t, Esc) ──
+      // Vim-style "g then letter" jump map for the main sections. Browsers in
+      // form fields are skipped so typing in inputs isn't hijacked.
+      (function setupKeyboardShortcuts() {
+        const overlay = document.getElementById("kbd-overlay");
+        const card = overlay && overlay.querySelector(".kbd-overlay-card");
+        const closeBtn = document.getElementById("kbd-overlay-close");
+        if (!overlay || !card) return;
+
+        const SECTION_MAP = {
+          p: "prompt-master",
+          l: "learning-path",
+          b: "first-prompt-builder",
+          t: "try-it-now",
+          n: "newsletter",
+        };
+
+        let gPending = false;
+        let gPendingTimer = null;
+
+        function isTypingTarget(el) {
+          if (!el) return false;
+          const tag = (el.tagName || "").toLowerCase();
+          if (tag === "input" || tag === "textarea" || tag === "select") return true;
+          if (el.isContentEditable) return true;
+          return false;
+        }
+
+        function openOverlay() {
+          if (!overlay.hasAttribute("hidden")) return;
+          overlay.removeAttribute("hidden");
+          overlay.classList.add("is-open");
+          card.focus();
+        }
+        function closeOverlay() {
+          if (overlay.hasAttribute("hidden")) return;
+          overlay.classList.remove("is-open");
+          overlay.setAttribute("hidden", "");
+        }
+        function toggleOverlay() {
+          overlay.hasAttribute("hidden") ? openOverlay() : closeOverlay();
+        }
+
+        function focusSearch() {
+          const search =
+            document.getElementById("pm-search") ||
+            document.querySelector("[data-pm-search]") ||
+            document.querySelector('input[type="search"]');
+          if (!search) return false;
+          // Land at the prompt library so the search input is in view.
+          const target = document.getElementById("prompt-master");
+          if (target && typeof target.scrollIntoView === "function") {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          setTimeout(() => {
+            try {
+              search.focus({ preventScroll: true });
+              search.select && search.select();
+            } catch (_) {
+              search.focus();
+            }
+          }, 250);
+          return true;
+        }
+
+        function jumpTo(id) {
+          const target = document.getElementById(id);
+          if (!target) return false;
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+          return true;
+        }
+
+        function toggleTheme() {
+          const btn = document.getElementById("theme-toggle");
+          if (btn && typeof btn.click === "function") btn.click();
+        }
+
+        document.addEventListener("keydown", function (event) {
+          // Always handle Escape, even from inside form fields.
+          if (event.key === "Escape" && !overlay.hasAttribute("hidden")) {
+            event.preventDefault();
+            closeOverlay();
+            return;
+          }
+          if (event.metaKey || event.ctrlKey || event.altKey) return;
+          if (isTypingTarget(event.target)) return;
+
+          const key = event.key;
+          if (key === "?" || (key === "/" && event.shiftKey)) {
+            event.preventDefault();
+            toggleOverlay();
+            return;
+          }
+          if (key === "/") {
+            if (focusSearch()) event.preventDefault();
+            return;
+          }
+          if (key === "t" || key === "T") {
+            event.preventDefault();
+            toggleTheme();
+            return;
+          }
+          if (gPending) {
+            const lower = key.toLowerCase();
+            if (Object.prototype.hasOwnProperty.call(SECTION_MAP, lower)) {
+              if (jumpTo(SECTION_MAP[lower])) event.preventDefault();
+            }
+            gPending = false;
+            if (gPendingTimer) {
+              clearTimeout(gPendingTimer);
+              gPendingTimer = null;
+            }
+            return;
+          }
+          if (key === "g" || key === "G") {
+            gPending = true;
+            if (gPendingTimer) clearTimeout(gPendingTimer);
+            gPendingTimer = setTimeout(() => {
+              gPending = false;
+              gPendingTimer = null;
+            }, 1200);
+            return;
+          }
+        });
+
+        if (closeBtn) closeBtn.addEventListener("click", closeOverlay);
+        overlay.addEventListener("click", function (event) {
+          if (event.target === overlay) closeOverlay();
         });
       })();
     </script>
